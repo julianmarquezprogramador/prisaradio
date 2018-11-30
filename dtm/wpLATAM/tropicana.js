@@ -824,7 +824,7 @@ else{
     console.log(dtm_version);
 }
 
-/*
+
 DataLayerKrx =
     {
         tags: "lo que sea",
@@ -848,4 +848,3 @@ DataLayerKrx =
         profileID: "lo que sea",
         language: document.documentElement.lang ? document.documentElement.lang : "es"
     };
-*/
