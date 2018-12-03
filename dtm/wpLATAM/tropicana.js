@@ -824,7 +824,7 @@ else{
     console.log(dtm_version);
 }
 
-if((typeof PBSSite != "undefined")&&(type=="articulo")){
+if((typeof PBSSite != "undefined")&&(type=="articulo" || type=="fotogaleria")){
     var registerUser=1;
     if(status=="anonimo"){
         registerUser=0;
