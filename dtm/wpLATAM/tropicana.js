@@ -829,12 +829,11 @@ DataLayerKrx =
     {
         tags: "lo que sea",
         pageTitle: document.title,
-        pageType: "lo que sea",
-        primaryCategory: "efemerides",
-        publisher: "m80radio",
+        pageType: s.channel,
+        primaryCategory: "",
+        publisher: "tropicana",
         domain: document.domain.replace(/www./gi,""),
         source: "web",
-
         subCategory1: "",
         thematic: "musical",
         registeredUser: "lo que sea",
@@ -845,6 +844,6 @@ DataLayerKrx =
         referringURL: document.referrer,
         edition: "españa",
         geoRegion: "españa",
-        profileID: "lo que sea",
+        profileID: userId,
         language: document.documentElement.lang ? document.documentElement.lang : "es"
     };
