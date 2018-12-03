@@ -804,7 +804,7 @@ function omn_renameDomain(domain){
 }
 ////////////////////////////////////////END FUNCTIONS AMPS//////////////////////////////////////////////////////
 
-var dtm_version= "dtm version 1.0.3";
+var dtm_version= "dtm version 1.0.8";
 if(typeof tucu !== 'undefined'){
     if(typeof tucu.dev !== 'undefined'){
         if(tucu.dev == true){
@@ -824,26 +824,32 @@ else{
     console.log(dtm_version);
 }
 
+if((typeof PBSSite != "undefined")&&(type=="articulo")){
+    var registerUser=1;
+    if(status=="anonimo"){
+        registerUser=0;
+    }
+    DataLayerKrx =
+        {
+            tags: "",
+            pageTitle: title,
+            pageType: s.channel,
+            primaryCategory: "",
+            publisher: "tropicana",
+            domain: document.domain.replace(/www./gi,""),
+            source: "web",
+            subCategory1: "",
+            thematic: "musical",
+            registeredUser: registerUser,
+            adblocker: 0,
+            businessUnit: "radio",
+            creationDate: "20141125",
+            destinationURL: document.location.href,
+            referringURL: document.referrer,
+            edition: "colombia",
+            geoRegion: "colombia",
+            profileID: userId,
+            language: "es"
+        };
+}
 
-DataLayerKrx =
-    {
-        tags: "lo que sea",
-        pageTitle: document.title,
-        pageType: s.channel,
-        primaryCategory: "",
-        publisher: "tropicana",
-        domain: document.domain.replace(/www./gi,""),
-        source: "web",
-        subCategory1: "",
-        thematic: "musical",
-        registeredUser: "lo que sea",
-        adblocker: "lo que sea",
-        businessUnit: "radio",
-        creationDate: "20141125",
-        destinationURL: document.location.href,
-        referringURL: document.referrer,
-        edition: "españa",
-        geoRegion: "españa",
-        profileID: userId,
-        language: document.documentElement.lang ? document.documentElement.lang : "es"
-    };
