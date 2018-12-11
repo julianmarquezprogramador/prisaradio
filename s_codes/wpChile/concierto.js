@@ -371,6 +371,9 @@ function s_doPlugins(s) {
     }
     /* force all Adobe SiteCatalyst variables to Lower Case */
     s.manageVars("lowercaseVars");
+    if ((tipo_contenido=="noticias")&&(s.events=="event2")){
+        createDataLayerKrux();
+    }
 }
 s.doPlugins=s_doPlugins
 /************** Required Plug-ins *************/
@@ -780,28 +783,21 @@ var s_code='',s_objectID;function s_gi(un,pg,ss){var c="s.version='H.25';s.an=s_
 function s_giqf(){var w=window,q=w.s_giq,i,t,s;if(q)for(i=0;i<q.length;i++){t=q[i];s=s_gi(t.oun);s.sa(t.un);s.setTagContainer(t.tagContainerName)}w.s_giq=0}s_giqf()
 
 //function for create dataLayerKrux
-if (OMN_es_noticia)
-{
+function createDataLayerKrux() {
     DataLayerKrx = {
-        pageID: id_noticia,
-        pageName: s.pageName,
-        pageTitle: s.prop45,
+        pageTitle: s.prop39,
         destinationURL: document.location.href,
         referringURL: document.referrer,
-        tags: arrayTags(),
-        authors: arrayAuthors(),
         language: document.documentElement.lang ? document.documentElement.lang : "es",
         publisher: s.prop19,
         geoRegion: s.prop14,
         domain: s.prop20,
         businessUnit: s.prop30,
-        thematic: "",
-        org: s.prop18,
-        primaryCategory: s.channel,
-        subCategory1: typeof(subseccion_omniture) != "undefined" ? subseccion_omniture : "" ,
-        pageType: s.prop3,
+        pageType: "articulo",
         edition: "es",
-        profileID: (typeof(s.prop34) != "undefined" ? s.prop34 : ""),
-        registeredUser: (s.prop62 == "logueado" ? "1": "0"),
-        creationDate: (typeof(s.prop44) != "undefined" ? s.prop44.replace(/\//g,"") : "")
+        creationDate: (typeof(s.prop44) != "undefined" ? s.prop44.replace(/\//g, "") : "")
     }
+
+}
+
+
