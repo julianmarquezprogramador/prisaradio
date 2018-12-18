@@ -835,3 +835,32 @@ if(typeof tucu !== 'undefined'){
 else{
     console.log(dtm_version);
 }
+
+if((typeof PBSSite != "undefined")&&(type=="articulo" || type=="fotogaleria")){
+    var registerUser=1;
+    if(status=="anonimo"){
+        registerUser=0;
+    }
+    DataLayerKrx =
+        {
+            tags: "",
+            pageTitle: title,
+            pageType: s.channel,
+            primaryCategory: "",
+            publisher: "tropicana",
+            domain: document.domain.replace(/www./gi,""),
+            source: "web",
+            subCategory1: "",
+            thematic: "musical",
+            registeredUser: registerUser,
+            adblocker: 0,
+            businessUnit: "radio",
+            creationDate: "20141125",
+            destinationURL: document.location.href,
+            referringURL: document.referrer,
+            edition: "colombia",
+            geoRegion: "colombia",
+            profileID: userId,
+            language: "es"
+        };
+}
