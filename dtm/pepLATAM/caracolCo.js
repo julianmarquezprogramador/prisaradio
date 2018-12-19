@@ -715,22 +715,32 @@ function getValuesAmp(){
 
 function omn_cleanTitleAMP(){
     cadena_titulo_limpio= "";
-    var punt1;
-    var arrayReal= Array.from(arrayAmp['title']);
     var cadenaSinPercent="";
-    for(var i=0; i<arrayReal.length; i++){
-        if(arrayReal[i]=="%"){
-            punt1=i+1;
-            if((arrayReal[punt1]==" ")||(arrayReal[punt1]==",")||(arrayReal[punt1]=="!")||(arrayReal[punt1]==".")||(arrayReal[punt1]=="?")){
-                arrayReal[i]="16041975";
+    var control= 0;
+    if(arrayAmp['title'].indexOf("%") > -1){
+        var punt1;
+        var arrayReal= Array.from(arrayAmp['title']);
+        for(var i=0; i<arrayReal.length; i++){
+            if(arrayReal[i]=="%"){
+                punt1=i+1;
+                if((arrayReal[punt1]==" ")||(arrayReal[punt1]==",")||(arrayReal[punt1]=="!")||(arrayReal[punt1]==".")||(arrayReal[punt1]=="?")){
+                    arrayReal[i]="16041975";
+                    control= 1;
+                }
             }
         }
+        for(var i=0; i<arrayReal.length; i++){
+            cadenaSinPercent+=arrayReal[i];
+        }
     }
-    for(var i=0; i<arrayReal.length; i++){
-        cadenaSinPercent+=arrayReal[i];
+    else{
+        cadenaSinPercent= arrayAmp['title'];
     }
     cadena_titulo_limpio= decodeURIComponent(cadenaSinPercent);
-    cadena_titulo_limpio= cadena_titulo_limpio.replace("16041975","%");
+    if(control==1){
+        cadena_titulo_limpio= cadena_titulo_limpio.replace("16041975","%");
+    }
+
 }
 
 //function for cleaning title of the V39 for AMP
@@ -739,19 +749,29 @@ function omn_cleanTitle_withoutSeoAMP(stringWithPipes){
     var punt1;
     var arrayReal= Array.from(array_stringWithPipes[0]);
     var cadenaSinPercent="";
-    for(var i=0; i<arrayReal.length; i++){
-        if(arrayReal[i]=="%"){
-            punt1=i+1;
-            if((arrayReal[punt1]==" ")||(arrayReal[punt1]==",")||(arrayReal[punt1]=="!")||(arrayReal[punt1]==".")||(arrayReal[punt1]=="?")){
-                arrayReal[i]="16041975";
+    var control=0;
+    if(arrayAmp['title'].indexOf("%") > -1){
+        for(var i=0; i<arrayReal.length; i++){
+            if(arrayReal[i]=="%"){
+                punt1=i+1;
+                if((arrayReal[punt1]==" ")||(arrayReal[punt1]==",")||(arrayReal[punt1]=="!")||(arrayReal[punt1]==".")||(arrayReal[punt1]=="?")){
+                    arrayReal[i]="16041975";
+                    control=1;
+                }
             }
         }
-    }
-    for(var i=0; i<arrayReal.length; i++){
-        cadenaSinPercent+=arrayReal[i];
+        for(var i=0; i<arrayReal.length; i++){
+            cadenaSinPercent+=arrayReal[i];
+        }
     }
 
+    else{
+        cadenaSinPercent= arrayAmp['title'];
+    }
     var stringWithoutPipes= decodeURIComponent(cadenaSinPercent);
+    if(control==1){
+        stringWithoutPipes= stringWithoutPipes.replace("16041975","%");
+    }
     return stringWithoutPipes.replace("16041975","%");
 
 }
