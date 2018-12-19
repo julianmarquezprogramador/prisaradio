@@ -695,7 +695,7 @@ function omn_cleanTitle_withoutSeoAMP(stringWithPipes){
     }
 
     else{
-        cadenaSinPercent= arrayAmp['title'];
+        cadenaSinPercent= array_stringWithPipes[0];
     }
     var stringWithoutPipes= decodeURIComponent(cadenaSinPercent);
     if(control==1){
