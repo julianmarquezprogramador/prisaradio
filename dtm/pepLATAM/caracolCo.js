@@ -766,7 +766,7 @@ function omn_cleanTitle_withoutSeoAMP(stringWithPipes){
     }
 
     else{
-        cadenaSinPercent= arrayAmp['title'];
+        cadenaSinPercent= array_stringWithPipes[0];
     }
     var stringWithoutPipes= decodeURIComponent(cadenaSinPercent);
     if(control==1){
@@ -828,7 +828,7 @@ function omn_renameDomain(domain){
 }
 ////////////////////////////////////////END FUNCTIONS AMPS//////////////////////////////////////////////////////
 
-var dtm_version= "dtm version 1.0.2";
+var dtm_version= "dtm version 1.0.3";
 if(typeof tucu !== 'undefined'){
     if(typeof tucu.dev !== 'undefined'){
         if(tucu.dev == true){
