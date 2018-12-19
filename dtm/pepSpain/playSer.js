@@ -207,7 +207,7 @@ s.doPlugins=function(s) {
             s.prop3= "articulo";
             s.prop17="amp";
             s.prop20= omn_deleteWWW(arrayAmp["server"]);
-            s.prop39= omn_cleanTitle_withoutSeoAMP(omn_cleanUrl(arrayAmp['title']));
+            s.prop39= omn_cleanTitle_withoutSeoAMP(cadena_titulo_limpio);
             s.prop45= cadena_titulo_limpio;
             s.pageURL= omn_cleanUrl(arrayAmp["source_url"]);
             s.pageName= omn_renameDomain (arrayAmp["server"]) +omn_cleanUrl(arrayAmp["pageURL"]).replace(/http.?:\/\/[^\/]*/, "");
@@ -645,16 +645,63 @@ function getValuesAmp(){
 
 function omn_cleanTitleAMP(){
     cadena_titulo_limpio= "";
-    //var titleWithSeo= decodeURIComponent(arrayAmp['title']);
-    cadena_titulo_limpio= decodeURIComponent(arrayAmp['title']);
-    //cadena_titulo_limpio= titleWithSeo.toLocaleLowerCase();
+    var cadenaSinPercent="";
+    var control= 0;
+    if(arrayAmp['title'].indexOf("%") > -1){
+        var punt1;
+        var arrayReal= Array.from(arrayAmp['title']);
+        for(var i=0; i<arrayReal.length; i++){
+            if(arrayReal[i]=="%"){
+                punt1=i+1;
+                if((arrayReal[punt1]==" ")||(arrayReal[punt1]==",")||(arrayReal[punt1]=="!")||(arrayReal[punt1]==".")||(arrayReal[punt1]=="?")){
+                    arrayReal[i]="16041975";
+                    control= 1;
+                }
+            }
+        }
+        for(var i=0; i<arrayReal.length; i++){
+            cadenaSinPercent+=arrayReal[i];
+        }
+    }
+    else{
+        cadenaSinPercent= arrayAmp['title'];
+    }
+    cadena_titulo_limpio= decodeURIComponent(cadenaSinPercent);
+    if(control==1){
+        cadena_titulo_limpio= cadena_titulo_limpio.replace("16041975","%");
+    }
 }
 
 //function for cleaning title of the V39 for AMP
 function omn_cleanTitle_withoutSeoAMP(stringWithPipes){
     var array_stringWithPipes= stringWithPipes.split("|");
-    var stringWithoutPipes= decodeURIComponent(array_stringWithPipes[0]);
-    return stringWithoutPipes;
+    var punt1;
+    var arrayReal= Array.from(array_stringWithPipes[0]);
+    var cadenaSinPercent="";
+    var control=0;
+    if(arrayAmp['title'].indexOf("%") > -1){
+        for(var i=0; i<arrayReal.length; i++){
+            if(arrayReal[i]=="%"){
+                punt1=i+1;
+                if((arrayReal[punt1]==" ")||(arrayReal[punt1]==",")||(arrayReal[punt1]=="!")||(arrayReal[punt1]==".")||(arrayReal[punt1]=="?")){
+                    arrayReal[i]="16041975";
+                    control=1;
+                }
+            }
+        }
+        for(var i=0; i<arrayReal.length; i++){
+            cadenaSinPercent+=arrayReal[i];
+        }
+    }
+
+    else{
+        cadenaSinPercent= arrayAmp['title'];
+    }
+    var stringWithoutPipes= decodeURIComponent(cadenaSinPercent);
+    if(control==1){
+        stringWithoutPipes= stringWithoutPipes.replace("16041975","%");
+    }
+    return stringWithoutPipes.replace("16041975","%");
 }
 
 //Catching the first element of the title
@@ -762,7 +809,7 @@ function omn_makeRegionalCircuit(){
 // }
 ////////////////////////////////////////END FUNCTIONS AMPS//////////////////////////////////////////////////////
 
-var dtm_version= "dtm version 1.0.8";
+var dtm_version= "dtm version 1.1.0";
 if(typeof tucu !== 'undefined'){
     if(typeof tucu.dev !== 'undefined'){
         if(tucu.dev == true){
