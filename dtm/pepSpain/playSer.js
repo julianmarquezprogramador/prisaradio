@@ -668,7 +668,7 @@ function omn_cleanTitleAMP(){
     }
     cadena_titulo_limpio= decodeURIComponent(cadenaSinPercent);
     if(control==1){
-        cadena_titulo_limpio= cadena_titulo_limpio.replace("16041975","%");
+        cadena_titulo_limpio= cadena_titulo_limpio.replace(/16041975/g,"%");
     }
 }
 
@@ -701,7 +701,7 @@ function omn_cleanTitle_withoutSeoAMP(stringWithPipes){
     if(control==1){
         stringWithoutPipes= stringWithoutPipes.replace("16041975","%");
     }
-    return stringWithoutPipes.replace("16041975","%");
+    return stringWithoutPipes.replace(/16041975/g,"%");
 }
 
 //Catching the first element of the title
@@ -809,7 +809,7 @@ function omn_makeRegionalCircuit(){
 // }
 ////////////////////////////////////////END FUNCTIONS AMPS//////////////////////////////////////////////////////
 
-var dtm_version= "dtm version 1.1.0";
+var dtm_version= "dtm version 1.1.1";
 if(typeof tucu !== 'undefined'){
     if(typeof tucu.dev !== 'undefined'){
         if(tucu.dev == true){
