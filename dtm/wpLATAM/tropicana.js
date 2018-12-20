@@ -824,7 +824,7 @@ else{
     console.log(dtm_version);
 }
 
-if((typeof PBSSite != "undefined")&&(type=="articulo" || type=="fotogaleria")){
+if((typeof PBSSite != "undefined")&&(type=="articulo" || type=="fotogaleria" || type=="noticias")){
     var registerUser=1;
     if(status=="anonimo"){
         registerUser=0;
@@ -835,7 +835,7 @@ if((typeof PBSSite != "undefined")&&(type=="articulo" || type=="fotogaleria")){
             pageTitle: title,
             pageType: s.channel,
             primaryCategory: "",
-            publisher: "tropicana",
+            publisher: "tropicanafm",
             domain: document.domain.replace(/www./gi,""),
             source: "web",
             subCategory1: "",
