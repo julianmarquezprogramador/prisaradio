@@ -823,7 +823,7 @@ if(typeof tucu !== 'undefined'){
 else{
     console.log(dtm_version);
 }
-
+/*
 if((typeof PBSSite != "undefined")&&(type=="articulo" || type=="fotogaleria" || type=="noticias")){
     var registerUser=1;
     if(status=="anonimo"){
@@ -852,4 +852,4 @@ if((typeof PBSSite != "undefined")&&(type=="articulo" || type=="fotogaleria" || 
             language: "es"
         };
 }
-
+*/
