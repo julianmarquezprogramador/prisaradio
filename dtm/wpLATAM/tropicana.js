@@ -804,7 +804,7 @@ function omn_renameDomain(domain){
 }
 ////////////////////////////////////////END FUNCTIONS AMPS//////////////////////////////////////////////////////
 
-var dtm_version= "dtm version 1.0.8";
+var dtm_version= "dtm version 1.0.9";
 if(typeof tucu !== 'undefined'){
     if(typeof tucu.dev !== 'undefined'){
         if(tucu.dev == true){
@@ -812,6 +812,7 @@ if(typeof tucu !== 'undefined'){
             console.log(dtm_version);
             console.log("feature: Added s.channel into Player");
             console.log("feature: Added code for AMP");
+            console.log("feature: Insert Krux code into DTM");
             console.log("////////////////////////////////////////////////////");
         }
         else{
@@ -823,33 +824,3 @@ if(typeof tucu !== 'undefined'){
 else{
     console.log(dtm_version);
 }
-/*
-if((typeof PBSSite != "undefined")&&(type=="articulo" || type=="fotogaleria" || type=="noticias")){
-    var registerUser=1;
-    if(status=="anonimo"){
-        registerUser=0;
-    }
-    DataLayerKrx =
-        {
-            tags: "",
-            pageTitle: title,
-            pageType: s.channel,
-            primaryCategory: "",
-            publisher: "tropicanafm",
-            domain: document.domain.replace(/www./gi,""),
-            source: "web",
-            subCategory1: "",
-            thematic: "musical",
-            registeredUser: registerUser,
-            adblocker: 0,
-            businessUnit: "radio",
-            creationDate: "20141125",
-            destinationURL: document.location.href,
-            referringURL: document.referrer,
-            edition: "colombia",
-            geoRegion: "colombia",
-            profileID: userId,
-            language: "es"
-        };
-}
-*/
