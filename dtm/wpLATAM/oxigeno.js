@@ -817,13 +817,14 @@ function omn_isPlayer(){
     return isPlayer;
 }
 
-var dtm_version= "dtm version 1.0.5";
+var dtm_version= "dtm version 1.0.6";
 if(typeof tucu !== 'undefined'){
     if(typeof tucu.dev !== 'undefined'){
         if(tucu.dev == true){
             console.log("/////////////////////DTM////////////////////////////");
             console.log(dtm_version);
             console.log("feature: Added code for AMP");
+            console.log("feature: dataLayerKrux into Load Rules");
             console.log("////////////////////////////////////////////////////");
         }
         else{
@@ -834,33 +835,4 @@ if(typeof tucu !== 'undefined'){
 
 else{
     console.log(dtm_version);
-}
-
-if((typeof PBSSite != "undefined")&&(type=="articulo" || type=="fotogaleria")){
-    var registerUser=1;
-    if(status=="anonimo"){
-        registerUser=0;
-    }
-    DataLayerKrx =
-        {
-            tags: "",
-            pageTitle: title,
-            pageType: s.channel,
-            primaryCategory: "",
-            publisher: "tropicana",
-            domain: document.domain.replace(/www./gi,""),
-            source: "web",
-            subCategory1: "",
-            thematic: "musical",
-            registeredUser: registerUser,
-            adblocker: 0,
-            businessUnit: "radio",
-            creationDate: "20141125",
-            destinationURL: document.location.href,
-            referringURL: document.referrer,
-            edition: "colombia",
-            geoRegion: "colombia",
-            profileID: userId,
-            language: "es"
-        };
 }
