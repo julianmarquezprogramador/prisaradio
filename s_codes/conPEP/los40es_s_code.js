@@ -82,7 +82,7 @@ function getInternetExplorerVersion()
 if (typeof(s_account) == "undefined" ) {
     if(/los40.com/.test(location.hostname)){                       // Producción
         var s_account = 'prisacomureslos40,prisacomglobal';
-        var s_accountF = 'prisacomureslos40';
+        var s_accountF = 'prisacomureslos40,prisacomglobal';
     } else {
         var s_account = 'prisacomurpreprod';
         var s_accountF = 'prisacomurpreprod';
@@ -206,7 +206,7 @@ function launch(eVars,eVars_value,evento){
     s.eVar3=s.siteID + location.pathname; // pageName
     s.eVar4= s.channel; // channel
     s.eVar18="prisa"; // Organization
-    s.eVar19="los40principales"; // Product
+    s.eVar19=s.prop19; // Product
     s.eVar20=document.domain.replace(/www./gi,""); // Domain|Subdomain
     s.eVar21=s.getNewRepeat(); // User New / Repeat
     if (typeof(PEPuname) != "undefined") {
@@ -232,7 +232,7 @@ function launch(eVars,eVars_value,evento){
 function launchAjaxOMN(eVars,eVars_value,evento,listado_tags, autores){
     s.usePlugins = false;
     //Casi todos los eventos en nuestra cuenta
-    s.account = 'prisacomureslos40';
+    s.account = 'prisacomureslos40,prisacomglobal';
 
     var AeVars = eVars.split("|");
     var AeVars_value = eVars_value.toLowerCase().split("|");
@@ -1579,10 +1579,12 @@ function arrayAuthors(){
     return salida;
 }
 
+
 function iradirecto(){
     launch('29','cabecera:ir a directo','event33');
 
 }
+
 
 //Insercion pixel netquest
 getCookie = function(name){
