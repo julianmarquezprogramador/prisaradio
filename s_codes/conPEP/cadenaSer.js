@@ -279,7 +279,7 @@ window.onload=function(){
 // function launch - se crea para controlar los click en patrocinio
 function launch(eVars,eVars_value,evento){
     s.usePlugins=false;
-    s.account = s_accountF;
+    //s.account = s_accountF;
     s=s_gi(s.account);
     var AeVars = eVars.split("|");
     var AeVars_value = eVars_value.split("|");
