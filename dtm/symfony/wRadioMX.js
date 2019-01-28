@@ -51,9 +51,9 @@ var zone="america";
 var product="wradioco";
 
 if(/mx/.test(hostn) || /wdeportes.com/.test(hostn)){				//Mexico
-    var country="mexico";
-    var zone="america";
-    var product="wradiomx";
+    country="mexico";
+    zone="america";
+    product="wradiomx";
 }
 
 /******** VISITOR ID SERVICE CONFIG - REQUIRES VisitorAPI.js ********/
