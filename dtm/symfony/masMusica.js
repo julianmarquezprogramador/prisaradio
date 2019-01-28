@@ -53,14 +53,14 @@ if (arraySite[0]=="www"){
 }
 
 /* Link Tracking Config */
-s.trackDownloadLinks=true
-s.trackExternalLinks=true
-s.trackInlineStats=true
-s.linkDownloadFileTypes="exe,zip,wav,mp3,mov,mpg,avi,wmv,pdf,doc,docx,xls,xlsx,ppt,pptx"
-s.linkInternalFilters="javascript:,"+ s.server +"" 	//automatic
-s.linkLeaveQueryString=false
-s.linkTrackVars="None"
-s.linkTrackEvents="None"
+s.trackDownloadLinks=true;
+s.trackExternalLinks=true;
+s.trackInlineStats=true;
+s.linkDownloadFileTypes="exe,zip,wav,mp3,mov,mpg,avi,wmv,pdf,doc,docx,xls,xlsx,ppt,pptx";
+s.linkInternalFilters="javascript:,"+ s.server +""; 	//automatic
+s.linkLeaveQueryString=false;
+s.linkTrackVars="None";
+s.linkTrackEvents="None";
 
 /* Form Analysis Plugin */
 //Abandon,Success,Error "event26,event27,event28"
@@ -340,7 +340,7 @@ changes to how your visitor data is collected. Changes should only be
 made when instructed to do so by your account manager.*/
 s.visitorNamespace = "prisacom";
 s.trackingServer = "prisacom.d3.sc.omtrdc.net";
-s.trackingServerSecure = "";
+s.trackingServerSecure = "prisacom.d3.sc.omtrdc.net";
 
 /************************** PLUGINS SECTION *************************/
 // http://microsite.omniture.com/t2/help/en_US/sc/implement/#Implementation_Plugins
@@ -621,7 +621,7 @@ function omn_isPlayer(){
     return isPlayer;
 }
 
-var dtm_version= "dtm version 1.0.0";
+var dtm_version= "dtm version 1.0.1";
 if(typeof tucu !== 'undefined'){
     if(typeof tucu.dev !== 'undefined'){
         if(tucu.dev == true){

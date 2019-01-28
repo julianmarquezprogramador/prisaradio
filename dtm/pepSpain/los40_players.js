@@ -1,5 +1,5 @@
 /* Function to get RSIDs from UI */
-//code for AMP//
+//AMP code//
 var arrayAmp= new Array();
 getValuesAmp();
 var hostn=location.hostname;
@@ -8,30 +8,160 @@ if(typeof arrayAmp !== 'undefined') {
         hostn= arrayAmp["source_host"];
     }
 }
-//end code for AMP//
+//end AMP code//
 function getAnalyticsAccount(){
     for (var toolid in _satellite.tools){
         if (_satellite.tools[toolid].settings.engine == "sc"){
-            return _satellite.tools[toolid].settings.account;
+            var accountP = _satellite.tools[toolid].settings.account;
+            arrAccount = accountP.split(",");
+
+            if(/.pa/.test(hostn)){															// Panamá
+                return arrAccount[2] + "," + arrAccount[0];
+            }
+            else if(/.com.ar/.test(hostn)){ 										// Argentina
+                return arrAccount[3] + "," + arrAccount[0];
+            }
+            else if(/.mx/.test(hostn)){													// Mexico
+                return arrAccount[4] + "," + arrAccount[0];
+            }
+            else if(/los40.com.co/.test(hostn)){								// Colombia
+                return arrAccount[5] + "," + arrAccount[0];
+            }
+            else  if(/.cl/.test(hostn)){												// Chile
+                return arrAccount[6] + "," + arrAccount[0];
+            }
+            else if(/.cr/.test(hostn)){													// Costa Rica
+                return arrAccount[7] + "," + arrAccount[0];
+            }
+            else if(/.do/.test(hostn)){													// Republica Dominicana
+                return arrAccount[8] + "," + arrAccount[0];
+            }
+            else if(/.py/.test(hostn)){													// Paraguay
+                return arrAccount[9] + "," + arrAccount[0];
+            }
+            else if(/.ec/.test(hostn)){													// Ecuador
+                return arrAccount[10] + "," + arrAccount[0];
+            }
+            else if(/.ni/.test(hostn)){													// Nicaragua
+                return arrAccount[11] + "," + arrAccount[0];
+            }
+            else if(/.gt/.test(hostn)){													// Nicaragua
+                return arrAccount[12] + "," + arrAccount[0];
+            }
+            else if(/los40.com/.test(hostn)){										// España
+                return arrAccount[1] + "," + arrAccount[0];
+            }
         }
     }
 }
+
 function getAnalyticsAccountF(){
     for (var toolid in _satellite.tools){
         if (_satellite.tools[toolid].settings.engine == "sc"){
             var accountF = _satellite.tools[toolid].settings.account;
             arrAccount = accountF.split(",");
-            return arrAccount[0];
+
+            if(/.pa/.test(hostn)){										// Panamá
+                return arrAccount[2];
+            }
+            else if(/.com.ar/.test(hostn)){ 					// Argentina
+                return arrAccount[3];
+            }
+            else if(/.mx/.test(hostn)){								// Mexico
+                return arrAccount[4];
+            }
+            else if(/los40.com.co/.test(hostn)){			// Colombia
+                return arrAccount[5];
+            }
+            else if(/.cl/.test(hostn)){								// Chile
+                return arrAccount[6];
+            }
+            else if(/.cr/.test(hostn)){								// Costa Rica
+                return arrAccount[7];
+            }
+            else if(/.do/.test(hostn)){								// Republica Dominicana
+                return arrAccount[8];
+            }
+            else if(/.py/.test(hostn)){								// Paraguay
+                return arrAccount[9];
+            }
+            else if(/.ec/.test(hostn)){								// Ecuador
+                return arrAccount[10];
+            }
+            else if(/.ni/.test(hostn)){								// Nicaragua
+                return arrAccount[11];
+            }
+            else if(/.gt/.test(hostn)){								// Guatemala
+                return arrAccount[12];
+            }
+            else if(/los40.com/.test(hostn)){
+                return arrAccount[1];										// España
+            }
         }
     }
 }
 
-s=new AppMeasurement()
+s=new AppMeasurement();
 s.account = getAnalyticsAccount();
 s.accountF = getAnalyticsAccountF();
 
 var isPlayer= false;
 var cadena_titulo_limpio= "";
+
+var country="españa";
+var zone="españa";
+var product= "los40";
+
+if(/.pa/.test(hostn)){														//Panamá
+    country="panama";
+    zone="america";
+    product= "los40pa";
+}
+if(/.com.ar/.test(hostn)){ 												//Argentina
+    country="argentina";
+    zone="america";
+    product= "los40ar";
+}
+if(/.mx/.test(hostn)){														//Mexico
+    country="mexico";
+    zone="america";
+    product= "los40mx";
+}
+if(/los40.com.co/.test(hostn)){									  //Colombia
+    country="colombia";
+    zone="america";
+    product= "los40co";
+}
+if(/.cl/.test(hostn)){														//Chile
+    country="chile";
+    zone="america";
+    product= "los40cl";
+}
+if(/.cr/.test(hostn)){														//Costa Rica
+    country="costa rica";
+    zone="america";
+    product= "los40cr";
+}
+if(/.do/.test(hostn)){														//Republica Dominicana
+    country="republica dominicana";
+    zone="america";
+    product= "los40do";
+}
+if(/.py/.test(hostn)){														//Paraguay
+    country="paraguay";
+    zone="america";
+    product= "los40py";
+}
+if(/.ec/.test(hostn)){														//Ecuador
+    country="ecuador";
+    zone="america";
+    product= "los40ec";
+}
+if(/.gt/.test(hostn)){														//Guatemala
+    country="guatemala";
+    zone="america";
+    product= "los40gt";
+}
 
 /******** VISITOR ID SERVICE CONFIG - REQUIRES VisitorAPI.js ********/
 //s.visitor=Visitor.getInstance("INSERT-MCORG-ID-HERE")
@@ -64,7 +194,7 @@ s.trackDownloadLinks=true
 s.trackExternalLinks=true
 s.trackInlineStats=true
 s.linkDownloadFileTypes="exe,zip,wav,mp3,mov,mpg,avi,wmv,pdf,doc,docx,xls,xlsx,ppt,pptx"
-s.linkInternalFilters="javascript:,"+ s.siteID +"" 	//automatic
+s.linkInternalFilters="javascript:,"+ s.siteID +""
 s.linkLeaveQueryString=false
 s.linkTrackVars="None"
 s.linkTrackEvents="None"
@@ -104,17 +234,53 @@ s.dstStart="1/1/"+anoActual; 			// update to the correct Daylight Savings Time s
 s.dstEnd="12/31/"+anoActual; 			// update to the correct Daylight Savings Time end date
 s.currentYear=anoActual; 				// update to the current year
 
-/***** Functions ************/
-function omn_asyncPV(){
+/* variables undefined asign empty value */
+if (typeof(pageName) == 'undefined') pageName='';
+if (typeof(section) == 'undefined') section='';
+if (typeof(subsection) == 'undefined') subsection='';
+if (typeof(subsubsection) == 'undefined') subsubsection='';
+if (typeof(type) == 'undefined') type='otros';
+if (typeof(userId) == 'undefined') userId='';
+if (typeof(status) == 'undefined') status='';
+if (typeof(error) == 'undefined') error='';
+if (typeof(title) == 'undefined') title='';
 
-    s.account = getAnalyticsAccount();
-    s.accountF = getAnalyticsAccountF();
+if (typeof(program) == 'undefined') program='';
+if (typeof(radio_station) == 'undefined') radio_station='';
 
-    s.channel = section;
+
+if (typeof(adblock_enabled) == 'undefined') adblock_enabled='D="con_ADBLOCK-"+User-Agent';
+
+/************** doPlugins Script **************/
+
+s.usePlugins=true
+s.doPlugins=function(s) {
+
+// External Campaign Tracking
+    if(!s.campaign){
+        if(s.Util.getQueryParam('sdi')!='') s.campaign=s.Util.getQueryParam('sdi'); // display
+        if(s.Util.getQueryParam('sse')!='') s.campaign=s.Util.getQueryParam('sse'); // sem
+        if(s.Util.getQueryParam('sma')!='') s.campaign=s.Util.getQueryParam('sma'); // emailing
+        if(s.Util.getQueryParam('prm')!='') s.campaign=s.Util.getQueryParam('prm'); // promociones
+        if(s.Util.getQueryParam('sap')!='') s.campaign=s.Util.getQueryParam('sap'); // aplicativos widget
+        if(s.Util.getQueryParam('ssm')!='') s.campaign=s.Util.getQueryParam('ssm'); // social media
+        if(s.Util.getQueryParam('afl')!='') s.campaign=s.Util.getQueryParam('afl'); // afiliación
+        if(s.Util.getQueryParam('agr')!='') s.campaign=s.Util.getQueryParam('agr'); // agregadores
+        if(s.Util.getQueryParam('int')!='') s.campaign=s.Util.getQueryParam('int'); // ID interno
+        s.campaign=s.getValOnce(s.campaign,'s_campaign',0);
+    }
+
+
+    if(s.Util.getQueryParam('s_track')=='false') s.abort = true;
+
+    /* Traffic Variables */
     s.pageName= s.siteID + location.pathname;														// Get Path Name (On)
-    //if(s.pageURL != location.href){
-    s.pageURL= location.href;
-    s.referrer = _satellite.previousURL;
+    pageName=s.pageName;
+
+    if(omn_isPlayer()){
+        section="player";
+        s.channel= section;
+    }
 
     // EW
     if(section=="widget"){
@@ -129,39 +295,295 @@ function omn_asyncPV(){
         s.pageName=parentDomain;
         pageName=parentDomain;
 
-        if(/.oxigeno.fm/.test(parentDomain)){
+        if(/los40.com/.test(parentDomain)){
             s.abort = true;
         }
     }
 
-    s.prop3=type;
-    s.prop5="D=g";
-    s.prop6="D=r";
-    s.prop8=s.getTimeParting('d',gmt);
-    s.prop9=s.getTimeParting('w', gmt);
-    s.prop12=program;
-    s.prop13=radio_station;
-    s.prop14="colombia";
-    s.prop15="america";
-    s.prop17="web";
-    s.prop18="prisa";
-    s.prop19="oxigeno";
-    s.prop20=location.hostname.replace(/www./gi,"");
-    s.prop21=s.getNewRepeat();
-    s.prop22="musical";
-    s.prop24=hours+":"+minutes+":"+seconds;
-    s.prop29='D=c15+":"+c14+":"+c19+":"+c22+":"+c17+":"+c20';
-    s.prop30="radio";
-    s.prop31="musica";
-    s.prop33=s.getVisitNum();
-    s.prop35=hours;
-    s.prop36=s.getTimeParting('d', gmt)+"-"+day+"/"+month+"/"+fecha.getFullYear()+"-"+s.prop24;
-    s.prop39=title;
-    s.prop44=s.getTimeParting('h', gmt);
-    s.prop45=document.title;
-    s.prop60=s.getDaysSinceLastVisit('s_lv');
+    s.prop3=type;																												// Type Content
+    s.prop5="D=g";							  																			// URL
+    s.prop6="D=r";									   																	// Referrer
+    s.prop8=s.getTimeParting('d',gmt); 																	// Set day  (Jueves)
+    s.prop9=s.getTimeParting('w', gmt);																	// Set weekday (laborable/festivo)
+    s.prop12=program;											    													// Program
+    s.prop13=radio_station;											    										// Radio Station
+    s.prop14=country;											    													// Country
+    s.prop15=zone;  																							 			// Zone (Region) : RADIO
+    s.prop17="web";																											// Canal
+    s.prop18="prisa";																										// Organization
+    s.prop19= product;
+    s.prop20=location.hostname.replace(/www./gi,"");										// Domain	| Subdomain
+    s.prop21=s.getNewRepeat();   																				// User New / Repeat
+    s.prop22="musical";																									// Format : RADIO
+    s.prop24=hours+":"+minutes+":"+seconds;															// Set hh:mm:ss (12:32:48)
+    s.prop29='D=c15+":"+c14+":"+c19+":"+c22+":"+c17+":"+c20';						// Combine Segmentation : RADIO
+    s.prop30="radio";																										// Business Unit
+    s.prop31="musica"; 																									// Temathic
+    s.prop33=s.getVisitNum();																						// Visit Number By Month
+    s.prop35=hours;																											// Set hour (12)
+    s.prop36=s.getTimeParting('d', gmt)+"-"+day+"/"+month+"/"+fecha.getFullYear()+"-"+s.prop24;		// Join Date (Jueves-15/9/2012-12:32:48)
+    //s.prop39=title; 																										// Title
+    s.prop39= omn_catchFirsElement(document.title);
+    s.prop44=s.getTimeParting('h', gmt);				 												// Set hour (12:00PM)
+    s.prop45=document.title; 																						// Title [SEO]
+    s.prop60=s.getDaysSinceLastVisit('s_lv');         									// Days Since Last Visit
+    s.prop62=status;																										// Log in / Anonymous
+
+    if(subsection != '' ){
+        s.prop1 = section + '>' + subsection;
+    }else{
+        s.prop1 = '';
+    }
+    if(subsubsection != ''){
+        s.prop2= s.prop1 + '>' +subsubsection;
+    }else{
+        s.prop2 = '';
+    }
+
+    /* Hierarchy GROUP  */
+    s.hier1='D=c18+">"+c19+">"+c20+">"';
+
+    if(s.prop2!=''){
+        s.hier1 +='c2+">"';
+    }else if(s.prop1!=''){
+        s.hier1 +='c1+">"';
+    }else{
+        s.hier1 +='ch+">"';
+    }
+    s.hier1 +='pageName';
+
+    //tucu
+    if(typeof arrayAmp !== 'undefined') {
+        if (arrayAmp['amp'] == "true") {
+            omn_cleanTitleAMP();
+            //re-write some props for AMP
+            s.prop3= "articulo";
+            s.prop17="amp";
+            s.prop20= omn_deleteWWW(arrayAmp["server"]);
+            s.prop39= omn_cleanTitle_withoutSeoAMP(arrayAmp['title']);
+            s.prop45= cadena_titulo_limpio;
+            s.pageURL= omn_cleanUrl(arrayAmp["source_url"]);
+            s.pageName= omn_renameDomain (arrayAmp["server"]) +omn_cleanUrl(arrayAmp["pageURL"]).replace(/http.?:\/\/[^\/]*/, "");
+            s.server= omn_deleteWWW(arrayAmp["server"]);
+            s.referrer= omn_cleanUrl(arrayAmp["ref"]);
+            s.prop57= "";
+            ////////////////////////channel, c1 code///////////
+            var regexpNoticia = /http.?:\/\/([^\/]*)\/([^\/]*)\/(\d+)\/(\d+)\/(\d+)\/([^\/]*)\/(.*)\.html/i;
+            var result_re;
+            var direccion = omn_cleanUrl(arrayAmp["pageURL"]);
+
+            result_re = regexpNoticia.exec(direccion);
+
+            if (result_re ) {
+                OMN_es_noticia = true;
+                channel_omniture = result_re[2];
+                //Es una noticia
+                seccion_omniture = result_re[2];
+                subseccion_omniture = result_re[6];
+
+                //id_noticia
+                id_noticia = result_re[2] + "_" + result_re[3] + result_re[4] + result_re[5] + "_" + result_re[6] + "_" + result_re[7];
+
+
+                if (typeof(listado_id_tags) != "undefined" )
+                {
+                    tagsNoticia = listado_id_tags.replace(/,/g, ";");
+                    s.list1 = tagsNoticia;
+                }
+
+                if (typeof(listado_id_autores) != "undefined")
+                {
+                    tagsAutores = listado_id_autores.replace(/,/g, ";");
+                    s.list2 = tagsAutores;
+                }
+
+
+
+                if (subseccion_omniture.indexOf("album") > -1 || subseccion_omniture == "fotorrelato")
+                {
+                    if (typeof(subseccion_publi) != "undefined" && subseccion_publi != "")
+                        channel_omniture = subseccion_publi;
+                    else
+                        channel_omniture = "album";
+
+                    seccion_omniture = channel_omniture + ">album";
+
+                    prop3_omniture = "fotogaleria";
+                    prop1_omniture = seccion_omniture;
+                }
+                else
+                {
+                    prop3_omniture = "articulo";
+                    if (seccion_omniture == "los40")
+                    {
+                        s.channel = subseccion_omniture; //caso de videos...
+                        subseccion_omniture = "";
+                        s.prop1 = s.channel;
+                    }
+                    else
+                    {
+                        prop1_omniture = seccion_omniture + ">" + subseccion_omniture;
+                    }
+
+                    s.prop44 = result_re[3] + "/" + result_re[4] + "/" + result_re[5];
+
+                    s.events += ',event77';
+                    //s.prop39 = "D=c45";
+                }
+            }
+            ///////////////////////////////////////////////////
+        }
+    }
+
+
+
+    /* Conversion variables*/
+
+    s.eVar3="D=pageName"  															// pageName
+    s.eVar4="D=ch"																			// channel
+    if(s.prop1)s.eVar5="D=c1"														// Subseccion (prop1)
+    if(s.prop2)s.eVar6="D=c2"														// Subsubseccion (prop2)
+    if(s.prop3)s.eVar7="D=c3";													// Type
+    if(s.prop5)s.eVar10="D=g"														// URL
+    if(s.prop6)s.eVar63="D=r"														// Referrer
+    if(s.prop8)s.eVar48="D=c8"													// Set day  (Jueves)
+    if(s.prop9)s.eVar66="D=c9"													// Set weekday (laborable/festivo)
+    if(s.prop12)s.eVar12="D=c12"												// Program
+    if(s.prop13)s.eVar13="D=c13"												// Radio Station
+    if(s.prop14)s.eVar14="D=c14"												// Country
+    if(s.prop15)s.eVar15="D=c15"												// Zone (Region) : RADIO
+    if(s.prop16)s.eVar16="D=c16"  											// searched word
+    if(s.prop17)s.eVar17="D=c17"  											// Canal
+    if(s.prop18)s.eVar18="D=c18"												// Organization
+    if(s.prop19)s.eVar19="D=c19"												// Product
+    if(s.prop20)s.eVar20="D=c20"												// Domain
+    if(s.prop21)s.eVar21="D=c21"												// User New / Repeat
+    if(s.prop22)s.eVar24="D=c22"												// Format	: RADIO
+    if(s.prop24)s.eVar59="D=c24"												// Set hour:minutes:seconds (12:32:48)
+    if(s.prop30)s.eVar30="D=c30"												// Bussines Unit
+    if(s.prop33)s.eVar32="D=c33"												// Visit Number By Month
+    if(s.prop29)s.eVar31="D=c29"												// Combine segmentation : RADIO
+    if(s.prop31)s.eVar62="D=c31"												// Temathic
+    if(s.prop35)s.eVar35="D=c35"												// Set hour (12)
+    if(s.prop36)s.eVar33="D=c36"												// Join Date (Jueves-15/9/2012-12:32:48)
+    if(s.prop39)s.eVar39="D=c39"												// Title
+    if(s.prop40)s.eVar40="D=c40"												// Type Design Web
+    if(s.prop44)s.eVar44="D=c44"												// Set hour (12:00PM)
+    if(s.prop45)s.eVar45="D=c45"												// Title
+    if(s.prop60)s.eVar60="D=c60"												// Days Since Last Visit
+    if(s.prop62)s.eVar22="D=c62"												// Log In/ Anonymous
+
+// Set Page View Event
+    s.events="event2";
+
+// Search
+    if(typeof(keyword)!="undefined"){
+        if(keyword==""){
+            s.eVar16="vacio";
+        }else{
+            s.eVar16=keyword.toLowerCase();
+        }
+        s.events+=',event1';
+    }
+
+    //Resutl Search Number
+    if(typeof(query_count)!="undefined"){
+        if(query_count!=''){
+            if(query_count==0)
+                s.events+=',event32';
+            else
+                s.events+=',event31';
+        }else{
+            s.events+=',event32';
+        }
+    }
+
+
+// Set Load Time (page):
+    if(s_getLoadTime())s.events=s.apl(s.events,'event90='+s_getLoadTime(),',',1);
+
+// s.events=s.apl(s.events,"event1",",",1);
+
+// Check server error page 404 and internal
+    if (error == 404){
+        s.pageType="errorPage"
+        s.pageName='';
+    }
+    if (error == 500){
+        s.pageType="errorPage"
+        s.pageName="error interno"
+    }
+
+// force all Adobe SiteCatalyst variables to Lower Case
+    for(var a=1;a<=100;a++)s["prop"+a]&&(s["prop"+a]=s["prop"+a].toString().toLowerCase().replace(/^d=/,"D="));for(var b=["products","pageName","channel","campaign"],a=0;a<b.length;a++)s[b[a]]&&(s[b[a]]=s[b[a]].toLowerCase().replace(/^d=/,"D="));
+
+    s.prop34=userId;   																	// User Id
+    if(s.prop34)s.eVar43="D=c34"												// User Id
+
+    s.prop57=adblock_enabled;														// AdBlock
+    s.eVar57=adblock_enabled;														// AdBlock
+
+}
+
+//COMIENZO COLOMBIA Y CHILE
+//if(/los40.com.co/.test(hostn) || /.cl/.test(hostn)){
+function omn_asyncPV() {
+    s.channel = section;
+    s.pageName= s.siteID + location.pathname;														// Get Path Name (On)
+    pageName=s.pageName;
+    s.pageURL= location.href;
+    s.referrer = _satellite.previousURL;
+
+    if(omn_isPlayer()){
+        section="player";
+        s.channel= section;
+    }
+    // EW
+    if(section=="widget"){
+        try {
+            parentDomain = (window.location != window.parent.location) ? document.referrer: document.location;
+        }
+        catch(err) {
+            console.log( "Error: " + err + ".");
+        }
+        s.account = "prisacommultidistribucionunionradio";
+        s.accountF = "prisacommultidistribucionunionradio";
+        s.pageName=parentDomain;
+        pageName=parentDomain;
+
+        if(/los40.com/.test(parentDomain)){
+            s.abort = true;
+        }
+    }
+
+    s.prop3=type;																												// Type Content
+    s.prop5="D=g";							  																			// URL
+    s.prop6="D=r";									   																	// Referrer
+    s.prop8=s.getTimeParting('d',gmt); 																	// Set day  (Jueves)
+    s.prop9=s.getTimeParting('w', gmt);																	// Set weekday (laborable/festivo)
+    s.prop12=program;											    													// Program
+    s.prop13=radio_station;											    										// Radio Station
+    s.prop14=country;											    													// Country
+    s.prop15=zone;  																							 			// Zone (Region) : RADIO
+    s.prop17="web";																											// Canal
+    s.prop18="prisa";																										// Organization
+    s.prop19= product;
+    s.prop20=location.hostname.replace(/www./gi,"");										// Domain	| Subdomain
+    s.prop21=s.getNewRepeat();   																				// User New / Repeat
+    s.prop22="musical";																									// Format : RADIO
+    s.prop24=hours+":"+minutes+":"+seconds;															// Set hh:mm:ss (12:32:48)
+    s.prop29='D=c15+":"+c14+":"+c19+":"+c22+":"+c17+":"+c20';						// Combine Segmentation : RADIO
+    s.prop30="radio";																										// Business Unit
+    s.prop31="musica"; 																									// Temathic
+    s.prop33=s.getVisitNum();																						// Visit Number By Month
+    s.prop35=hours;																											// Set hour (12)
+    s.prop36=s.getTimeParting('d', gmt)+"-"+day+"/"+month+"/"+fecha.getFullYear()+"-"+s.prop24;		// Join Date (Jueves-15/9/2012-12:32:48)
+    //s.prop39=title; 																										// Title
+    s.prop39= omn_catchFirsElement(document.title);
+    s.prop44=s.getTimeParting('h', gmt);				 												// Set hour (12:00PM)
+    s.prop45=document.title; 																						// Title [SEO]
+    s.prop60=s.getDaysSinceLastVisit('s_lv');         									// Days Since Last Visit
     s.prop62=status;
-    s.prop73=countryP;
 
     if(subsection != '' ){
         s.prop1 = section + '>' + subsection;
@@ -196,13 +618,23 @@ function omn_asyncPV(){
 
     s.t();
 
-    //Poder.io-- let's delete the code for PoderIO
-    // if(typeof analytics != "undefined" && typeof analytics.page != "undefined")
-    //     analytics.page({title: document.title, url: location.href,path: location.pathname, referrer: _satellite.previousURL});
+    //GA solo chile
+    if(document.domain=="envivo.los40.cl"){
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-36140576-14', 'auto');
+        ga('require', 'displayfeatures');
+        ga('send', 'pageview');
+
+    }
 
     _satellite.previousURL = location.href;
-    //}
 }
+
+//}//FIN COLOMBIA Y CHILE
 function omn_adblocker(){
     window.s.ab_enabled = false;
     //Se supone la existencia de body, si no es asi salimos
@@ -234,147 +666,74 @@ function omn_adblocker(){
 
 }
 
-
-/* variables undefined asign empty value */
-if (typeof(pageName) == 'undefined') pageName='';
-if (typeof(section) == 'undefined') section='';
-if (typeof(subsection) == 'undefined') subsection='';
-if (typeof(subsubsection) == 'undefined') subsubsection='';
-if (typeof(type) == 'undefined') type='otros';
-if (typeof(userId) == 'undefined') userId='';
-if (typeof(status) == 'undefined') status='';
-if (typeof(error) == 'undefined') error='';
-if (typeof(title) == 'undefined') title='';
-if (typeof(program) == 'undefined') program='';
-if (typeof(radio_station) == 'undefined') radio_station='';
-if (typeof(countryP) == 'undefined') countryP='';
-
-if (typeof(adblock_enabled) == 'undefined') adblock_enabled='D="con_ADBLOCK-"+User-Agent';
-if (section == 'player') adblock_enabled='';
-
-/************** doPlugins Script **************/
-
-s.usePlugins=true
-s.doPlugins=function(s) {
-
-// External Campaign Tracking
-    if(!s.campaign){
-        if(s.Util.getQueryParam('sdi')!='') s.campaign=s.Util.getQueryParam('sdi'); // display
-        if(s.Util.getQueryParam('sse')!='') s.campaign=s.Util.getQueryParam('sse'); // sem
-        if(s.Util.getQueryParam('sma')!='') s.campaign=s.Util.getQueryParam('sma'); // emailing
-        if(s.Util.getQueryParam('prm')!='') s.campaign=s.Util.getQueryParam('prm'); // promociones
-        if(s.Util.getQueryParam('sap')!='') s.campaign=s.Util.getQueryParam('sap'); // aplicativos widget
-        if(s.Util.getQueryParam('ssm')!='') s.campaign=s.Util.getQueryParam('ssm'); // social media
-        if(s.Util.getQueryParam('afl')!='') s.campaign=s.Util.getQueryParam('afl'); // afiliación
-        if(s.Util.getQueryParam('agr')!='') s.campaign=s.Util.getQueryParam('agr'); // agregadores
-        if(s.Util.getQueryParam('int')!='') s.campaign=s.Util.getQueryParam('int'); // ID interno
-        s.campaign=s.getValOnce(s.campaign,'s_campaign',0);
+function launch(eVars,eVars_value,evento){
+    s.usePlugins=false;
+    //var s_accountF= s.accountF;
+    //s.account = s_accountF;
+    if(typeof (s.account)=='undefined'){
+        s.account = getAnalyticsAccount();
     }
-
-
-    /* Conversion variables*/
-    s.eVar3="D=pageName"  															// pageName
-    s.eVar4="D=ch"																			// channel
-    if(s.prop1)s.eVar5="D=c1"														// Subseccion (prop1)
-    if(s.prop2)s.eVar6="D=c2"														// Subsubseccion (prop2)
-    if(s.prop3)s.eVar7="D=c3";													// Type
-    if(s.prop5)s.eVar10="D=g"														// URL
-    if(s.prop6)s.eVar63="D=r"														// Referrer
-    if(s.prop8)s.eVar48="D=c8"													// Set day  (Jueves)
-    if(s.prop9)s.eVar66="D=c9"													// Set weekday (laborable/festivo)
-    if(s.prop12)s.eVar12="D=c12"												// Program
-    if(s.prop13)s.eVar13="D=c13"												// Radio Station
-    if(s.prop14)s.eVar14="D=c14"												// Country
-    if(s.prop15)s.eVar15="D=c15"												// Zone (Region) : RADIO
-    if(s.prop16)s.eVar16="D=c16"  											// searched word
-    if(s.prop17)s.eVar17="D=c17"  											// Canal
-    if(s.prop18)s.eVar18="D=c18"												// Organization
-    if(s.prop19)s.eVar19="D=c19"												// Product
-    if(s.prop20)s.eVar20="D=c20"												// Domain
-    if(s.prop21)s.eVar21="D=c21"												// User New / Repeat
-    if(s.prop22)s.eVar24="D=c22"												// Format	: RADIO
-    if(s.prop24)s.eVar59="D=c24"												// Set hour:minutes:seconds (12:32:48)
-    if(s.prop30)s.eVar30="D=c30"												// Bussines Unit
-    if(s.prop33)s.eVar32="D=c33"												// Visit Number By Month
-    if(s.prop29)s.eVar31="D=c29"												// Combine segmentation : RADIO
-    if(s.prop31)s.eVar62="D=c31"												// Temathic
-    if(s.prop35)s.eVar35="D=c35"												// Set hour (12)
-    if(s.prop36)s.eVar33="D=c36"												// Join Date (Jueves-15/9/2012-12:32:48)
-    if(s.prop39)s.eVar39="D=c39"												// Title / Page Name
-    if(s.prop40)s.eVar40="D=c40"												// Type Design Web
-    if(s.prop44)s.eVar44="D=c44"												// Set hour (12:00PM)
-    if(s.prop45)s.eVar45="D=c45"												// Title [SEO]
-    if(s.prop60)s.eVar60="D=c60"												// Days Since Last Visit
-    if(s.prop62)s.eVar22="D=c62"												// Log In/ Anonymous
-    if(s.prop73)s.eVar83="D=c73"												// Country (selected)
-
-
-// Set Page View Event
-    s.events="event2";
-
-// Search
-    if(typeof(keyword)!="undefined"){
-        if(keyword==""){
-            s.eVar16="vacio";
-        }else{
-            s.eVar16=keyword.toLowerCase();
+    s=s_gi(s.account);
+    var AeVars = eVars.split("|");
+    var AeVars_value = eVars_value.split("|");
+    s.linkTrackVars='events,eVar3,eVar4,eVar10,eVar18,eVar17,eVar19,eVar20,eVar21,eVar22,eVar32,eVar35,eVar39,eVar39,eVar43,eVar45,eVar48,eVar60,eVar66';
+    for(var i=0; i < AeVars.length; i++){
+        s.linkTrackVars+=',eVar'+AeVars[i];
+        try {
+            eval('s.eVar'+AeVars[i]+'="'+AeVars_value[i].toLowerCase().replace(/"/gi, "\\\"")+'";');
         }
-        s.events+=',event1';
-    }
-
-    //Result Search Number
-    if(typeof(query_count)!="undefined"){
-        if(query_count!=''){
-            if(query_count==0)
-                s.events+=',event32';
-            else
-                s.events+=',event31';
-        }else{
-            s.events+=',event32';
+        catch(err) {
+            console.log( "Error: " + err + ".");
         }
     }
-
-
-// Set Load Time (page):
-    if(s_getLoadTime())s.events=s.apl(s.events,'event90='+s_getLoadTime(),',',1);
-
-// s.events=s.apl(s.events,"event1",",",1);
-
-// Check server error page 404 and internal
-    if (error == 404){
-        s.pageType="errorPage"
-        s.pageName='';
+    if(evento!=''){
+        s.linkTrackEvents=evento;
+        s.events=evento;
     }
-    if (error == 500){
-        s.pageType="errorPage"
-        s.pageName="error interno"
-    }
-
-// force all Adobe SiteCatalyst variables to Lower Case
-    for(var a=1;a<=100;a++)s["prop"+a]&&(s["prop"+a]=s["prop"+a].toString().toLowerCase().replace(/^d=/,"D="));for(var b=["products","pageName","channel","campaign"],a=0;a<b.length;a++)s[b[a]]&&(s[b[a]]=s[b[a]].toLowerCase().replace(/^d=/,"D="));
-
+    s.eVar3=s.siteID + location.pathname; // pageName
+    s.eVar4=s.channel; // channel
+    s.prop17="web";
+    s.prop18="prisa";
+    s.prop19= product;
+    s.prop20=location.hostname.replace(/www./gi,"");
+    s.prop21=s.getNewRepeat();
+    s.prop22="musical";
+    s.prop24=hours+":"+minutes+":"+seconds;															// Set hh:mm:ss (12:32:48)
+    s.prop29='D=c15+":"+c14+":"+c19+":"+c22+":"+c17+":"+c20';						// Combine Segmentation : RADIO
+    s.prop30="radio";																										// Business Unit
+    s.prop31="musica"; 																									// Temathic
+    s.prop33=s.getVisitNum();																						// Visit Number By Month
+    s.prop35=hours;																											// Set hour (12)
+    s.prop36=s.getTimeParting('d', gmt)+"-"+day+"/"+month+"/"+fecha.getFullYear()+"-"+s.prop24;		// Join Date (Jueves-15/9/2012-12:32:48)
+    //s.prop39=title; 																										// Title
+    s.prop39= omn_catchFirsElement(document.title);
+    s.prop44=s.getTimeParting('h', gmt);				 												// Set hour (12:00PM)
+    s.prop45=document.title; 																						// Title [SEO]
+    s.eVar35=hours; // Set hour (12)
+    //s.eVar39=document.title; // Title
+    s.eVar39= omn_catchFirsElement(document.title);
     s.prop34=userId;   																	// User Id
-    if(s.prop34)s.eVar43="D=c34"												// User Id
-
-    if(typeof arrayAmp !== 'undefined') {
-        if (arrayAmp['amp'] == "true") {
-            s.prop57 = 'D="sin_ADBLOCK-"+User-Agent';
-            s.eVar57 = 'D="sin_ADBLOCK-"+User-Agent';
-        }
+    if(s.prop34){
+        s.eVar43="D=c34"
     }
-    else{
-        if(s.ab_enabled){
-            s.prop57 = 'D="con_ADBLOCK-"+User-Agent';
-            s.eVar57 = 'D="con_ADBLOCK-"+User-Agent';
-        }else{
-            s.prop57 = 'D="sin_ADBLOCK-"+User-Agent';
-            s.eVar57 = 'D="sin_ADBLOCK-"+User-Agent';
-        }
-    }
-
+    // if (typeof(PEPuid) != 'undefined') {
+    //     s.eVar43=PEPuid; // User Id
+    // }
+    s.eVar44=s.getTimeParting('h', gmt); // Set hour (12:00PM)
+    s.eVar45=document.title; // Title
+    s.eVar48=s.getTimeParting('d',gmt); // Set day (Jueves)
+    s.eVar60=s.getDaysSinceLastVisit('s_lv'); // Days Since Last Visit
+    s.eVar66=s.getTimeParting('w', gmt); // Set weekday (laborable/festivo)
+    s.tl(this,'o',evento);
+    s.clearVars();
 }
 
-
+//Catching the first element of the title
+// function omn_catchFirsElement(stringWithScript){
+//     var array_stringWithScript= stringWithScript.split("-");
+//     var stringWithoutScript= decodeURIComponent(array_stringWithScript[0]);
+//     return stringWithoutScript;
+// }
 
 
 /* WARNING: Changing any of the below variables will cause drastic
@@ -507,7 +866,6 @@ function s_getLoadTime(){if(!window.s_loadT){var b=new Date().getTime(),o=window
 // AppMeasurement_Module_Integrate.js - Integrate Module, included in AppMeasurement zip
 
 
-
 /*
  ============== DO NOT ALTER ANYTHING BELOW THIS LINE ! ===============
 
@@ -577,134 +935,13 @@ c.reduce&&(h="1.8",h.trim&&(h="1.8.1",Date.parse&&(h="1.8.2",Object.create&&(h="
 function s_gi(a){var h,n=window.s_c_il,p,l,r=a.split(","),s,q,u=0;if(n)for(p=0;!u&&p<n.length;){h=n[p];if("s_c"==h._c&&(h.account||h.oun))if(h.account&&h.account==a)u=1;else for(l=h.account?h.account:h.oun,l=h.allAccounts?h.allAccounts:l.split(","),s=0;s<r.length;s++)for(q=0;q<l.length;q++)r[s]==l[q]&&(u=1);p++}u||(h=new AppMeasurement);h.setAccount?h.setAccount(a):h.sa&&h.sa(a);return h}AppMeasurement.getInstance=s_gi;window.s_objectID||(window.s_objectID=0);
 function s_pgicq(){var a=window,h=a.s_giq,n,p,l;if(h)for(n=0;n<h.length;n++)p=h[n],l=s_gi(p.oun),l.setAccount(p.un),l.setTagContainer(p.tagContainerName);a.s_giq=0}s_pgicq();
 
-s.pageName= s.siteID + location.pathname;														// Get Path Name (On)
-if(omn_isPlayer()){
-    section="player";
-    s.channel= section;
-}
-
-// EW
-if(section=="widget"){
-    try {
-        parentDomain = (window.location != window.parent.location) ? document.referrer: document.location;
+function omn_isPlayer(){
+    isPlayer= false;
+    if((s.siteID.indexOf("play")>-1)||(s.siteID.indexOf("player")>-1)||(s.siteID.indexOf("escucha")>-1)||(s.siteID.indexOf("escuche")>-1)||(s.siteID.indexOf("envivo")>-1)||(s.siteID.indexOf("los40.com.gt")>-1)){
+        isPlayer= true;
     }
-    catch(err) {
-        console.log( "Error: " + err + ".");
-    }
-    s.account = "prisacommultidistribucionunionradio";
-    s.accountF = "prisacommultidistribucionunionradio";
-    s.pageName=parentDomain;
-    pageName=parentDomain;
-
-    if(/.oxigeno.fm/.test(parentDomain)){
-        s.abort = true;
-    }
+    return isPlayer;
 }
-
-s.prop3=type;																												// Type Content
-s.prop5="D=g";							  																			// URL
-s.prop6="D=r";									   																	// Referrer
-s.prop8=s.getTimeParting('d',gmt); 																	// Set day  (Jueves)
-s.prop9=s.getTimeParting('w', gmt);																	// Set weekday (laborable/festivo)
-s.prop12=program;											    													// Program
-s.prop13=radio_station;											    										// Radio Station
-s.prop14="colombia";											    											// Country
-s.prop15="america";  																								// Zone (Region) : RADIO
-s.prop17="web";																											// Canal
-s.prop18="prisa";																										// Organization
-s.prop19="oxigeno";																									// Product
-s.prop20=location.hostname.replace(/www./gi,"");										// Domain	| Subdomain
-s.prop21=s.getNewRepeat();   																				// User New / Repeat
-s.prop22="musical";																									// Format : RADIO
-s.prop24=hours+":"+minutes+":"+seconds;															// Set hh:mm:ss (12:32:48)
-s.prop29='D=c15+":"+c14+":"+c19+":"+c22+":"+c17+":"+c20';						// Combine Segmentation : RADIO
-s.prop30="radio";																										// Business Unit
-s.prop31="musica"; 																									// Temathic
-s.prop33=s.getVisitNum();																						// Visit Number By Month
-s.prop35=hours;																											// Set hour (12)
-s.prop36=s.getTimeParting('d', gmt)+"-"+day+"/"+month+"/"+fecha.getFullYear()+"-"+s.prop24;		// Join Date (Jueves-15/9/2012-12:32:48)
-s.prop39=title; 																										// Title
-s.prop44=s.getTimeParting('h', gmt);				 												// Set hour (12:00PM)
-s.prop45=document.title; 																						// Title [SEO]
-s.prop60=s.getDaysSinceLastVisit('s_lv');         									// Days Since Last Visit
-s.prop62=status;																										// Log in / Anonymous
-s.prop73=countryP;																									// Country (selected)
-
-if(subsection != '' ){
-    s.prop1 = section + '>' + subsection;			// subsection: "section>subsection"
-}else{
-    s.prop1 = '';
-}
-if(subsubsection != ''){
-    s.prop2= s.prop1 + '>' +subsubsection;			// subsubsection: "section>subsection>subsubsection
-}else{
-    s.prop2 = '';
-}
-
-/* Hierarchy GROUP  */
-s.hier1='D=c18+">"+c19+">"+c20+">"';
-
-if(s.prop2!=''){
-    s.hier1 +='c2+">"';
-}else if(s.prop1!=''){
-    s.hier1 +='c1+">"';
-}else{
-    s.hier1 +='ch+">"';
-}
-s.hier1 +='pageName';
-
-//tucu
-if(typeof arrayAmp !== 'undefined') {
-    if (arrayAmp['amp'] == "true") {
-        omn_cleanTitleAMP();
-        //re-write some props for AMP
-        s.prop3= "articulo";
-        s.prop17="amp";
-        s.prop20= omn_deleteWWW(arrayAmp["server"]);
-        s.prop39= omn_cleanTitle_withoutSeoAMP(arrayAmp['title']);
-        s.prop45= cadena_titulo_limpio;
-        s.pageURL= omn_cleanUrl(arrayAmp["source_url"]);
-        s.pageName= omn_deleteWWW(arrayAmp["server"]) + omn_cleanUrl(arrayAmp["pageURL"]).replace(/http.?:\/\/[^\/]*/, "");
-        //s.pageName= omn_renameDomain (arrayAmp["server"]) +omn_cleanUrl(arrayAmp["pageURL"]).replace(/http.?:\/\/[^\/]*/, "");
-        s.server= omn_deleteWWW(arrayAmp["server"]);
-        s.referrer= omn_cleanUrl(arrayAmp["ref"]);
-    }
-}
-
-if(subsection != '' ){
-    s.prop1 = section + '>' + subsection;			// subsection: "section>subsection"
-    //s.pageName+= ':' + subsection;						// Manual formation s.PageName
-}else{
-    s.prop1 = '';
-}
-if(subsubsection != ''){
-    s.prop2= s.prop1 + '>' +subsubsection;			// subsubsection: "section>subsection>subsubsection"
-    //s.pageName+= ':' + subsubsection;						// Manual formation s.PageName
-}else{
-    s.prop2 = '';
-}
-
-/* Hierarchy GROUP  */
-s.hier1='D=c18+">"+c19+">"+c20+">"';
-
-if(s.prop2!=''){
-    s.hier1 +='c2+">"';
-}else if(s.prop1!=''){
-    s.hier1 +='c1+">"';
-}else{
-    s.hier1 +='ch+">"';
-}
-s.hier1 +='pageName';
-
-if(s.ab_enabled){
-    s.prop57 = 'D="con_ADBLOCK-"+User-Agent';
-    s.eVar57 = 'D="con_ADBLOCK-"+User-Agent';
-}else{
-    s.prop57 = 'D="sin_ADBLOCK-"+User-Agent';
-    s.eVar57 = 'D="sin_ADBLOCK-"+User-Agent';
-}
-
-
 
 ////////////////////////////////////FUNCTIONS FOR AMP///////////////////////////////////////////////////////////
 function getParamsUrl(){
@@ -809,22 +1046,18 @@ function omn_renameDomain(domain){
 }
 ////////////////////////////////////////END FUNCTIONS AMPS//////////////////////////////////////////////////////
 
-function omn_isPlayer(){
-    isPlayer= false;
-    if((s.siteID.indexOf("play")>-1)||(s.siteID.indexOf("player")>-1)||(s.siteID.indexOf("escucha")>-1)||(s.siteID.indexOf("escuche")>-1)||(s.siteID.indexOf("envivo")>-1)||(s.siteID.indexOf("los40.com.gt")>-1)){
-        isPlayer= true;
-    }
-    return isPlayer;
-}
-
-var dtm_version= "dtm version 1.0.6";
+var dtm_version= "dtm version 2.1.0";
 if(typeof tucu !== 'undefined'){
     if(typeof tucu.dev !== 'undefined'){
         if(tucu.dev == true){
             console.log("/////////////////////DTM////////////////////////////");
             console.log(dtm_version);
+            console.log("feature: Added s.channel into Player");
             console.log("feature: Added code for AMP");
-            console.log("feature: dataLayerKrux into Load Rules");
+            console.log("feature: changed value s.prop19 added product switch country");
+            console.log("feature: writes same in the page name in Web like in AMP");
+            console.log("feature: cleaning title without pipes '|'");
+            console.log("feature: Delete dot in domain for pageName");
             console.log("////////////////////////////////////////////////////");
         }
         else{
@@ -836,3 +1069,82 @@ if(typeof tucu !== 'undefined'){
 else{
     console.log(dtm_version);
 }
+
+
+//poner en una funcion
+/*
+var result_re = /http.?:\/\/([^\/]*)\/([^\/]*)\/(\d+)\/(\d+)\/(\d+)\/([^\/]*)\/(.*)\.html/i.exec(omn_cleanUrl(arrayAmp["pageURL"]));
+if (result_re )
+{
+
+    s.channel = result_re[2];
+    //Es una noticia
+    seccion_omniture = result_re[2];
+    subseccion_omniture = result_re[6];
+
+    if (subseccion_omniture.indexOf("album") > -1 || subseccion_omniture == "fotorrelato")
+    {
+
+        s.channel = "album";
+
+        seccion_omniture = channel_omniture + ">album";
+
+        s.prop3 = "fotogaleria";
+        prop1_omniture = seccion_omniture;
+    }
+    else
+    {
+        prop3_omniture = "articulo";
+        if (seccion_omniture == "los40")
+        {
+            seccion_omniture = subseccion_omniture; //caso de videos...
+            subseccion_omniture = "";
+            s.prop1 = seccion_omniture;
+        }
+        else
+        {
+            s.prop1 = seccion_omniture + ">" + subseccion_omniture;
+        }
+
+        s.events += ',event77';
+    }
+
+}var result_re = /http.?:\/\/([^\/]*)\/([^\/]*)\/(\d+)\/(\d+)\/(\d+)\/([^\/]*)\/(.*)\.html/i.exec(omn_cleanUrl(arrayAmp["pageURL"]));
+/*
+if (result_re )
+{
+
+    s.channel = result_re[2];
+    //Es una noticia
+    seccion_omniture = result_re[2];
+    subseccion_omniture = result_re[6];
+
+    if (subseccion_omniture.indexOf("album") > -1 || subseccion_omniture == "fotorrelato")
+    {
+
+        s.channel = "album";
+
+        seccion_omniture = channel_omniture + ">album";
+
+        s.prop3 = "fotogaleria";
+        prop1_omniture = seccion_omniture;
+    }
+    else
+    {
+        prop3_omniture = "articulo";
+        if (seccion_omniture == "los40")
+        {
+            seccion_omniture = subseccion_omniture; //caso de videos...
+            subseccion_omniture = "";
+            s.prop1 = seccion_omniture;
+        }
+        else
+        {
+            s.prop1 = seccion_omniture + ">" + subseccion_omniture;
+        }
+
+        s.events += ',event77';
+    }
+
+}
+*/
