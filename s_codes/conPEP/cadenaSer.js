@@ -73,7 +73,7 @@ function getInternetExplorerVersion()
 
 //Permitimos modificar la suit definiendo antes la variable s_account
 if (typeof(s_account) == "undefined" ) {
-    if(/cadenaser.com/.test(location.hostname)){                       // Producción
+    if(/cadenaser.com/.test(location.hostname) || /instanceplayer.prisasd.com/.test(location.hostname)){                       // Producción
         var s_account = 'prisacomcadenaser,prisacomglobal';
         var s_accountF = 'prisacomcadenaser';
     } else {
@@ -92,8 +92,10 @@ if (typeof(marcado_logtrust) == "undefined")
 
 //Filtrado widgets
 if (document.location.href.indexOf("/Comentarios/") > -1 || document.location.href.indexOf("/comentario/") > -1 || document.location.href.indexOf("/widgets/") > -1 ||
-    document.location.href.indexOf("/Widgets/") > -1 || document.location.href.indexOf("widget.html") > -1 )
+    document.location.href.indexOf("/Widgets/") > -1 || document.location.href.indexOf("widget.html") > -1 || document.location.href.indexOf("/widget/") > -1){
     marcado_automatico = false;
+}
+
 
 var s = new AppMeasurement();
 s.account = s_account;
@@ -2000,3 +2002,4 @@ function omn_cleanTitle(){
     cadena_titulo_limpio = (meta_og_title) ? meta_og_title.getAttribute('content').replace(/'|"|\|/g, "") : "";
     cadena_titulo_limpio = cadena_titulo_limpio.toLowerCase();
 }
+console.log("dtm: local");
