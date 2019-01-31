@@ -73,7 +73,7 @@ function getInternetExplorerVersion()
 
 //Permitimos modificar la suit definiendo antes la variable s_account
 if (typeof(s_account) == "undefined" ) {
-    if(/cadenaser.com/.test(location.hostname)){                       // Producción
+    if(/cadenaser.com/.test(location.hostname) || /instanceplayer.prisasd.com/.test(location.hostname)){                       // Producción
         var s_account = 'prisacomcadenaser,prisacomglobal';
         var s_accountF = 'prisacomcadenaser';
     } else {
@@ -92,8 +92,9 @@ if (typeof(marcado_logtrust) == "undefined")
 
 //Filtrado widgets
 if (document.location.href.indexOf("/Comentarios/") > -1 || document.location.href.indexOf("/comentario/") > -1 || document.location.href.indexOf("/widgets/") > -1 ||
-    document.location.href.indexOf("/Widgets/") > -1 || document.location.href.indexOf("widget.html") > -1 )
+    document.location.href.indexOf("/Widgets/") > -1 || document.location.href.indexOf("widget.html") > -1 || document.location.href.indexOf("/widget/") > -1 || imIframe()==true){
     marcado_automatico = false;
+}
 
 var s = new AppMeasurement();
 s.account = s_account;
@@ -1490,10 +1491,17 @@ else
 
 var s_code;
 
-if (marcado_automatico)
-{
-    if (typeof(retrasa_marcado) == "boolean" && retrasa_marcado)
-    {
+if(imIframe()==true){//if this is iframe then change url
+    var arrayURL= document.referrer.split("cadenaser.com");
+    s.pageName= s.siteID + arrayURL[1];
+    s.pageURL= document.referrer;
+    omn_propToEvarsAssignment();
+}
+
+
+
+if (marcado_automatico){
+    if (typeof(retrasa_marcado) == "boolean" && retrasa_marcado){
         OMNaddEvent(window, 'load', function(){
             if (channel_omniture == "buscador")
             {
@@ -2000,3 +2008,55 @@ function omn_cleanTitle(){
     cadena_titulo_limpio = (meta_og_title) ? meta_og_title.getAttribute('content').replace(/'|"|\|/g, "") : "";
     cadena_titulo_limpio = cadena_titulo_limpio.toLowerCase();
 }
+
+function imIframe(){
+    try {
+        return window.self !== window.top;
+    } catch (e) {
+        return true;
+    }
+}
+
+function omn_propToEvarsAssignment(){
+    s.eVar3="D=pageName";			// PageName
+    s.eVar4="D=ch";					// Channel
+    //if(s.prop1)s.eVar5="D=c1";
+    if(typeof (s.prop2)!='undefined'){s.eVar6="D=c2";}
+    if(typeof (s.prop3)!='undefined'){s.eVar7="D=c3";}
+//if(s.prop5)s.eVar10=s.prop5;
+    if(typeof (s.prop4)!='undefined'){s.eVar10=s.prop4;}		//    Cambia en cadenaser
+    if(typeof (s.prop6)!='undefined'){s.eVar63=s.prop6;}		// referrer
+    if(typeof (s.prop8)!='undefined'){s.eVar48="D=c8";}		// Set day  (Jueves)
+    if(typeof (s.prop9)!='undefined'){s.eVar66="D=c9";}		// Set weekday (laborable/festivo)
+    if(typeof (s.prop11)!='undefined'){s.eVar11="D=c11";}
+    if(typeof (s.prop12)!='undefined'){s.eVar12="D=c12";}
+    if(typeof (s.prop13)!='undefined'){s.eVar13="D=c13";}
+    if(typeof (s.prop14)!='undefined'){s.eVar14="D=c14";}	// Pais del Medio
+    if(typeof (s.prop15)!='undefined'){s.eVar15="D=c15";}
+    if(typeof (s.prop16)!='undefined'){s.eVar16="D=c16";}
+    if(typeof (s.prop17)!='undefined'){s.eVar17="D=c17";}	// Canal
+    if(typeof (s.prop18)!='undefined'){s.eVar18="D=c18";}	// Organizacion
+    if(typeof (s.prop19)!='undefined'){s.eVar19="D=c19";}	// Producto
+    if(typeof (s.prop20)!='undefined'){s.eVar20="D=c20";}	// Dominio
+    if(typeof (s.prop21)!='undefined'){s.eVar21="D=c21";}	// Usuario Nuevo o recurrente
+    if(typeof (s.prop22)!='undefined'){s.eVar24="D=c22";}
+    if(typeof (s.prop24)!='undefined'){s.eVar59="D=c24";}	// Set hour:minutes:seconds (12:32:48)
+    if(typeof (s.prop30)!='undefined'){s.eVar30="D=c30";}	// Unidad de Negocio
+    if(typeof (s.prop31)!='undefined'){s.eVar62="D=c31";}	// Tematica
+    if(typeof (s.prop33)!='undefined'){s.eVar32="D=c33";}   // Visit Number By Month
+    if(typeof (s.prop34)!='undefined'){s.eVar43="D=c34";}
+    if(typeof (s.prop35)!='undefined'){s.eVar35="D=c35";}	// Set hour (12:00PM)
+    if(typeof (s.prop36)!='undefined'){s.eVar33="D=c36";}	// Join Date (Jueves-15/9/2012-12:32:48)
+    if(typeof (s.prop39)!='undefined'){s.eVar39="D=c45";} 	// Titulo página
+    if(typeof (s.prop44)!='undefined'){s.eVar44="D=c44";}
+    if(typeof (s.prop45)!='undefined'){s.eVar45="D=c45";}
+    if(typeof (s.prop47)!='undefined'){s.eVar47="D=c47";}
+    if(typeof (s.prop49)!='undefined'){s.eVar49="D=c49";}
+    if(typeof (s.prop50)!='undefined'){s.eVar50="D=c50";}
+
+    if(typeof (s.prop60)!='undefined'){s.eVar60="D=c60";}	// Días desde última visita
+    if(typeof (s.prop62)!='undefined'){s.eVar22="D=c62";}
+    if(typeof (s.prop65)!='undefined'){s.eVar65="D=c65";}   // Scroll / Sin scroll
+    if(typeof(s.prop19)!='undefined'){s.eVar19= s.prop19;}
+}
+console.log("dtm: local");
