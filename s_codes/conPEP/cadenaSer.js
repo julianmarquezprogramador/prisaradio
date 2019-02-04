@@ -329,6 +329,9 @@ function launchAjaxOMN(eVars,eVars_value,evento,listado_tags, autores){
     s.usePlugins = false;
     //Casi todos los eventos en nuestra cuenta
     s.account = s_accountF;
+    //add eVar19
+    eVars= eVars + "|19";
+    eVars_value= eVars_value + "|cadenaser";
     var AeVars = eVars.split("|");
     var AeVars_value = eVars_value.toLowerCase().split("|");
     s.linkTrackVars='events';
