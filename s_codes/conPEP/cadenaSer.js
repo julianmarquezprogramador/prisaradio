@@ -2078,7 +2078,7 @@ function omn_propToEvarsAssignment(){
 }
 console.log("dtm: local");
 
-var dtm_version= "dtm version" + numVersion;
+var dtm_version= "s_code version" + numVersion;
 if(typeof tucu !== 'undefined'){
     if(typeof tucu.dev !== 'undefined'){
         if(tucu.dev == true){
