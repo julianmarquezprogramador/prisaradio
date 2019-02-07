@@ -2,6 +2,7 @@
 Copyright 1996-2014 Adobe, Inc. All Rights Reserved
 More info available at http://www.omniture.com */
 
+var numVersion="1.0.0";
 var useSSL = document.location.protocol == 'https:';
 
 //Videometrix
@@ -320,6 +321,7 @@ function launch(eVars,eVars_value,evento){
     s.eVar48=s.getTimeParting('d',gmt); // Set day (Jueves)
     s.eVar60=s.getDaysSinceLastVisit('s_lv'); // Days Since Last Visit
     s.eVar66=s.getTimeParting('w', gmt); // Set weekday (laborable/festivo)
+    s.eVar73= numVersion;
     s.tl(this,'o',evento);
     s.clearVars();
 }
@@ -685,6 +687,7 @@ s.doPlugins=function(s) {
     if(scroll_i==true){
         s.prop65 = "scroll";
     }
+    s.prop73= numVersion;
 
 
 //if(s.prop1)s.eVar5="D=c1";
@@ -724,6 +727,7 @@ s.doPlugins=function(s) {
     if(s.prop60)s.eVar60="D=c60";	// Días desde última visita
     if(s.prop62)s.eVar22="D=c62";
     if(s.prop65)s.eVar65="D=c65";   // Scroll / Sin scroll
+    if(s.prop73)s.eVar73="D=c73";
 }
 
 
@@ -1375,6 +1379,7 @@ if (typeof(marcado_omniture_particular) == "undefined")
     else
         s.prop62 = "anonimo";
 
+    s.prop73= numVersion;
     s.prop75 = prop75_omniture;
     /*
     Jerarquias
@@ -1495,9 +1500,15 @@ else
 var s_code;
 
 if(imIframe()==true){//if this is iframe then change url
-    var arrayURL= document.referrer.split("cadenaser.com");
-    s.pageName= s.siteID + arrayURL[1];
-    s.pageURL= document.referrer;
+    if(document.referrer.indexOf("cadenaser.com") > -1){
+        var arrayURL= document.referrer.split("cadenaser.com");
+        s.pageName= s.siteID + arrayURL[1];
+        s.pageURL= document.referrer;
+    }
+    else{
+        s.pageName= document.referrer;
+        s.pageURL= document.referrer;
+    }
     omn_propToEvarsAssignment();
 }
 
@@ -1715,6 +1726,7 @@ function omn_launchScroll(){
     s.prop33 = s.getVisitNum();
     s.prop36 = s.getTimeParting('d', gmt) + "-" + day + "/" + month + "/" + fecha.getFullYear() + "-" + s.prop24;
     s.prop60 = s.getDaysSinceLastVisit('s_lv');
+    s.prop73= numVersion;
 
     s.prop65 = "sin scroll";
     if(scroll_i==true){
@@ -2023,6 +2035,7 @@ function imIframe(){
 function omn_propToEvarsAssignment(){
     s.eVar3="D=pageName";			// PageName
     s.eVar4="D=ch";					// Channel
+    s.eVar5="D=pageURL";
     //if(s.prop1)s.eVar5="D=c1";
     if(typeof (s.prop2)!='undefined'){s.eVar6="D=c2";}
     if(typeof (s.prop3)!='undefined'){s.eVar7="D=c3";}
@@ -2061,5 +2074,22 @@ function omn_propToEvarsAssignment(){
     if(typeof (s.prop62)!='undefined'){s.eVar22="D=c62";}
     if(typeof (s.prop65)!='undefined'){s.eVar65="D=c65";}   // Scroll / Sin scroll
     if(typeof(s.prop19)!='undefined'){s.eVar19= s.prop19;}
+    if(typeof(s.prop73)!='undefined'){s.eVar73= s.prop73;}
 }
 console.log("dtm: local");
+
+var dtm_version= "dtm version" + numVersion;
+if(typeof tucu !== 'undefined'){
+    if(typeof tucu.dev !== 'undefined'){
+        if(tucu.dev == true){
+            console.log("/////////////////////DTM////////////////////////////");
+            console.log(dtm_version);
+            console.log("feature: added instancePlayer in PlaySer");
+            console.log("feature: collect foreing url in iframe");
+            console.log("////////////////////////////////////////////////////");
+        }
+        else{
+            console.log(dtm_version);
+        }
+    }
+}
