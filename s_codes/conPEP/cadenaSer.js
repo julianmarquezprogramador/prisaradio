@@ -1505,7 +1505,7 @@ if(imIframe()==true){//if this is iframe then change url
         s.pageName= s.siteID + arrayURL[1];
         s.pageURL= document.referrer;
     }
-    else{
+    else{//if is foreing url
         s.pageName= document.referrer;
         s.pageURL= document.referrer;
     }
