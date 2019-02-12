@@ -219,6 +219,8 @@ function omn_asyncPV(){
     _satellite.previousURL = location.href;
 }
 function omn_adblocker(){
+    s.account = getAnalyticsAccount();
+    s.accountF = getAnalyticsAccountF();
     window.s.ab_enabled = false;
     //Se supone la existencia de body, si no es asi salimos
     if (!window.document.body)
@@ -765,7 +767,7 @@ function imIframe(){
     }
 }
 
-var dtm_version= "dtm version 1.0.4";
+var dtm_version= "dtm version 1.0.5";
 if(typeof tucu !== 'undefined'){
     if(typeof tucu.dev !== 'undefined'){
         if(tucu.dev == true){
@@ -773,6 +775,7 @@ if(typeof tucu !== 'undefined'){
             console.log(dtm_version);
             console.log("feature: Added code for AMP");
             console.log("feature: fixed widget");
+            console.log("Added getAnalyticsAccount() in function adBlocker()");
             console.log("////////////////////////////////////////////////////");
         }
         else{
