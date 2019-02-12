@@ -300,7 +300,7 @@ s.doPlugins=function(s) {
     pageName=s.pageName;
 
 // EW
-    if(section=="widget"){
+    if(section=="widget" || imIframe()==true){
         try {
             parentDomain = (window.location != window.parent.location) ? document.referrer: document.location;
         }
@@ -757,13 +757,22 @@ function omn_renameDomain(domain){
 }
 ////////////////////////////////////////END FUNCTIONS AMPS//////////////////////////////////////////////////////
 
-var dtm_version= "dtm version 1.0.3";
+function imIframe(){
+    try {
+        return window.self !== window.top;
+    } catch (e) {
+        return true;
+    }
+}
+
+var dtm_version= "dtm version 1.0.4";
 if(typeof tucu !== 'undefined'){
     if(typeof tucu.dev !== 'undefined'){
         if(tucu.dev == true){
             console.log("/////////////////////DTM////////////////////////////");
             console.log(dtm_version);
             console.log("feature: Added code for AMP");
+            console.log("feature: fixed widget");
             console.log("////////////////////////////////////////////////////");
         }
         else{
