@@ -2,12 +2,13 @@
 var arrayAmp= new Array();
 getValuesAmp();
 var hostn=location.hostname;
-if(typeof arrayAmp !== 'undefined') {
-    if (arrayAmp['amp'] == "true") {
-        hostn= arrayAmp["source_host"];
-    }
+if(imAMP()){
+    hostn= arrayAmp["source_host"];
 }
 //end code for AMP//
+
+var numVersion= "1.0.8";
+var dtm_version= "dtm version " + numVersion;
 
 /* Function to get RSIDs from UI */
 function getAnalyticsAccount(){
@@ -182,6 +183,7 @@ function omn_asyncPV(){
     s.prop44=document.title;				 																		// Title SEO
     s.prop60=s.getDaysSinceLastVisit('s_lv');         									// Days Since Last Visit
     s.prop62=status;																										// Log in / Anonymous
+    s.prop73= dtm_version;
 
     if(subsection != '' ){
         s.prop1 = section + '>' + subsection;
@@ -302,7 +304,7 @@ s.doPlugins=function(s) {
     pageName=s.pageName;
 
 // EW
-    if(section=="widget" || imIframe()==true){
+    if((section=="widget" || imIframe()==true)&&(!imAMP())){
         try {
             parentDomain = (window.location != window.parent.location) ? document.referrer: document.location;
         }
@@ -345,9 +347,9 @@ s.doPlugins=function(s) {
     s.prop44=document.title;				 																		// Title SEO
     s.prop60=s.getDaysSinceLastVisit('s_lv');         									// Days Since Last Visit
     s.prop62=status;																										// Log in / Anonymous
+    s.prop73= dtm_version;
 
-    if(typeof arrayAmp !== 'undefined') {
-        if (arrayAmp['amp'] == "true") {
+    if(imAMP()){ //if amp then
             omn_cleanTitleAMP();
             //re-write some props for AMP
             s.prop3= "articulo";
@@ -360,9 +362,7 @@ s.doPlugins=function(s) {
             //s.pageName= omn_renameDomain (arrayAmp["server"]) +omn_cleanUrl(arrayAmp["pageURL"]).replace(/http.?:\/\/[^\/]*/, "");
             s.server= omn_deleteWWW(arrayAmp["server"]);
             s.referrer= omn_cleanUrl(arrayAmp["ref"]);
-        }
     }
-
     /* Conversion variables*/
 
     s.eVar3="D=pageName"  															// pageName
@@ -395,6 +395,7 @@ s.doPlugins=function(s) {
     if(s.prop44)s.eVar44="D=c44"												// Set hour (12:00PM)
     if(s.prop60)s.eVar60="D=c60"												// Days Since Last Visit
     if(s.prop62)s.eVar22="D=c62"												// Log In/ Anonymous
+    if(s.prop73)s.eVar73="D=c73"
 
 // Global Variables
     pageName=s.pageName;
@@ -657,6 +658,10 @@ function s_gi(a){var k,q=window.s_c_il,r,n,t=a.split(","),u,s,x=0;if(q)for(r=0;!
 function s_pgicq(){var a=window,k=a.s_giq,q,r,n;if(k)for(q=0;q<k.length;q++)r=k[q],n=s_gi(r.oun),n.setAccount(r.un),n.setTagContainer(r.tagContainerName);a.s_giq=0}s_pgicq();
 
 ////////////////////////////////////FUNCTIONS FOR AMP///////////////////////////////////////////////////////////
+function IamAMP(){
+
+}
+
 function getParamsUrl(){
     // capturamos la url
     var loc = location.href;
@@ -757,6 +762,15 @@ function omn_renameDomain(domain){
     }
     return domain;
 }
+function imAMP(){
+    var flag= false;
+    if(typeof arrayAmp !== 'undefined') {
+        if (arrayAmp['amp'] == "true") {
+            flag= true;
+        }
+    }
+    return flag;
+}
 ////////////////////////////////////////END FUNCTIONS AMPS//////////////////////////////////////////////////////
 
 function imIframe(){
@@ -767,7 +781,6 @@ function imIframe(){
     }
 }
 
-var dtm_version= "dtm version 1.0.5";
 if(typeof tucu !== 'undefined'){
     if(typeof tucu.dev !== 'undefined'){
         if(tucu.dev == true){
@@ -776,6 +789,7 @@ if(typeof tucu !== 'undefined'){
             console.log("feature: Added code for AMP");
             console.log("feature: fixed widget");
             console.log("Added getAnalyticsAccount() in function adBlocker()");
+            console.log("fixed issue with amp");
             console.log("////////////////////////////////////////////////////");
         }
         else{
