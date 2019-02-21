@@ -10,8 +10,8 @@ var useSSL = document.location.protocol == 'https:';
 var id_comscore = '8671776'; //Client ID
 
 var pbn_comscore = "PRISA"; //Publisher Brand Name
-var c3_comscore = escape("CADENASER.COM Sites");
-var c4_comscore = escape("CADENASER.COM");
+var c3_comscore = escape("wradio.com.mx Sites");
+var c4_comscore = escape("wradio.com.mx");
 
 var myStreamingTag = null;
 loadScript('//ep00.epimg.net/js/comun/streamsense.js', function(){
@@ -74,9 +74,9 @@ function getInternetExplorerVersion()
 
 //Permitimos modificar la suit definiendo antes la variable s_account
 if (typeof(s_account) == "undefined" ) {
-    if(/cadenaser.com/.test(location.hostname) || /instanceplayer.prisasd.com/.test(location.hostname)){                       // Producción
-        var s_account = 'prisacomcadenaser,prisacomglobal';
-        var s_accountF = 'prisacomcadenaser';
+    if(/wradio.com.mx/.test(location.hostname)){                       // Producción
+        var s_account = 'prisacomurmxwradio,prisacomglobal';
+        var s_accountF = 'prisacomurmxwradio';
     } else {
         var s_account = 'prisacomurpreprod';
         var s_accountF = 'prisacomurpreprod';
@@ -108,79 +108,17 @@ var cadena_titulo =  (document.getElementsByTagName('title')[0] ) ? document.get
 cadena_titulo = cadena_titulo.toLowerCase();
 
 // Título "limpio" (solo titular de la noticia)
-var meta_og_title = document.querySelector('meta[property="og:title"]');
-var cadena_titulo_limpio = (meta_og_title) ? meta_og_title.getAttribute('content').replace(/'|"|\|/g, "") : "";
-cadena_titulo_limpio = cadena_titulo_limpio.toLowerCase();
+var cadena_titulo_no_seo = document.head.querySelector("[property='og:title']").content
+
+cadena_titulo_no_seo =  cadena_titulo_no_seo.toLowerCase();
 
 var marcar_otros_elementos = false;
 
 if (typeof(ids_tracking) == "undefined" )
     var ids_tracking = [];
+var circuitos_regionales = {}
+var ids_circuitos = {}
 
-var circuitos_regionales = {
-    "radio_barcelona":"ser_catalunya",
-    "radio_girona":"ser_catalunya",
-    "radio_reus":"ser_catalunya",
-    "ser_tarragona":"ser_catalunya",
-    "radio_lleida":"ser_catalunya",
-    "radio_ser_principat_d_andorra":"ser_catalunya",
-    "sercat":"ser_catalunya",
-    "radio_bilbao":"ser_euskadi",
-    "radio_san_sebastian":"ser_euskadi",
-    "radio_irun":"ser_euskadi",
-    "ser_vitoria":"ser_euskadi",
-    "radio_eibar":"ser_euskadi",
-    "ser_las_palmas":"ser_canarias",
-    "radio_club_tenerife":"ser_canarias",
-    "ser_toledo":"ser_castilla_la_mancha",
-    "radio_albacete":"ser_castilla_la_mancha",
-    "ser_ciudad_real":"ser_castilla_la_mancha",
-    "ser_talavera":"ser_castilla_la_mancha",
-    "ser_cuenca":"ser_castilla_la_mancha",
-    "ser_guadalajara":"ser_castilla_la_mancha",
-    "radio_tarancon":"ser_castilla_la_mancha",
-    "radio_extremadura":"ser_extremadura",
-    "ser_caceres":"ser_extremadura",
-    "ser_merida":"ser_extremadura",
-    "ser_vegas_altas":"ser_extremadura",
-    "ser_norte_de_extremadura":"ser_extremadura",
-    "ser_tierra_de_barros":"ser_extremadura",
-    "radio_pamplona":"ser_navarra",
-    "radio_tafalla":"ser_navarra",
-    "ser_tudela":"ser_navarra",
-    "radio_santander":"ser_cantabria",
-    "ser_torrelavega":"ser_cantabria",
-    "ser_castro_urdiales":"ser_cantabria",
-    "radio_azul":"ser_castilla_la_mancha",
-    "ser_avila":"ser_castilla_y_leon",
-    "radio_bierzo":"ser_castilla_y_leon",
-    "radio_leon":"ser_castilla_y_leon",
-    "radio_palencia":"ser_castilla_y_leon",
-    "radio_salamanca":"ser_castilla_y_leon",
-    "ser_soria":"ser_castilla_y_leon",
-    "radio_valladolid":"ser_castilla_y_leon",
-    "radio_segovia":"ser_castilla_y_leon",
-    "radio_zamora":"ser_castilla_y_leon",
-    "radio_castilla":"ser_castilla_y_leon",
-    "ser_avila":"ser_castilla_y_leon",
-    "ser_ebre":"ser_euskadi",
-    "radio_aranda":"ser_castilla_y_leon",
-    "radio_medina":"ser_castilla_y_leon",
-    "radio_penafiel":"ser_castilla_y_leon",
-    "radio_estella":"ser_navarra"
-}
-
-
-var ids_circuitos = {
-    //"c35db04e265cd0245bf809627aa6a750":"ser_catalunya",
-    "3213ea365324f169aaf7eecde5b7204d":"ser_euskadi",
-    "39833a647c6fc64e75f66a908def2211":"ser_canarias",
-    "af1f61038fe2b1ec1c94602684d15c05":"ser_castilla_la_mancha",
-    "b1a408ced52bce82597468f614d1ee2d":"ser_extremadura",
-    "e5723fc77fb4770d2de01ef502e74a8a":"ser_navarra",
-    "c94758c3227e1c165a9b6ef413a9e0e5":"ser_cantabria",
-    "b90c5a10bfdd76eb75c89dd0c16991d4":"ser_castilla_y_leon"
-}
 
 
 function OMNaddEvent (element, evento, func) {
@@ -252,28 +190,10 @@ function paraMarcadoComscore(obj)
 }
 
 window.onload=function(){
-    var botonPreDirecto= document.getElementById('btn-directo');
     var botonPlayDirecto = document.getElementById('botonPlayDirecto');
-    var botonPlayDirectoAlt1= document.getElementById('botonPlayDirectoAlt1');
-    var botonPlayDirectoAlt2= document.getElementById('botonPlayDirectoAlt2');
-    if(botonPreDirecto){
-        botonPreDirecto.onclick = function () {
-            launch('29','cabecera: ir a directo','event33');
-        };
-    }
     if (botonPlayDirecto) {
         botonPlayDirecto.onclick = function () {
-            launch('29','cabecera: ir a directo1','event33');
-        };
-    }
-    if (botonPlayDirectoAlt1) {
-        botonPlayDirectoAlt1.onclick = function () {
-            launch('29','cabecera:ir a directo alternativo1','event33');
-        };
-    }
-    if (botonPlayDirectoAlt2) {
-        botonPlayDirectoAlt2.onclick = function () {
-            launch('29','cabecera:ir a directo alternativo2','event33');
+            launch('29','cabecera:ir a directo','event33');
         };
     }
 };
@@ -281,7 +201,7 @@ window.onload=function(){
 // function launch - se crea para controlar los click en patrocinio
 function launch(eVars,eVars_value,evento){
     s.usePlugins=false;
-    //s.account = s_accountF;
+    s.account = s_accountF;
     s=s_gi(s.account);
     var AeVars = eVars.split("|");
     var AeVars_value = eVars_value.split("|");
@@ -302,7 +222,7 @@ function launch(eVars,eVars_value,evento){
     s.eVar3=s.siteID + location.pathname; // pageName
     s.eVar4=s.channel; // channel
     s.eVar18="prisa"; // Organization
-    s.eVar19="cadenaser"; // Product
+    s.eVar19="wradio"; // Product
     s.eVar20=document.domain.replace(/www./gi,""); // Domain|Subdomain
     s.eVar21=s.getNewRepeat(); // User New / Repeat
     if (typeof(PEPuname) != "undefined") {
@@ -313,15 +233,12 @@ function launch(eVars,eVars_value,evento){
     s.eVar32=s.getVisitNum(); // Visit Number By Month
     s.eVar35=hours; // Set hour (12)
     s.eVar39=document.title; // Title
-    if (typeof(PEPuid) != 'undefined') {
-        s.eVar43=PEPuid; // User Id
-    }
+    s.eVar43=PEPuid; // User Id
     s.eVar44=s.getTimeParting('h', gmt); // Set hour (12:00PM)
     s.eVar45=document.title; // Title
     s.eVar48=s.getTimeParting('d',gmt); // Set day (Jueves)
     s.eVar60=s.getDaysSinceLastVisit('s_lv'); // Days Since Last Visit
     s.eVar66=s.getTimeParting('w', gmt); // Set weekday (laborable/festivo)
-    s.eVar73= numVersion;
     s.tl(this,'o',evento);
     s.clearVars();
 }
@@ -331,9 +248,6 @@ function launchAjaxOMN(eVars,eVars_value,evento,listado_tags, autores){
     s.usePlugins = false;
     //Casi todos los eventos en nuestra cuenta
     s.account = s_accountF;
-    //add eVar19
-    eVars= eVars + "|19";
-    eVars_value= eVars_value + "|cadenaser";
     var AeVars = eVars.split("|");
     var AeVars_value = eVars_value.toLowerCase().split("|");
     s.linkTrackVars='events';
@@ -412,6 +326,12 @@ function launchAjaxOMN(eVars,eVars_value,evento,listado_tags, autores){
         AeVars_value.push(cadena_titulo);
     }
 
+    //Si no llega la 39 la aniado siempre, el titulo de la pagina
+    if (("|" + eVars + "|").indexOf("|39|") == -1)
+    {
+        AeVars.push('39');
+        AeVars_value.push(cadena_titulo_no_seo);
+    }
 
     AeVars.push('4');
     AeVars_value.push(s.channel);
@@ -536,13 +456,15 @@ function marcadoLinks(nodo)
 
     if (ids_tracking[nodo.idx].tipo == "compartir")
     {
-        launchAjaxOMN("3|39|69|13|1",s.pageName + "|" + cadena_titulo + "|" + ids_tracking[nodo.idx].marca + "|" + prop13_omniture + "|" + prop1_omniture ,"event69", tagsNoticia);
+        //launchAjaxOMN("3|39|69",s.pageName + "|" + cadena_titulo + "|" + ids_tracking[nodo.idx].marca ,"event69", tagsNoticia);
+        launchAjaxOMN("3|69",s.pageName + "|" + ids_tracking[nodo.idx].marca ,"event69", tagsNoticia);
     }
     else
     {
         if (ids_tracking[nodo.idx].tipo == "valoraciones")
         {
-            launchAjaxOMN("3|39|69|13|1",s.pageName + "|" + cadena_titulo + "|" + ids_tracking[nodo.idx].marca + "|" + prop13_omniture + "|" + prop1_omniture ,"event69", tagsNoticia);
+            //launchAjaxOMN("3|39|69",s.pageName + "|" + cadena_titulo + "|" + ids_tracking[nodo.idx].marca + (typeof(c_prefijo_titulo) != "undefined" ? " - " + c_prefijo_titulo : "") ,"event69", tagsNoticia);
+            launchAjaxOMN("3|69",s.pageName + "|" + ids_tracking[nodo.idx].marca + (typeof(c_prefijo_titulo) != "undefined" ? " - " + c_prefijo_titulo : "") ,"event69", tagsNoticia);
         }
     }
 }
@@ -557,12 +479,13 @@ function marcadoSeguirRRSS(marca) {
 //marcado de comentarios
 function trackPublicarComentario()
 {
-    launchAjaxOMN("3|39|13|1", s.pageName + "|" + cadena_titulo  + "|" + prop13_omniture + "|" + prop1_omniture ,"event34", tagsNoticia);
+    //launchAjaxOMN("3|39", s.pageName + "|" + cadena_titulo  ,"event34", tagsNoticia);
+    launchAjaxOMN("3", s.pageName   ,"event34", tagsNoticia);
 }
 
 function trackFotogalerias()
 {
-    //launchAjaxOMN("3|39|5|30|46|13|7", s.pageName + "|" + cadena_titulo + "|" + (s.prop1 ? s.prop1 : "") + "|" + s.prop30 + "|" + document.location.href + "|" + s.prop13 + "|" + "fotogaleria","event78", tagsNoticia);
+    //launchAjaxOMN("3|39|5|30|46|7", s.pageName + "|" + cadena_titulo + "|" + s.prop1 + "|" + s.prop30 + "|" + document.location.href + "|" + "fotogaleria","event78", tagsNoticia);
     launchAjaxOMN("3|5|7|46", s.pageName + "|" + s.prop1 + "|"  + "fotogaleria"  + "|" + document.location.href  ,"event78", tagsNoticia);
     comscoreImg.src = (useSSL ? "https://sb.scorecardresearch.com" : "http://b.scorecardresearch.com") + "/p?c1=2&c2=8671776&cv=2.0&cj=1&c7=" + encodeURIComponent(document.location.href) + "&c8=" + encodeURIComponent(cadena_titulo) +  "&c9=" + encodeURIComponent(document.referrer) + "&rn=" + String(Math.random()).substr(2,9);
 }
@@ -582,7 +505,7 @@ s.currencyCode = "EUR";
 document.URL.indexOf(".com.") > 0 ? s.cookieDomainPeriods = "3" : s.cookieDomainPeriods = "2";
 
 /* Page Name Config */
-s.siteID = "cadenasercom";
+s.siteID = "wradio.com.mx";
 s.defaultPage="";
 s.queryVarsList="";
 s.pathExcludeDelim=";";
@@ -593,10 +516,9 @@ s.trackDownloadLinks = true;
 s.trackExternalLinks = true;
 s.trackInlineStats = true;
 s.linkDownloadFileTypes = "exe,zip,wav,mp3,mov,mpg,avi,wmv,doc,pdf,xls";
-s.linkInternalFilters = "javascript:,cadenaser.com";
+s.linkInternalFilters = "javascript:,wradio.com.mx";
 s.linkLeaveQueryString = false;
-//s.linkTrackVars = "None";
-s.linkTrackVars="pageName,channel,prop3,prop5,prop6,prop8,prop9,prop12,prop13,prop14,prop15,prop17,prop18,prop19,prop20,prop21,prop22,prop24,prop29,prop30,prop31,prop33,prop35,prop36,prop39,prop44,prop45,prop60,prop62,eVar3,eVar4,eVar10,eVar18,eVar19,eVar20,eVar21,eVar22,eVar32,eVar35,eVar39,eVar43,eVar44,eVar45,eVar48,eVar60,eVar66";
+s.linkTrackVars = "None";
 s.linkTrackEvents = "None";
 
 /* TimeParting Config */
@@ -687,14 +609,13 @@ s.doPlugins=function(s) {
     if(scroll_i==true){
         s.prop65 = "scroll";
     }
-    s.prop73= numVersion;
 
 
 //if(s.prop1)s.eVar5="D=c1";
     if(s.prop2)s.eVar6="D=c2";
     if(s.prop3)s.eVar7="D=c3";
 //if(s.prop5)s.eVar10=s.prop5;
-    if(s.prop4)s.eVar10=s.prop4;		//    Cambia en cadenaser
+    if(s.prop4)s.eVar10=s.prop4;
     if(s.prop6)s.eVar63=s.prop6;		// referrer
     if(s.prop8)s.eVar48="D=c8";		// Set day  (Jueves)
     if(s.prop9)s.eVar66="D=c9";		// Set weekday (laborable/festivo)
@@ -717,9 +638,9 @@ s.doPlugins=function(s) {
     if(s.prop34)s.eVar43="D=c34";
     if(s.prop35)s.eVar35="D=c35";	// Set hour (12:00PM)
     if(s.prop36)s.eVar33="D=c36";	// Join Date (Jueves-15/9/2012-12:32:48)
-    if(s.prop39)s.eVar39="D=c45";  	// Titulo página
+    if(s.prop39)s.eVar39="D=c39";  	// Titulo página sin seo
     if(s.prop44)s.eVar44="D=c44";
-    if(s.prop45)s.eVar45="D=c45";
+    if(s.prop45)s.eVar45="D=c45";	// Titulo página con seo
     if(s.prop47)s.eVar47="D=c47";
     if(s.prop49)s.eVar49="D=c49";
     if(s.prop50)s.eVar50="D=c50";
@@ -727,7 +648,6 @@ s.doPlugins=function(s) {
     if(s.prop60)s.eVar60="D=c60";	// Días desde última visita
     if(s.prop62)s.eVar22="D=c62";
     if(s.prop65)s.eVar65="D=c65";   // Scroll / Sin scroll
-    if(s.prop73)s.eVar73="D=c73";
 }
 
 
@@ -736,6 +656,7 @@ changes to how your visitor data is collected.  Changes should only be
 made when instructed to do so by your account manager.*/
 s.visitorNamespace="prisacom";
 s.trackingServer="prisacom.d3.sc.omtrdc.net";
+// s.trackingServer="prisacom.112.2o7.net";
 
 /************************** PLUGINS SECTION *************************/
 
@@ -950,6 +871,7 @@ function loadScript(src, callback) {
 
 s.events = "event2"; //por defecto el evento de pagina vista
 s.prop45 = cadena_titulo;
+s.prop39 = cadena_titulo_no_seo;
 
 if (typeof(marcado_omniture_particular) == "undefined")
 {
@@ -962,7 +884,7 @@ if (typeof(marcado_omniture_particular) == "undefined")
     var regexpPortada = /http.?:\/\/([^\/]*)\/?(.*)/i;
     var regexpMovil = /(http.?:\/\/[^\/]*)\/m\/(.*)/i;
     var regexpEspeciales = /http.?:\/\/[^\/]*\/especiales\/([^\/]*)\/([^\/]*)\/(\d{4})\/([^\/]*)\//i;
-    var regexpEspecialesGenericos = /http.?:\/\/[^\/]*\/especiales\/ser\/(\d{4})\/([^\/]*)\//i;
+    var regexpEspecialesGenericos = /http.?:\/\/[^\/]*\/especiales\/radio\/(\d{4})\/([^\/]*)\//i;
 
 
     var result_re;
@@ -983,7 +905,7 @@ if (typeof(marcado_omniture_particular) == "undefined")
         direccion = result_re[1] + "/" + result_re[2];
     }
 
-    var dominio_omniture = "cadenaser.com";
+    var dominio_omniture = "wradio.com.mx";
     var subseccion_omniture = "subseccion";
     var subseccion_virtual = "";
     var channel_omniture = "channel";
@@ -992,7 +914,7 @@ if (typeof(marcado_omniture_particular) == "undefined")
     var prop2_tipo_contenido = "portal";
     var prop4_tipo_pagina = "";
     var prop11_especial = "";
-    var prop13_omniture = "cadenaser";
+    var prop13_omniture = "wradio";
     var prop75_omniture = "no brand";
 
     //por defecto
@@ -1049,7 +971,7 @@ if (typeof(marcado_omniture_particular) == "undefined")
         s.prop44 = result_re[3] + "/" + result_re[4] + "/" + result_re[5];
 
         s.events += ',event77';
-        s.prop39 = cadena_titulo_limpio;
+
 
         //desencadena el evento onload
         marcar_otros_elementos = true;
@@ -1077,7 +999,7 @@ if (typeof(marcado_omniture_particular) == "undefined")
     }
     else
     {
-        if (direccion.indexOf("//cadenaser.com/seccion") >-1 || direccion.indexOf("//cadenaser.com/programa") > -1 || direccion.indexOf("//cadenaser.com/emisora") > -1) //portadilla de seccion virtual
+        if (direccion.indexOf("//wradio.com.mx/seccion") >-1 || direccion.indexOf("//wradio.com.mx/programa") > -1 || direccion.indexOf("//wradio.com.mx/emisora") > -1) //portadilla de seccion virtual
         {
             //si no es noticia y tiene este aspecto
             result_re5 = regexpficha_parrilla.exec(direccion) || regexpSeccionVirtual.exec(direccion); //en este orden la comparacion
@@ -1100,7 +1022,7 @@ if (typeof(marcado_omniture_particular) == "undefined")
                 }
 
                 if (subseccion_omniture == "prov")
-                    subseccion_omniture = "cadenaser";
+                    subseccion_omniture = "wradio";
 
             }
             else
@@ -1111,7 +1033,7 @@ if (typeof(marcado_omniture_particular) == "undefined")
         }
         else
         {
-            if (direccion.indexOf("//cadenaser.com/especiales/") > -1 ) //especiales
+            if (direccion.indexOf("//wradio.com.mx/especiales/") > -1 ) //especiales
             {
                 prop3_omniture = "especiales";
                 result_re5 = regexpEspeciales.exec(direccion);
@@ -1164,7 +1086,7 @@ if (typeof(marcado_omniture_particular) == "undefined")
                         if (result_re2[3].indexOf("/") == -1)
                         {
                             subseccion_omniture = result_re2[3].replace(/\.html.*/, "");
-                            if (channel_omniture == "ser")
+                            if (channel_omniture == "radio")
                             {
                                 channel_omniture = subseccion_omniture;
                             }
@@ -1175,6 +1097,7 @@ if (typeof(marcado_omniture_particular) == "undefined")
                         {
                             if (result_re2[2] == "tag" || result_re2[2] == "autor" || result_re2[2] == "agr")
                             {
+
 
                                 //Varias posibilidades
                                 var tagRegex = /([^\/]+)\/([^\/]+)\/?.*/i;
@@ -1213,10 +1136,10 @@ if (typeof(marcado_omniture_particular) == "undefined")
                                     //paginas varias
                                     switch (direccion)
                                     {
-                                        case "http://cadenaser.com/ser/programas/home_programas.html":
-                                        case "https://cadenaser.com/ser/programas/home_programas.html":
-                                        case "http://cadenaser.com/ser/programas/":
-                                        case "https://cadenaser.com/ser/programas/":
+                                        case "http://wradio.com.mx/radio/programas/home_programas.html":
+                                        case "http://wradio.com.mx/radio/programas/home_programas.html":
+                                        case "http://wradio.com.mx/radio/programas/":
+                                        case "http://wradio.com.mx/radio/programas/":
 
                                             channel_omniture = "programa";
                                             subseccion_omniture = "";
@@ -1224,10 +1147,10 @@ if (typeof(marcado_omniture_particular) == "undefined")
                                             prop4_tipo_pagina = "portadilla";
                                             break;
 
-                                        case "http://cadenaser.com/ser/emisoras/home_emisoras.html":
-                                        case "https://cadenaser.com/ser/emisoras/home_emisoras.html":
-                                        case "http://cadenaser.com/ser/emisoras/":
-                                        case "https://cadenaser.com/ser/emisoras/":
+                                        case "http://wradio.com.mx/radio/emisoras/home_emisoras.html":
+                                        case "http://wradio.com.mx/radio/emisoras/home_emisoras.html":
+                                        case "http://wradio.com.mx/radio/emisoras/":
+                                        case "http://wradio.com.mx/radio/emisoras/":
 
                                             channel_omniture = "emisora";
                                             subseccion_omniture = "";
@@ -1235,8 +1158,8 @@ if (typeof(marcado_omniture_particular) == "undefined")
                                             prop4_tipo_pagina = "portadilla";
                                             break;
 
-                                        case "http://cadenaser.com/ser/ultimas_noticias/":
-                                        case "https://cadenaser.com/ser/ultimas_noticias/":
+                                        case "http://wradio.com.mx/radio/ultimas_noticias/":
+                                        case "http://wradio.com.mx/radio/ultimas_noticias/":
                                             channel_omniture = "ultimas_noticias";
                                             subseccion_omniture = "";
                                             prop3_omniture = "portada";
@@ -1264,7 +1187,7 @@ if (typeof(marcado_omniture_particular) == "undefined")
                     if (result_re3 && (result_re3[2].indexOf("index.html") == 0 || result_re3[2] == ""))
                     {
                         prop3_omniture = "portada"
-                        channel_omniture = result_re3[1].replace(/cadenaser\.com/, "");
+                        channel_omniture = result_re3[1].replace(/wradio\.com\.mx/, "");
 
                         if (channel_omniture == "")
                         {
@@ -1275,7 +1198,7 @@ if (typeof(marcado_omniture_particular) == "undefined")
                         else
                         {
                             channel_omniture = channel_omniture.substring(0,channel_omniture.length-1);
-                            s.pageName = "cadenasercom/" + channel_omniture;
+                            s.pageName = "wradio.com.mx/" + channel_omniture;
                         }
                     }
                     else //Ni idea de lo que puede ser
@@ -1332,14 +1255,14 @@ if (typeof(marcado_omniture_particular) == "undefined")
             break;
 
         default:
-            prop13_omniture = "cadenaser";
-            if (channel_omniture == "ser" && subseccion_omniture != "")
+            prop13_omniture = "wradio";
+            if (channel_omniture == "radio" && subseccion_omniture != "")
                 channel_omniture = subseccion_omniture;
             break;
     }
 
-    if (prop13_omniture == "cadena_ser")
-        prop13_omniture = "cadenaser";
+    if (prop13_omniture == "wradio_mx")
+        prop13_omniture = "wradio";
 
     s.channel = channel_omniture;
 
@@ -1356,11 +1279,11 @@ if (typeof(marcado_omniture_particular) == "undefined")
     s.prop11 = prop11_especial;
     s.prop12 = "";
     s.prop13 = prop13_omniture;
-    s.prop14 = "españa";							// Pais del medio
-    s.prop15 = "españa";
+    s.prop14 = "mexico";							// Pais del medio
+    s.prop15 = "mexico";
     s.prop17 = canal_omniture;						// Canal
     s.prop18 = "prisa";								// Organizacion
-    s.prop19 = "cadenaser";							// Producto
+    s.prop19 = "wradiomx";							// Producto
     s.prop20 = dominio_omniture;					// Dominio
     s.prop21 = s.getNewRepeat();   					// Usuario Nuevo o recurrente
     s.prop22 = "convencional";
@@ -1379,53 +1302,30 @@ if (typeof(marcado_omniture_particular) == "undefined")
     else
         s.prop62 = "anonimo";
 
-    s.prop73= numVersion;
     s.prop75 = prop75_omniture;
     /*
     Jerarquias
     */
     s.hier1 = 'D=c18+">"+c19+">"+c20+">"+ch+">"pageName';
 
-
-    var url = window.location.pathname;
-    var tipo_tags = "";
-    if (url.indexOf("programa") !== -1){
-        tipo_tags = "programa";
-    }else if(url.indexOf("emisora") !== -1){
-        tipo_tags = "emisora";
-    }else if (url.indexOf("seccion") !== -1){
-        tipo_tags = "seccion";
-    }
-    console.log(url);
-    var urlsplit = url.split("/").slice(-2)[0];
-    console.log(urlsplit);
-
-    var tags_json = "";
-
-    var tags_asociados = '{"tags_krux":																																				{"hoy_por_hoy": "actualidad, informativos","oh_my_lol": "humor","carrusel_deportivo": "deportes","la_ventana": "actualidad","hora_25": "actualidad","hablar_por_hablar": "actualidad","el_larguero": "deportes","a_vivir_que_son_dos_dias": "actualidad","contigo_dentro": "sexualidad","nadie_sabe_nada": "humor","espana": "nacional, españa, noticias, actualidad","economia": "economia","gente": "gente, sociedad","politica": "politica", "deportes": "deportes","television": "television", "tribunales": "tribunales","ciencia": "ciencia, tecnología", "ser_y_estar_bien": "bienestar, salud", "internacional": "internacional, noticias, actualidad","cultura": "cultura", "bazar": "compras, consumo","sociedad": "sociedad","gastro": "gastronomía, alimentación"}		}';
-
-    var tags_json = JSON.parse(tags_asociados);
-    var tags_aplicadas = tags_json.tags_krux[urlsplit];
-
     /* KRX */
+    //jira PRPEPTHOT-206, han pedido quitar pageID pageName authors org
+    //pageID: id_noticia,pageName: s.pageName,authors: arrayAuthors(),org: s.prop18,
 
     if (OMN_es_noticia)
     {
         DataLayerKrx = {
-            pageID: id_noticia,
-            pageName: s.pageName,
             pageTitle: s.prop45,
             destinationURL: document.location.href,
             referringURL: document.referrer,
             tags: arrayTags(),
-            authors: arrayAuthors(),
             language: document.documentElement.lang ? document.documentElement.lang : "es",
             publisher: s.prop19,
             geoRegion: s.prop14,
             domain: s.prop20,
+            source: "web",
             businessUnit: s.prop30,
             thematic: "",
-            org: s.prop18,
             primaryCategory: s.channel,
             subCategory1: typeof(subseccion_omniture) != "undefined" ? subseccion_omniture : "" ,
             pageType: s.prop3,
@@ -1433,29 +1333,6 @@ if (typeof(marcado_omniture_particular) == "undefined")
             profileID: (typeof(s.prop34) != "undefined" ? s.prop34 : ""),
             registeredUser: (s.prop62 == "logueado" ? "1": "0"),
             creationDate: (typeof(s.prop44) != "undefined" ? s.prop44.replace(/\//g,"") : "")
-        }
-    }else if(s.channel != "home"){
-        // lalamillo === añadimos Krux portadilla/tags...
-        DataLayerKrx = {
-            pageTitle: s.prop45,
-            destinationURL: document.location.href,
-            referringURL: document.referrer,
-            tags: tags_aplicadas,
-            language: document.documentElement.lang ? document.documentElement.lang : "es",
-            publisher: s.prop19,
-            geoRegion: s.prop14,
-            domain: s.prop20,
-            businessUnit: s.prop30,
-            thematic: "",
-            adblocker: "",
-            primaryCategory: s.channel,
-            subCategory1: typeof(subseccion_omniture) != "undefined" ? subseccion_omniture : "" ,
-            pageType: prop4_tipo_pagina,
-            edition: "es",
-            profileID: (typeof(s.prop34) != "undefined" ? s.prop34 : ""),
-            registeredUser: (s.prop62 == "logueado" ? "1": "0"),
-            creationDate: (typeof(s.prop44) != "undefined" ? s.prop44.replace(/\//g,"") : ""),
-            source: canal_omniture
         }
     }
 
@@ -1500,8 +1377,8 @@ else
 var s_code;
 
 if(imIframe()==true){//if this is iframe then change url
-    if(document.referrer.indexOf("cadenaser.com") > -1){
-        var arrayURL= document.referrer.split("cadenaser.com");
+    if(document.referrer.indexOf("wradio.com.mx") > -1){
+        var arrayURL= document.referrer.split("wradio.com.mx");
         s.pageName= s.siteID + arrayURL[1];
         s.pageURL= document.referrer;
     }
@@ -1512,10 +1389,10 @@ if(imIframe()==true){//if this is iframe then change url
     omn_propToEvarsAssignment();
 }
 
-
-
-if (marcado_automatico){
-    if (typeof(retrasa_marcado) == "boolean" && retrasa_marcado){
+if (marcado_automatico)
+{
+    if (typeof(retrasa_marcado) == "boolean" && retrasa_marcado)
+    {
         OMNaddEvent(window, 'load', function(){
             if (channel_omniture == "buscador")
             {
@@ -1612,6 +1489,7 @@ if (parametros.indexOf("event=") > -1 || parametros.indexOf("event_log=") >-1)
                 break;
         }
 
+
         if (evar37_omniture != ""){
 
             var evars = ['18','19'];
@@ -1678,352 +1556,6 @@ function arrayAuthors(){
     return salida;
 }
 
-//Insercion pixel netquest
-getCookie = function(name){
-    var begin, end;
-    var dc = document.cookie;
-    var r = (begin = dc.indexOf(name + '=')) != -1 ? ((end = dc.indexOf(';', begin)) != -1 ? dc.substring(begin + name.length + 1, end) : dc.substring(begin + name.length + 1)) : null;
-    return r;
-}
-marcaNetQuest = function (PEPuid, fid)
-{
-
-    if (typeof(PEPuid) == "undefined") PEPuid = "";
-    if (typeof(fid) == "undefined") fid = "";
-
-    var url_netquest =  "https://mpc.nicequest.com/mpc/ConsumerServlet?p=GPRSES_116713&id="+ encodeURIComponent(PEPuid)
-        +"*"+ encodeURIComponent(fid) +"&url=" + encodeURIComponent(location.href) + "&rnd="
-        + String(Math.random()).substr(2,9);
-
-    var pxlNQ = new Image(1,1);
-    pxlNQ.src = url_netquest;
-}
-
-// se obtiene el identificador ot (cookie s_fid o s.fid
-var fid = getCookie("s_fid");
-var id_ntqst = (typeof(PEPuid) != "undefined")? PEPuid : '';
-if(fid == null)
-{
-    // se obtiene del s_code el valor de la variable s.fid
-    setTimeout(function(){marcaNetQuest(id_ntqst,s.fid)},1000);
-}
-else
-{
-    // si existe la cookie s_fid
-    marcaNetQuest(id_ntqst,fid);
-}
-
-/***** Functions for reload page************/
-function omn_launchScroll(){
-
-    s.eVar3="D=pageName";        // PageName
-    s.eVar4="D=ch";                // Channel
-    s.prop8 = s.getTimeParting('d', gmt);
-    s.prop9 = s.getTimeParting('w', gmt);
-    s.prop21 = s.getNewRepeat();
-    s.prop24 = hours + ":" + minutes + ":" + seconds;
-    s.prop35 = s.getTimeParting('h', gmt);
-    s.prop33 = s.getVisitNum();
-    s.prop36 = s.getTimeParting('d', gmt) + "-" + day + "/" + month + "/" + fecha.getFullYear() + "-" + s.prop24;
-    s.prop60 = s.getDaysSinceLastVisit('s_lv');
-    s.prop73= numVersion;
-
-    s.prop65 = "sin scroll";
-    if(scroll_i==true){
-        s.prop65 = "scroll";
-    }
-
-    s.events = "event2"; //por defecto el evento de pagina vista
-    //s.prop45 = cadena_titulo;
-    s.prop45 = document.title;
-
-    var regexpNoticia = /http.?:\/\/([^\/]*)\/([^\/]*)\/(\d+)\/(\d+)\/(\d+)\/([^\/]*)\/(.*)\.html/i;
-    var regexpSeccionVirtual = /http.?:\/\/([^\/]*)\/(seccion|programa|emisora)\/([^\/]*)/i;
-    var regexpSubSeccionVirtual = /http.?:\/\/([^\/]*)\/(seccion|programa|emisora)\/([^\/]*)\/([^\/]*)/i;
-    var regexpficha_parrilla = /http.?:\/\/([^\/]*)\/([^\/]*)\/[fp]\/([^\/]*)/i;
-    var regexpPortadilla = /http.?:\/\/([^\/]*)\/([^\/]*)\/(.*)/i;
-    var regexpPortada = /http.?:\/\/([^\/]*)\/?(.*)/i;
-    var regexpMovil = /(http.?:\/\/[^\/]*)\/m\/(.*)/i;
-    var regexpEspeciales = /http.?:\/\/[^\/]*\/especiales\/([^\/]*)\/([^\/]*)\/(\d{4})\/([^\/]*)\//i;
-    var regexpEspecialesGenericos = /http.?:\/\/[^\/]*\/especiales\/ser\/(\d{4})\/([^\/]*)\//i;
-
-
-    var result_re;
-    var result_re2;
-    var result_re3;
-    var result_re4;
-    var result_re5;
-    var result_re6;
-    var result_re7;
-
-    var canal_omniture = "web";
-    var direccion = document.location.href;
-
-    result_re = regexpMovil.exec(direccion);
-    if (result_re)   //version movil lo registramos y la ajustamos a una url no movil
-    {
-        canal_omniture = "web_movil";
-        direccion = result_re[1] + "/" + result_re[2];
-    }
-
-    var dominio_omniture = "cadenaser.com";
-    var subseccion_omniture = "subseccion";
-    var subseccion_virtual = "";
-    var channel_omniture = "channel";
-    var prop1_omniture = "";
-    var prop3_omniture = "";
-    var prop2_tipo_contenido = "portal";
-    var prop4_tipo_pagina = "";
-    var prop11_especial = "";
-    var prop13_omniture = "cadenaser";
-    var prop75_omniture = "no brand";
-
-    //por defecto
-    s.pageName = s.siteID + location.pathname;
-
-
-    //tipo contenio
-    if (direccion.indexOf(/emisora/) > -1 || direccion.indexOf(/emisoras/) > -1)
-        prop2_tipo_contenido = "emisora";
-    else
-    if (direccion.indexOf(/programa/) > -1 || direccion.indexOf(/programas/) > -1)
-        prop2_tipo_contenido = "programa";
-    // si no portal
-
-    //miramos si es noticia
-    result_re = regexpNoticia.exec(direccion);
-    if (result_re )
-    {
-        OMN_es_noticia = true;
-        channel_omniture = result_re[2];
-        subseccion_omniture = result_re[6];
-
-        //id_noticia
-        id_noticia = result_re[2] + "_" + result_re[3] + result_re[4] + result_re[5] + "_" + result_re[6] + "_" + result_re[7];
-
-
-        if (typeof(listado_id_tags) != "undefined" )
-        {
-            tagsNoticia = listado_id_tags.replace(/,/g, ";");
-            s.list1 = tagsNoticia;
-        }
-
-        if (typeof(listado_id_autores) != "undefined")
-        {
-            tagsAutores = listado_id_autores.replace(/,/g, ";");
-            s.list2 = tagsAutores;
-        }
-
-        prop4_tipo_pagina = "detalle";
-        prop3_omniture = "articulo";
-
-        if ((subseccion_omniture == 'audios' || subseccion_omniture == 'videos' || subseccion_omniture.indexOf("album") > -1 || subseccion_omniture == "fotorrelato") && typeof(subseccion_publi) != "undefined")
-        {
-            if (subseccion_omniture.indexOf("album") > -1 || subseccion_omniture == "fotorrelato")
-            {
-                prop3_omniture = "fotogaleria";
-            }
-            if (subseccion_publi)
-                subseccion_omniture = subseccion_publi;
-            else
-                subseccion_omniture = "albumes";
-        }
-
-        s.prop44 = result_re[3] + "/" + result_re[4] + "/" + result_re[5];
-
-        s.events += ',event77';
-        omn_cleanTitle();
-        s.prop39 = cadena_titulo_limpio;
-
-
-        //desencadena el evento onload
-        marcar_otros_elementos = true;
-
-        //Indicamos los ids de los botones de compartir
-        ids_tracking.push({"id":"fb","tipo":"compartir","marca":"facebook"});
-        ids_tracking.push({"id":"fbnum","tipo":"compartir","marca":"facebook"});
-        ids_tracking.push({"id":"twit","tipo":"compartir","marca":"twitter"});
-        //ids_tracking.push({"id":"tnum","tipo":"compartir","marca":"twitter"});
-        ids_tracking.push({"id":"bomn_gp","tipo":"compartir","marca":"google"});
-        ids_tracking.push({"id":"bomn_imprimir","tipo":"compartir","marca":"imprimir"});
-        ids_tracking.push({"id":"enviar","tipo":"compartir","marca":"enviar"});
-        ids_tracking.push({"id":"bomn_linkedin","tipo":"compartir","marca":"linkedin"});
-        ids_tracking.push({"id":"bomn_whatsapp","tipo":"compartir","marca":"whatasapp"});
-        ids_tracking.push({"id":"bomn_pinterest","tipo":"compartir","marca":"pinterest"});
-        ids_tracking.push({"id":"msg_fb","tipo":"compartir","marca":"facebook-messenger"});
-
-        ids_tracking.push({"id":"valoracion_0","tipo":"valoraciones","marca":"interesante"});
-        ids_tracking.push({"id":"valoracion_1","tipo":"valoraciones","marca":"indignante"});
-        ids_tracking.push({"id":"valoracion_2","tipo":"valoraciones","marca":"divertida"});
-        ids_tracking.push({"id":"valoracion_3","tipo":"valoraciones","marca":"polémica"});
-        ids_tracking.push({"id":"valoracion_4","tipo":"valoraciones","marca":"sorprendente"});
-        ids_tracking.push({"id":"valoracion_5","tipo":"valoraciones","marca":"aburrida"});
-
-    }
-
-    switch (channel_omniture)
-    {
-        case "emisora":
-            if (circuitos_regionales[subseccion_omniture])
-            {
-                prop13_omniture = subseccion_omniture;
-                prop1_omniture = subseccion_omniture  + ":" +  circuitos_regionales[subseccion_omniture];
-            }
-            else
-            {
-                prop13_omniture = subseccion_omniture; //nombre de la emisora
-            }
-
-            break;
-
-        case "programa":
-            if (subseccion_virtual)
-            {
-                prop13_omniture = subseccion_omniture;
-                prop1_omniture = prop13_omniture + ":" + subseccion_virtual;
-            }
-            else
-                prop13_omniture = subseccion_omniture;
-
-            if (typeof(niveles_publi) != "undefined" && typeof(niveles_publi[0]) != "undefined")
-            {
-                if (niveles_publi[0] &&  niveles_publi[0] == channel_omniture)
-                    if (niveles_publi[1] && niveles_publi[1] == subseccion_omniture)
-                        if (niveles_publi[2])
-                            prop1_omniture = subseccion_omniture + ":" +niveles_publi[2];
-            }
-            break;
-
-        case "estaticos":
-            if (typeof(prop1_forzado) != 'undefined') {
-                prop1_omniture = prop1_forzado;
-            }
-            if (typeof(prop13_forzado) != 'undefined') {
-                prop13_omniture = prop13_forzado;
-            }
-            break;
-
-        default:
-            prop13_omniture = "cadenaser";
-            if (channel_omniture == "ser" && subseccion_omniture != "")
-                channel_omniture = subseccion_omniture;
-            break;
-    }
-
-
-    if (prop13_omniture == "cadena_ser")
-        prop13_omniture = "cadenaser";
-
-    s.channel = channel_omniture;
-
-    if (prop1_omniture != "")
-        s.prop1 = prop1_omniture;
-    s.prop2 = prop2_tipo_contenido;
-    s.prop3 = prop3_omniture;
-    s.prop4 = prop4_tipo_pagina;
-    s.prop5 = "D=g";
-    s.prop6 = "D=r";
-    s.prop7 = "";
-    s.prop8 = s.getTimeParting('d',gmt);         // Set day  (Jueves)
-    s.prop9 = s.getTimeParting('w', gmt);        // Set weekday (laborable/festivo)
-    s.prop11 = prop11_especial;
-    s.prop12 = "";
-    s.prop13 = prop13_omniture;
-    s.prop14 = "españa";                     // Pais del medio
-    s.prop15 = "españa";
-    s.prop17 = canal_omniture;                // Canal
-    s.prop18 = "prisa";                         // Organizacion
-    s.prop19 = "cadenaser";                      // Producto
-    s.prop20 = dominio_omniture;               // Dominio
-    s.prop21 = s.getNewRepeat();                   // Usuario Nuevo o recurrente
-    s.prop22 = "convencional";
-    s.prop24 = hours+":"+minutes+":"+seconds;     // Set hour:minutes:seconds (12:32:48)
-    s.prop30 = "radio";                      // Unidad de Negocio
-    s.prop35 = s.getTimeParting('h', gmt);       // Set hour (12:00PM)
-
-    if (typeof(PEPuid) != "undefined")
-        s.prop34 = PEPuid;
-    s.prop36 = s.getTimeParting('d', gmt)+"-"+day+"/"+month+"/"+fecha.getFullYear()+"-"+s.prop24;  // Join Date (Jueves-15/9/2012-12:32:48)
-    s.prop57 = "";
-
-    s.prop60 = s.getDaysSinceLastVisit('s_lv');    // Dias última visita
-    if (typeof(PEPuname) != "undefined")
-        s.prop62 = "logueado";
-    else
-        s.prop62 = "anonimo";
-
-    s.prop75 = prop75_omniture;
-    //s.prop75= "pixel prueba el tucu";
-    /*
-    Jerarquias
-    */
-    s.hier1 = 'D=c18+">"+c19+">"+c20+">"+ch+">"pageName';
-
-
-    var url = window.location.pathname;
-    var tipo_tags = "";
-    if (url.indexOf("programa") !== -1){
-        tipo_tags = "programa";
-    }else if(url.indexOf("emisora") !== -1){
-        tipo_tags = "emisora";
-    }else if (url.indexOf("seccion") !== -1){
-        tipo_tags = "seccion";
-    }
-    console.log(url);
-    var urlsplit = url.split("/").slice(-2)[0];
-    console.log(urlsplit);
-
-    var tags_json = "";
-
-    var tags_asociados = '{"tags_krux": {"hoy_por_hoy": "actualidad, informativos","oh_my_lol": "humor","carrusel_deportivo": "deportes","la_ventana": "actualidad","hora_25": "actualidad","hablar_por_hablar": "actualidad","el_larguero": "deportes","a_vivir_que_son_dos_dias": "actualidad","contigo_dentro": "sexualidad","nadie_sabe_nada": "humor","espana": "nacional, españa, noticias, actualidad","economia": "economia","gente": "gente, sociedad","politica": "politica", "deportes": "deportes","television": "television", "tribunales": "tribunales","ciencia": "ciencia, tecnología", "ser_y_estar_bien": "bienestar, salud", "internacional": "internacional, noticias, actualidad","cultura": "cultura", "bazar": "compras, consumo","sociedad": "sociedad","gastro": "gastronomía, alimentación"}    }';
-
-    var tags_json = JSON.parse(tags_asociados);
-    var tags_aplicadas = tags_json.tags_krux[urlsplit];
-
-    /* KRX */
-
-    if (OMN_es_noticia) {
-        DataLayerKrx = {
-            pageID: id_noticia,
-            pageName: s.pageName,
-            pageTitle: s.prop45,
-            destinationURL: document.location.href,
-            referringURL: document.referrer,
-            tags: arrayTags(),
-            authors: arrayAuthors(),
-            language: document.documentElement.lang ? document.documentElement.lang : "es",
-            publisher: s.prop19,
-            geoRegion: s.prop14,
-            domain: s.prop20,
-            businessUnit: s.prop30,
-            thematic: "",
-            org: s.prop18,
-            primaryCategory: s.channel,
-            subCategory1: typeof(subseccion_omniture) != "undefined" ? subseccion_omniture : "",
-            pageType: s.prop3,
-            edition: "es",
-            profileID: (typeof(s.prop34) != "undefined" ? s.prop34 : ""),
-            registeredUser: (s.prop62 == "logueado" ? "1" : "0"),
-            creationDate: (typeof(s.prop44) != "undefined" ? s.prop44.replace(/\//g, "") : "")
-        }
-    }
-
-    if (s_getLoadTime()){
-        s.events += ",event90=" + s_getLoadTime();
-    }
-
-    if(scroll_i==true){//if is new page then scroll_i = true
-        s.t();
-    }
-}
-
-function omn_cleanTitle(){
-    cadena_titulo_limpio= "";
-    var meta_og_title = document.querySelector('meta[property="og:title"]');
-    cadena_titulo_limpio = (meta_og_title) ? meta_og_title.getAttribute('content').replace(/'|"|\|/g, "") : "";
-    cadena_titulo_limpio = cadena_titulo_limpio.toLowerCase();
-}
-
 function imIframe(){
     try {
         return window.self !== window.top;
@@ -2076,7 +1608,6 @@ function omn_propToEvarsAssignment(){
     if(typeof(s.prop19)!='undefined'){s.eVar19= s.prop19;}
     if(typeof(s.prop73)!='undefined'){s.eVar73= s.prop73;}
 }
-console.log("dtm: local");
 
 var dtm_version= "s_code version" + numVersion;
 if(typeof tucu !== 'undefined'){

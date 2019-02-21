@@ -2,12 +2,13 @@
 var arrayAmp= new Array();
 getValuesAmp();
 var hostn=location.hostname;
-if(typeof arrayAmp !== 'undefined') {
-    if (arrayAmp['amp'] == "true") {
-        hostn= arrayAmp["source_host"];
-    }
+if(imAMP()){
+    hostn= arrayAmp["source_host"];
 }
 //end code for AMP//
+
+var numVersion= "1.0.8";
+var dtm_version= "dtm version " + numVersion;
 
 /* Function to get RSIDs from UI */
 function getAnalyticsAccount(){
@@ -51,9 +52,9 @@ var zone="america";
 var product="wradioco";
 
 if(/mx/.test(hostn) || /wdeportes.com/.test(hostn)){				//Mexico
-    var country="mexico";
-    var zone="america";
-    var product="wradiomx";
+    country="mexico";
+    zone="america";
+    product="wradiomx";
 }
 
 /******** VISITOR ID SERVICE CONFIG - REQUIRES VisitorAPI.js ********/
@@ -63,7 +64,7 @@ if(/mx/.test(hostn) || /wdeportes.com/.test(hostn)){				//Mexico
 s.debugTracking=false
 
 /* You may add or alter any code config here. */
-s.charSet="UTF-8"
+s.charSet="UTF-8";
 
 s.server = location.host;
 var arraySite = s.server.split(".");
@@ -127,6 +128,131 @@ s.dstStart="1/1/"+anoActual; 			// update to the correct Daylight Savings Time s
 s.dstEnd="12/31/"+anoActual; 			// update to the correct Daylight Savings Time end date
 s.currentYear=anoActual; 				// update to the current year
 
+/***** Functions ************/
+function omn_asyncPV(){
+
+    s.account = getAnalyticsAccount();
+    s.accountF = getAnalyticsAccountF();
+
+    s.channel = section;
+    s.pageName= s.siteID + location.pathname;														// Get Path Name (On)
+    s.pageURL= location.href;
+    s.referrer = _satellite.previousURL;
+
+    // EW
+    if(section=="widget"){
+        try {
+            parentDomain = (window.location != window.parent.location) ? document.referrer: document.location;
+        }
+        catch(err) {
+            console.log( "Error: " + err + ".");
+        }
+        s.account = "prisacommultidistribucionunionradio";
+        s.accountF = "prisacommultidistribucionunionradio";
+        s.pageName=parentDomain;
+        pageName=parentDomain;
+
+        if(/wradio.com./.test(parentDomain)){
+            s.abort = true;
+        }
+    }
+
+    s.prop3=type;																												// Type Content
+    s.prop5="D=g";							  																			// URL
+    s.prop6="D=r";									   																	// Referrer
+    s.prop8=s.getTimeParting('d',gmt); 																	// Set day  (Jueves)
+    s.prop9=s.getTimeParting('w', gmt);																	// Set weekday (laborable/festivo)
+    s.prop13=brand;											    														// Brand
+    s.prop14=country;											    													// Country
+    s.prop15=zone;  																							 			// Zone (Region) : RADIO
+    s.prop17="web";																											// Canal
+    s.prop18="prisa";																										// Organization
+    s.prop19=product;																									// Product
+    s.prop20=location.hostname.replace(/www./gi,"");										// Domain	| Subdomain
+    s.prop21=s.getNewRepeat();   																				// User New / Repeat
+    s.prop22="convencional";																						// Format : RADIO
+    s.prop24=hours+":"+minutes+":"+seconds;															// Set hh:mm:ss (12:32:48)
+    s.prop29='D=c15+":"+c14+":"+c19+":"+c22+":"+c17+":"+c20';						// Combine Segmentation : RADIO
+    s.prop30="radio";																										// Business Unit
+    s.prop31="informacion"; 																						// Temathic
+    s.prop33=s.getVisitNum();																						// Visit Number By Month
+    s.prop35=hours;																											// Set hour (12)
+    s.prop36=s.getTimeParting('d', gmt)+"-"+day+"/"+month+"/"+fecha.getFullYear()+"-"+s.prop24;		// Join Date (Jueves-15/9/2012-12:32:48)
+    s.prop39=title; 																										// Title
+    s.prop44=s.getTimeParting('h', gmt);				 												// Set hour (12:00PM)
+    s.prop44=document.title;				 																		// Title SEO
+    s.prop60=s.getDaysSinceLastVisit('s_lv');         									// Days Since Last Visit
+    s.prop62=status;																										// Log in / Anonymous
+    s.prop73= dtm_version;
+
+    if(subsection != '' ){
+        s.prop1 = section + '>' + subsection;
+    }else{
+        s.prop1 = '';
+    }
+    if(subsubsection != ''){
+        s.prop2= s.prop1 + '>' +subsubsection;
+    }else{
+        s.prop2 = '';
+    }
+
+    /* Hierarchy GROUP  */
+    s.hier1='D=c18+">"+c19+">"+c20+">"';
+
+    if(s.prop2!=''){
+        s.hier1 +='c2+">"';
+    }else if(s.prop1!=''){
+        s.hier1 +='c1+">"';
+    }else{
+        s.hier1 +='ch+">"';
+    }
+    s.hier1 +='pageName';
+
+    if(s.ab_enabled){
+        s.prop57 = 'D="con_ADBLOCK-"+User-Agent';
+        s.eVar57 = 'D="con_ADBLOCK-"+User-Agent';
+    }else{
+        s.prop57 = 'D="sin_ADBLOCK-"+User-Agent';
+        s.eVar57 = 'D="sin_ADBLOCK-"+User-Agent';
+    }
+
+    s.t();
+
+    _satellite.previousURL = location.href;
+}
+function omn_adblocker(){
+    s.account = getAnalyticsAccount();
+    s.accountF = getAnalyticsAccountF();
+    window.s.ab_enabled = false;
+    //Se supone la existencia de body, si no es asi salimos
+    if (!window.document.body)
+        return;
+
+    var baitClass = 'pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads text-ads text-ad-links',
+        baitStyle = 'width: 1px !important; height: 1px !important; position: absolute !important; left: -1000px !important; top: -1000px !important;',
+        bait = document.createElement('div');
+
+    bait.setAttribute('class', baitClass);
+    bait.setAttribute('style', baitStyle);
+
+    window.document.body.insertBefore(bait, window.document.body.childNodes[0]);
+
+    window.setTimeout(function() {
+        s.ab_enabled = (window.document.body.getAttribute('abp') !== null
+            || bait.offsetParent === null
+            || bait.offsetHeight == 0
+            || bait.offsetLeft == 0
+            || bait.offsetTop == 0
+            || bait.offsetWidth == 0
+            || bait.clientHeight == 0
+            || bait.clientWidth == 0);
+
+        window.document.body.removeChild(bait);
+
+    }, 500);
+
+}
+
 /* variables undefined asign empty value */
 if (typeof(pageName) == 'undefined') pageName='';
 if (typeof(section) == 'undefined') section='';
@@ -178,7 +304,7 @@ s.doPlugins=function(s) {
     pageName=s.pageName;
 
 // EW
-    if(section=="widget"){
+    if((section=="widget" || imIframe()==true)&&(!imAMP())){
         try {
             parentDomain = (window.location != window.parent.location) ? document.referrer: document.location;
         }
@@ -221,9 +347,9 @@ s.doPlugins=function(s) {
     s.prop44=document.title;				 																		// Title SEO
     s.prop60=s.getDaysSinceLastVisit('s_lv');         									// Days Since Last Visit
     s.prop62=status;																										// Log in / Anonymous
+    s.prop73= dtm_version;
 
-    if(typeof arrayAmp !== 'undefined') {
-        if (arrayAmp['amp'] == "true") {
+    if(imAMP()){ //if amp then
             omn_cleanTitleAMP();
             //re-write some props for AMP
             s.prop3= "articulo";
@@ -236,9 +362,7 @@ s.doPlugins=function(s) {
             //s.pageName= omn_renameDomain (arrayAmp["server"]) +omn_cleanUrl(arrayAmp["pageURL"]).replace(/http.?:\/\/[^\/]*/, "");
             s.server= omn_deleteWWW(arrayAmp["server"]);
             s.referrer= omn_cleanUrl(arrayAmp["ref"]);
-        }
     }
-
     /* Conversion variables*/
 
     s.eVar3="D=pageName"  															// pageName
@@ -271,6 +395,7 @@ s.doPlugins=function(s) {
     if(s.prop44)s.eVar44="D=c44"												// Set hour (12:00PM)
     if(s.prop60)s.eVar60="D=c60"												// Days Since Last Visit
     if(s.prop62)s.eVar22="D=c62"												// Log In/ Anonymous
+    if(s.prop73)s.eVar73="D=c73"
 
 // Global Variables
     pageName=s.pageName;
@@ -533,6 +658,10 @@ function s_gi(a){var k,q=window.s_c_il,r,n,t=a.split(","),u,s,x=0;if(q)for(r=0;!
 function s_pgicq(){var a=window,k=a.s_giq,q,r,n;if(k)for(q=0;q<k.length;q++)r=k[q],n=s_gi(r.oun),n.setAccount(r.un),n.setTagContainer(r.tagContainerName);a.s_giq=0}s_pgicq();
 
 ////////////////////////////////////FUNCTIONS FOR AMP///////////////////////////////////////////////////////////
+function IamAMP(){
+
+}
+
 function getParamsUrl(){
     // capturamos la url
     var loc = location.href;
@@ -633,15 +762,34 @@ function omn_renameDomain(domain){
     }
     return domain;
 }
+function imAMP(){
+    var flag= false;
+    if(typeof arrayAmp !== 'undefined') {
+        if (arrayAmp['amp'] == "true") {
+            flag= true;
+        }
+    }
+    return flag;
+}
 ////////////////////////////////////////END FUNCTIONS AMPS//////////////////////////////////////////////////////
 
-var dtm_version= "dtm version 1.0.2";
+function imIframe(){
+    try {
+        return window.self !== window.top;
+    } catch (e) {
+        return true;
+    }
+}
+
 if(typeof tucu !== 'undefined'){
     if(typeof tucu.dev !== 'undefined'){
         if(tucu.dev == true){
             console.log("/////////////////////DTM////////////////////////////");
             console.log(dtm_version);
             console.log("feature: Added code for AMP");
+            console.log("feature: fixed widget");
+            console.log("Added getAnalyticsAccount() in function adBlocker()");
+            console.log("fixed issue with amp");
             console.log("////////////////////////////////////////////////////");
         }
         else{
