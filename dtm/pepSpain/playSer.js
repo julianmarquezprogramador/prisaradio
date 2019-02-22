@@ -812,7 +812,6 @@ function omn_makeRegionalCircuit(){
 //     return CIDs;
 // }
 function omn_trackEventRadio(eventName, data) {
-
     var map={
         "events":{
             "mediaBegin": "event11",
@@ -877,7 +876,7 @@ function omn_trackEventRadio(eventName, data) {
     s.eVar57= s.prop57;
     s.eVar60=s.getDaysSinceLastVisit('s_lv'); // Days Since Last Visit
     s.eVar66=s.getTimeParting('w', gmt); // Set weekday (laborable/festivo)
-    s.eVar67= data["data.Enabled"];
+    s.eVar67= data["data.adEnabled"];
     s.eVar70= data["data.mediaTypeMode"];
     s.eVar73= numVersion;
     s.eVar74= data["data.progressTime"];
