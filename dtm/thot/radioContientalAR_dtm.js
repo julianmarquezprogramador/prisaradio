@@ -7,7 +7,7 @@ if(imAMP()){ //if amp then
 }
 //end AMP code//
 
-var numVersion= "1.0.1";
+var numVersion= "1.0.2";
 var dtm_version= "dtm version " + numVersion;
 
 /* Function to get RSIDs from UI */
