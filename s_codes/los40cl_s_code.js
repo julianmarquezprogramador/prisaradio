@@ -250,13 +250,11 @@ function launchAjaxOMN(eVars,eVars_value,evento,listado_tags, autores){
 
 
     //listado_autores_id los de la noticia, autores los del servicio
-    if (typeof(autores) != "undefined" || (typeof (tagsAutores) != "undefined" && tagsAutores != ""))
-    {
+    if (typeof(autores) != "undefined" || (typeof (tagsAutores) != "undefined" && tagsAutores != "")){
         s.linkTrackVars += ",list2";
         //tiene el formato id1;id2;id3
         s.list2 = (typeof(autores) != "undefined") ? autores.replace(/,/g, ";") : tagsAutores.replace(/,/g, ";");
     }
-
 
     switch(evento) {
         case "event11": case "event12": case "event13": case "event14":
@@ -266,13 +264,23 @@ function launchAjaxOMN(eVars,eVars_value,evento,listado_tags, autores){
         AeVars.push('30');
         AeVars_value.push(s.prop30);
 
-        if (AeVars_value[0] == "audio")
-        {
-            if (evento == "event11")
-                evento = "event11,event16";
+        if (AeVars_value[0] == "audio"){
+            if (evento == "event16"){
+                evento = "event16";//,event16";
+            }
             else
-            if (evento == "event12")
-                evento = "event12,event17";
+            if (evento == "event12"){//fin de audio
+                evento = "event17";
+            }
+        }
+        if (AeVars_value[0] == "video"){
+            if (evento == "event11" || evento=="event16"){
+                evento = "event11";
+            }
+            else
+            if (evento == "event12" || evento=="event17"){//fin de video
+                evento = "event12";
+            }
         }
         break;
 
