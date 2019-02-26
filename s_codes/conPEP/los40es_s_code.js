@@ -3,8 +3,9 @@ Copyright 1996-2014 Adobe, Inc. All Rights Reserved
 More info available at http://www.omniture.com */
 
 var useSSL = document.location.protocol == 'https:';
-var numVersion= "1.0.0";
-var dtm_version= "s_code version " + numVersion;
+var numVersion= "1.0.1";
+var dtmVersion= "s_code " + numVersion;
+var product= "los40";
 //Videometrix
 
 var id_comscore = '8671776'; //Client ID
@@ -233,7 +234,11 @@ function launch(eVars,eVars_value,evento){
 function launchAjaxOMN(eVars,eVars_value,evento,listado_tags, autores){
     s.usePlugins = false;
     //Casi todos los eventos en nuestra cuenta
-    s.account = 'prisacomureslos40,prisacomglobal';
+    //s.account = 'prisacomureslos40,prisacomglobal';
+    s=s_gi(s.account);
+    //add eVar19
+    eVars= eVars + "|19";
+    eVars_value= eVars_value + "|" + product;
 
     var AeVars = eVars.split("|");
     var AeVars_value = eVars_value.toLowerCase().split("|");
@@ -262,23 +267,32 @@ function launchAjaxOMN(eVars,eVars_value,evento,listado_tags, autores){
     switch(evento) {
         case "event11": case "event12": case "event13": case "event14":
         //Eventos que se registran en la global
-        s.account = 'prisacomureslos40,prisacomglobal';
+        //s.account = 'prisacomureslos40,prisacomglobal';
 
         AeVars.push('30');
         AeVars_value.push(s.prop30);
 
-        if (AeVars_value[0] == "audio")
-        {
-            if (evento == "event11")
-                evento = "event11,event16";
+        if (AeVars_value[0] == "audio"){
+            if (evento == "event16"){
+                evento = "event16";//,event16";
+            }
             else
-            if (evento == "event12")
-                evento = "event12,event17";
+            if (evento == "event12"){//fin de audio
+                evento = "event17";
+            }
+        }
+        if (AeVars_value[0] == "video"){
+            if (evento == "event11" || evento=="event16"){
+                evento = "event11";
+            }
+            else
+            if (evento == "event12" || evento=="event17"){//fin de video
+                evento = "event12";
+            }
         }
         break;
 
         default :
-
             break;
     }
 
@@ -1381,7 +1395,6 @@ if (marcado_automatico)
     }
 }
 function omn_trackEventRadio(eventName, data) {
-
     var map={
         "events":{
             "mediaBegin": "event11",
@@ -1389,7 +1402,6 @@ function omn_trackEventRadio(eventName, data) {
             "adStart": "event13",
             "adComplete": "event14",
             "adSkip": "event15",
-            "mediaComplete": "event12",
             "button": "event33",
             "rrss": "event69",
             "mediaHalf": "event79"
@@ -1425,7 +1437,7 @@ function omn_trackEventRadio(eventName, data) {
     }
     s.eVar17="web";
     s.eVar18="prisa"; // Organization
-    s.eVar19="los40"; // Product
+    s.eVar19= product; // Product
     s.eVar20=document.domain.replace(/www./gi,""); // Domain|Subdomain
     s.eVar21=s.getNewRepeat(); // User New / Repeat
     if (typeof(PEPuname) != "undefined") {
@@ -1451,7 +1463,7 @@ function omn_trackEventRadio(eventName, data) {
     s.eVar66=s.getTimeParting('w', gmt); // Set weekday (laborable/festivo)
     s.eVar67= data["data.adEnabled"];
     s.eVar70= data["data.mediaTypeMode"];
-    s.eVar73= numVersion;
+    s.eVar73= dtmVersion;
     s.eVar74= data["data.progressTime"];
     s.eVar81= data["data.emisora"];
     s.eVar84= data["data.extraccion"];
@@ -1597,7 +1609,7 @@ function externalPlayerOMN(player,accion,reproduccion,canalVideo,cancion,artista
 
     s.eVar18="prisa";															// Organizacion
 
-    s.eVar19="los40principales";												// Producto
+    s.eVar19=product;												// Producto
 
     s.eVar20="los40.com";   													// Dominio
 
@@ -1705,16 +1717,16 @@ if(typeof tucu !== 'undefined'){
     if(typeof tucu.dev !== 'undefined'){
         if(tucu.dev == true){
             console.log("/////////////////////DTM////////////////////////////");
-            console.log(dtm_version);
+            console.log(dtmVersion);
             console.log("feature: obtein topPlayer data and send pixel to omniture");
             console.log("////////////////////////////////////////////////////");
         }
         else{
-            console.log(dtm_version);
+            console.log(dtmVersion);
         }
     }
 }
 
 else{
-    console.log(dtm_version);
+    console.log(dtmVersion);
 }

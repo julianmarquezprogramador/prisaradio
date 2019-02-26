@@ -13,6 +13,11 @@ var c3_comscore = escape("Prisa Musica");
 var c4_comscore = escape("40 Principales Sites");
 var c6_comscore = escape("los40.co.cr");
 
+var product= "los40cr";
+var numVersion= "1.0.0";
+var dtmVersion= "s_code "+ numVersion;
+
+
 var myStreamingTag = null;
 loadScript('//ep00.epimg.net/js/comun/streamsense.js', function(){
     //veremos si hacemos algo
@@ -206,7 +211,7 @@ function launch(eVars,eVars_value,evento){
     s.eVar3=s.siteID + location.pathname; // pageName
     s.eVar4= s.channel; // channel
     s.eVar18="prisa"; // Organization
-    s.eVar19="los40principales"; // Product
+    s.eVar19=product; // Product
     s.eVar20=document.domain.replace(/www./gi,""); // Domain|Subdomain
     s.eVar21=s.getNewRepeat(); // User New / Repeat
     if (typeof(PEPuname) != "undefined") {
@@ -232,7 +237,11 @@ function launch(eVars,eVars_value,evento){
 function launchAjaxOMN(eVars,eVars_value,evento,listado_tags, autores){
     s.usePlugins = false;
     //Casi todos los eventos en nuestra cuenta
-    s.account = 'prisacomurcrlos40';
+    //s.account = 'prisacomurcrlos40';
+    s=s_gi(s.account);
+    //add eVar19
+    eVars= eVars + "|19";
+    eVars_value= eVars_value + "|los40cr";
 
     var AeVars = eVars.split("|");
     var AeVars_value = eVars_value.toLowerCase().split("|");
@@ -260,24 +269,33 @@ function launchAjaxOMN(eVars,eVars_value,evento,listado_tags, autores){
 
     switch(evento) {
         case "event11": case "event12": case "event13": case "event14":
-        //Eventos que se registran en la global
-        s.account = 'prisacomurcrlos40,prisacomglobal';
+            //Eventos que se registran en la global
+            //s.account = 'prisacomurcrlos40,prisacomglobal';
 
-        AeVars.push('30');
-        AeVars_value.push(s.prop30);
+            AeVars.push('30');
+            AeVars_value.push(s.prop30);
 
-        if (AeVars_value[0] == "audio")
-        {
-            if (evento == "event11")
-                evento = "event11,event16";
-            else
-            if (evento == "event12")
-                evento = "event12,event17";
-        }
-        break;
+            if (AeVars_value[0] == "audio"){
+                if (evento == "event16"){
+                    evento = "event16";//,event16";
+                }
+                else
+                if (evento == "event12"){//fin de audio
+                    evento = "event17";
+                }
+            }
+            if (AeVars_value[0] == "video"){
+                if (evento == "event11" || evento=="event16"){
+                    evento = "event11";
+                }
+                else
+                if (evento == "event12" || evento=="event17"){//fin de video
+                    evento = "event12";
+                }
+            }
+            break;
 
         default :
-
             break;
     }
 
@@ -1580,4 +1598,81 @@ function arrayAuthors(){
 }
 function iradirecto(){
     launch('29','cabecera:ir a directo','event33');
+}
+function omn_trackEventRadio(eventName, data) {
+    var map={
+        "events":{
+            "mediaBegin": "event11",
+            "mediaComplete": "event12",
+            "adStart": "event13",
+            "adComplete": "event14",
+            "adSkip": "event15",
+            "button": "event33",
+            "rrss": "event69",
+            "mediaHalf": "event79"
+        }
+    };
+    if(typeof (data) != "undefined"){
+        if(data["data.mediaTypeMode"]=="audio"){
+            map.events.mediaBegin= "event16";
+            map.events.mediaComplete= "event17";
+            map.events.mediaHalf= "event18";
+        }
+    }
+
+    if (!map.events.hasOwnProperty(eventName)){
+        return false;
+    }
+    s.usePlugins= false;
+    s=s_gi(s.account);
+    s.events = map.events[eventName];
+    s.linkTrackEvents = map.events[eventName];
+    s.linkTrackVars = "eVar2,eVar3,eVar4,eVar5,eVar6,eVar8,eVar12,eVar13,eVar17,eVar18,eVar19,eVar20,eVar21,eVar22,eVar29,eVar30,eVar32,eVar33,eVar35,eVar38,eVar39,eVar42,eVar43,eVar44,eVar45,eVar48,eVar57,eVar60,eVar66,eVar67,eVar70,eVar73,eVar74,eVar80,eVar81,eVar84,list3";
+
+    s.list3= data["data.tagsList"];
+    s.eVar2= data["data.playerName"];
+    s.eVar3=s.siteID + location.pathname; // pageName
+    s.eVar4=s.channel; // channel
+    s.eVar5= s.pageURL;
+    s.eVar6= data["data.tipoContenido"];
+    s.eVar8= data["data.name"];
+    s.eVar13= data["data.programa"] + data["data.emisora"];
+    if(data["data.mediaType"]=="aod"){
+        s.eVar13= s.evar13= data["data.tags"];
+    }
+    s.eVar17="web";
+    s.eVar18="prisa"; // Organization
+    s.eVar19= product; // Product
+    s.eVar20=document.domain.replace(/www./gi,""); // Domain|Subdomain
+    s.eVar21=s.getNewRepeat(); // User New / Repeat
+    if (typeof(PEPuname) != "undefined") {
+        s.eVar22 = "logueado";
+    } else {
+        s.eVar22= "anonimo"; // Logueado / Anonymous
+    }
+    s.eVar30="radio";
+    s.eVar32=s.getVisitNum(); // Visit Number By Month
+    s.eVar33= s.getTimeParting('d', gmt)+"-"+day+"/"+month+"/"+fecha.getFullYear()+"-"+s.prop24;
+    s.eVar35=hours; // Set hour (12);
+    s.eVar38= data["data.idTop"];
+    s.eVar39=document.title; // Title
+    if (typeof(PEPuid) != 'undefined') {
+        s.eVar43=PEPuid; // User Id
+    }
+    s.eVar42= data["data.mediaType"];
+    s.eVar44=s.getTimeParting('h', gmt); // Set hour (12:00PM)
+    s.eVar45=document.title; // Title
+    s.eVar48=s.getTimeParting('d',gmt); // Set day (Jueves)
+    s.eVar57= s.prop57;
+    s.eVar60=s.getDaysSinceLastVisit('s_lv'); // Days Since Last Visit
+    s.eVar66=s.getTimeParting('w', gmt); // Set weekday (laborable/festivo)
+    s.eVar67= data["data.adEnabled"];
+    s.eVar70= data["data.mediaTypeMode"];
+    s.eVar73= dtmVersion;
+    s.eVar74= data["data.progressTime"];
+    s.eVar81= data["data.emisora"];
+    s.eVar84= data["data.extraccion"];
+    s.tl(this,'o',eventName);
+    s.clearVars();
+    s.usePlugins=true;
 }
