@@ -588,6 +588,7 @@ s.doPlugins=function(s) {
     s.prop65 = "sin scroll";
     if(scroll_i == true){
         s.prop65 = "scroll";
+        omn_launchPixelComScore();
     }
 
     if(s.prop1)s.eVar5="D=c1";
@@ -1333,39 +1334,35 @@ else
 }
 
 
-if (marcado_automatico)
-{
+if (marcado_automatico){
     var s_code;
-
-    if (typeof(retrasa_marcado) == "boolean" && retrasa_marcado)
-    {
+    if (typeof(retrasa_marcado) == "boolean" && retrasa_marcado){
         OMNaddEvent(window, 'load', function(){
-            if (channel_omniture == "buscador")
-            {
-                if (typeof(texto_busqueda) != "undefined" && texto_busqueda != "")
+            if (channel_omniture == "buscador"){
+                if (typeof(texto_busqueda) != "undefined" && texto_busqueda != ""){
                     s.prop16 = texto_busqueda;
-                else
+                }
+                else{
                     s.prop16 = "";
-
+                }
                 s.events += ",event1";
-
-                if (typeof(contador_busqueda) != "undefined" && parseInt(contador_busqueda) > 0)
+                if (typeof(contador_busqueda) != "undefined" && parseInt(contador_busqueda) > 0){
                     s.events += ",event31";
-                else
+                }
+                else{
                     s.events += ",event32";
-                if (MPEP_adblock_enabled)
-                {
+                }
+                if (MPEP_adblock_enabled){
                     s.prop57 = 'D="con_ADBLOCK-"+User-Agent';
                     s.eVar57 = 'D="con_ADBLOCK-"+User-Agent';
-
                 }
-                else
-                {
+                else{
                     s.prop57 = 'D="sin_ADBLOCK-"+User-Agent';
                     s.eVar57 = 'D="sin_ADBLOCK-"+User-Agent';
                 }
             }
-            s_code=s.t();if(s_code)document.write(s_code);
+            s_code=s.t();
+            if(s_code)document.write(s_code);
         });
     }
     else
@@ -1389,7 +1386,9 @@ if (marcado_automatico)
             //var s_code = s.t();
             //if (s_code)
             //	document.write(s_code);
-            var s_code = s.t();if(s_code)document.write(s_code);
+            var s_code = s.t();
+            omn_launchPixelComScore();
+            if(s_code)document.write(s_code);
         },tmTrack);
 
     }
@@ -1671,12 +1670,26 @@ function arrayAuthors(){
     return salida;
 }
 
+function omn_launchPixelComScore(){
+    var _comscore = _comscore || [];
+    _comscore.push({ c1: "2", c2: "8671776" });
+    (function() {
+        var s = document.createElement("script");
+        var el = document.getElementsByTagName("script")[0]; s.async = true;
+        s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
+        el.parentNode.insertBefore(s, el);
+    })();
+    var comscoreImg = document.createElement("img");
+    comscoreImg.width = '1';
+    comscoreImg.height = '1';
+    comscoreImg.style.display = 'none';
+    comscoreImg.src = (useSSL ? "https://sb.scorecardresearch.com" : "http://b.scorecardresearch.com") + "/p?c1=2&c2=8671776&cv=2.0&cj=1&c7=" + encodeURIComponent(document.location.href) + "&c8=" + encodeURIComponent(cadena_titulo) +  "&c9=" + encodeURIComponent(document.referrer) + "&rn=" + String(Math.random()).substr(2,9);
+}
 
 function iradirecto(){
     launch('29','cabecera:ir a directo','event33');
 
 }
-
 
 //Insercion pixel netquest
 getCookie = function(name){

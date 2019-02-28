@@ -1,6 +1,7 @@
 /* Function to get RSIDs from UI */
 
-var numVersion= "1.1.3";
+var numVersion= "1.1.5";
+var useSSL = document.location.protocol == 'https:';
 var arrayAmp= new Array();
 getValuesAmp();
 function getAnalyticsAccount(){
@@ -141,6 +142,10 @@ s.doPlugins=function(s) {
     if(primera_carga_marcado_satellite==true){
         s.abort = true;
     }
+    else{
+        omn_launchPixelComScore();
+    }
+
     primera_carga_marcado_satellite=false;
 
     /* Example add events
@@ -812,6 +817,7 @@ function omn_makeRegionalCircuit(){
 //     return CIDs;
 // }
 function omn_trackEventRadio(eventName, data) {
+
     var map={
         "events":{
             "mediaBegin": "event11",
@@ -876,7 +882,7 @@ function omn_trackEventRadio(eventName, data) {
     s.eVar57= s.prop57;
     s.eVar60=s.getDaysSinceLastVisit('s_lv'); // Days Since Last Visit
     s.eVar66=s.getTimeParting('w', gmt); // Set weekday (laborable/festivo)
-    s.eVar67= data["data.adEnabled"];
+    s.eVar67= data["data.Enabled"];
     s.eVar70= data["data.mediaTypeMode"];
     s.eVar73= numVersion;
     s.eVar74= data["data.progressTime"];
@@ -885,6 +891,22 @@ function omn_trackEventRadio(eventName, data) {
     s.tl(this,'o',eventName);
     s.clearVars();
     s.usePlugins=true;
+}
+
+function omn_launchPixelComScore(){
+    var _comscore = _comscore || [];
+    _comscore.push({ c1: "2", c2: "8671776" });
+    (function() {
+        var s = document.createElement("script");
+        var el = document.getElementsByTagName("script")[0]; s.async = true;
+        s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
+        el.parentNode.insertBefore(s, el);
+    })();
+    var comscoreImg = document.createElement("img");
+    comscoreImg.width = '1';
+    comscoreImg.height = '1';
+    comscoreImg.style.display = 'none';
+    comscoreImg.src = (useSSL ? "https://sb.scorecardresearch.com" : "http://b.scorecardresearch.com") + "/p?c1=2&c2=8671776&cv=2.0&cj=1&c7=" + encodeURIComponent(document.location.href) + "&c8=" + encodeURIComponent(cadena_titulo) +  "&c9=" + encodeURIComponent(document.referrer) + "&rn=" + String(Math.random()).substr(2,9);
 }
 ////////////////////////////////////////END FUNCTIONS AMPS//////////////////////////////////////////////////////
 

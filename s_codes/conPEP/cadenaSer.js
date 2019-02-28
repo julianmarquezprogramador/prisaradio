@@ -2,7 +2,9 @@
 Copyright 1996-2014 Adobe, Inc. All Rights Reserved
 More info available at http://www.omniture.com */
 
-var numVersion="1.0.1";
+var numVersion="1.0.2";
+var dtmVersion= "s_code " + numVersion;
+var product= "cadenaser";
 var useSSL = document.location.protocol == 'https:';
 
 //Videometrix
@@ -191,10 +193,12 @@ function OMNaddEvent (element, evento, func) {
     }
 }
 
+/*
 var comscoreImg = document.createElement("img");
 comscoreImg.width = '1';
 comscoreImg.height = '1';
 comscoreImg.style.display = 'none';
+*/
 
 
 var logtrustImg = document.createElement("img");
@@ -302,7 +306,7 @@ function launch(eVars,eVars_value,evento){
     s.eVar3=s.siteID + location.pathname; // pageName
     s.eVar4=s.channel; // channel
     s.eVar18="prisa"; // Organization
-    s.eVar19="cadenaser"; // Product
+    s.eVar19= product; // Product
     s.eVar20=document.domain.replace(/www./gi,""); // Domain|Subdomain
     s.eVar21=s.getNewRepeat(); // User New / Repeat
     if (typeof(PEPuname) != "undefined") {
@@ -1567,6 +1571,7 @@ if (marcado_automatico){
                 s.eVar57 = 'D="sin_ADBLOCK-"+User-Agent';
             }
             var s_code = s.t();
+            omn_launchPixelComScore();
             //if (s_code)
             //	document.write(s_code);
         },tmTrack);
@@ -2012,8 +2017,9 @@ function omn_launchScroll(){
         s.events += ",event90=" + s_getLoadTime();
     }
 
-    if(scroll_i==true){//if is new page then scroll_i = true
+    if(scroll_i==true){//if is new page then scroll_i = true and send comScore
         s.t();
+        omn_launchPixelComScore();
     }
 }
 
@@ -2121,7 +2127,7 @@ function omn_trackEventRadio(eventName, data) {
         s.eVar13= s.evar13= data["data.tags"];
     }
     s.eVar18="prisa"; // Organization
-    s.eVar19="cadenaser"; // Product
+    s.eVar19= product; // Product
     s.eVar20=document.domain.replace(/www./gi,""); // Domain|Subdomain
     s.eVar21=s.getNewRepeat(); // User New / Repeat
     if (typeof(PEPuname) != "undefined") {
@@ -2153,21 +2159,36 @@ function omn_trackEventRadio(eventName, data) {
     s.clearVars();
     s.usePlugins=true;
 }
-console.log("dtm: local");
 
-var dtm_version= "s_code version" + numVersion;
+function omn_launchPixelComScore(){
+     var _comscore = _comscore || [];
+    _comscore.push({ c1: "2", c2: "8671776" });
+    (function() {
+        var s = document.createElement("script");
+        var el = document.getElementsByTagName("script")[0]; s.async = true;
+        s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
+        el.parentNode.insertBefore(s, el);
+    })();
+    var comscoreImg = document.createElement("img");
+    comscoreImg.width = '1';
+    comscoreImg.height = '1';
+    comscoreImg.style.display = 'none';
+    comscoreImg.src = (useSSL ? "https://sb.scorecardresearch.com" : "http://b.scorecardresearch.com") + "/p?c1=2&c2=8671776&cv=2.0&cj=1&c7=" + encodeURIComponent(document.location.href) + "&c8=" + encodeURIComponent(cadena_titulo) +  "&c9=" + encodeURIComponent(document.referrer) + "&rn=" + String(Math.random()).substr(2,9);
+}
+
 if(typeof tucu !== 'undefined'){
     if(typeof tucu.dev !== 'undefined'){
         if(tucu.dev == true){
             console.log("/////////////////////DTM////////////////////////////");
-            console.log(dtm_version);
+            console.log(dtmVersion);
             console.log("feature: added instancePlayer in PlaySer");
             console.log("feature: collect foreing url in iframe");
             console.log("feature: obtein topPlayer data and send pixel to omniture");
+            console.log("feature: send pixel comscore");
             console.log("////////////////////////////////////////////////////");
         }
         else{
-            console.log(dtm_version);
+            console.log(dtmVersion);
         }
     }
 }

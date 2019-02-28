@@ -3,6 +3,7 @@
 var arrayAmp= new Array();
 getValuesAmp();
 var hostn=location.hostname;
+var useSSL = document.location.protocol == 'https:';
 if(typeof arrayAmp !== 'undefined') {
     if (arrayAmp['amp'] == "true") {
         hostn= arrayAmp["source_host"];
@@ -254,6 +255,7 @@ if (typeof(radio_station) == 'undefined') radio_station='';
 
 
 if (typeof(adblock_enabled) == 'undefined') adblock_enabled='D="con_ADBLOCK-"+User-Agent';
+omn_launchPixelComScore();
 
 /************** doPlugins Script **************/
 
@@ -275,7 +277,9 @@ s.doPlugins=function(s) {
     }
 
 
-    if(s.Util.getQueryParam('s_track')=='false') s.abort = true;
+    if(s.Util.getQueryParam('s_track')=='false'){
+        s.abort = true;
+    }
 
     /* Traffic Variables */
     s.pageName= s.siteID + location.pathname;														// Get Path Name (On)
@@ -621,6 +625,8 @@ function omn_asyncPV() {
     }
 
     s.t();
+    //comScore only spain
+    omn_launchPixelComScore();
 
     //GA solo chile
     if(document.domain=="envivo.los40.cl"){
@@ -1024,6 +1030,42 @@ function omn_trackEventRadio(eventName, data) {
     s.tl(this,'o',eventName);
     s.clearVars();
     s.usePlugins=true;
+}
+
+function omn_launchPixelComScore(){
+    var _comscore = _comscore || [];
+    _comscore.push({ c1: "2", c2: "8671776" });
+    (function() {
+        var s = document.createElement("script");
+        var el = document.getElementsByTagName("script")[0]; s.async = true;
+        s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
+        el.parentNode.insertBefore(s, el);
+    })();
+    var comscoreImg = document.createElement("img");
+    comscoreImg.width = '1';
+    comscoreImg.height = '1';
+    comscoreImg.style.display = 'none';
+    if(typeof ((cadena_titulo)=='undefined')||(cadena_titulo=="")){
+        var cadena_titulo= omn_catchFirsElement(document.title);
+    }
+    comscoreImg.src = (useSSL ? "https://sb.scorecardresearch.com" : "http://b.scorecardresearch.com") + "/p?c1=2&c2=8671776&cv=2.0&cj=1&c7=" + encodeURIComponent(document.location.href) + "&c8=" + encodeURIComponent(cadena_titulo) +  "&c9=" + encodeURIComponent(document.referrer) + "&rn=" + String(Math.random()).substr(2,9);
+}
+
+if(typeof tucu !== 'undefined'){
+    if(typeof tucu.dev !== 'undefined'){
+        if(tucu.dev == true){
+            console.log("/////////////////////DTM////////////////////////////");
+            console.log(dtmVersion);
+            console.log("feature: added instancePlayer in PlaySer");
+            console.log("feature: collect foreing url in iframe");
+            console.log("feature: obtein topPlayer data and send pixel to omniture");
+            console.log("feature: send pixel comscore");
+            console.log("////////////////////////////////////////////////////");
+        }
+        else{
+            console.log(dtmVersion);
+        }
+    }
 }
 ////////////////////////////////////FUNCTIONS FOR AMP///////////////////////////////////////////////////////////
 function getParamsUrl(){

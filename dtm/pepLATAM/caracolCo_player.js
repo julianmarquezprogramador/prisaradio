@@ -3,6 +3,7 @@
 var arrayAmp= new Array();
 getValuesAmp();
 var hostn=location.hostname;
+var useSSL = document.location.protocol == 'https:';
 if(typeof arrayAmp !== 'undefined') {
     if (arrayAmp['amp'] == "true") {
         hostn= arrayAmp["source_host"];
@@ -188,6 +189,7 @@ function omn_asyncPV(){
     s.hier1 +='pageName';
 
     s.t();
+    omn_launchPixelComScore();
 
     _satellite.previousURL = location.href;
 }
@@ -234,6 +236,7 @@ if (typeof(userId) == 'undefined') userId='';
 if (typeof(status) == 'undefined') status='';
 if (typeof(error) == 'undefined') error='';
 if (typeof(adblock_enabled) == 'undefined') adblock_enabled='D="con_ADBLOCK-"+User-Agent';
+omn_launchPixelComScore();
 
 
 /************** doPlugins Script **************/
@@ -679,6 +682,24 @@ function omn_isPlayer(){
     return isPlayer;
 }
 
+function omn_launchPixelComScore(){
+    var _comscore = _comscore || [];
+    _comscore.push({ c1: "2", c2: "8671776" });
+    (function() {
+        var s = document.createElement("script");
+        var el = document.getElementsByTagName("script")[0]; s.async = true;
+        s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
+        el.parentNode.insertBefore(s, el);
+    })();
+    var comscoreImg = document.createElement("img");
+    comscoreImg.width = '1';
+    comscoreImg.height = '1';
+    comscoreImg.style.display = 'none';
+    if(typeof ((cadena_titulo)=='undefined')||(cadena_titulo=="")){
+        var cadena_titulo= omn_catchFirsElement(document.title);
+    }
+    comscoreImg.src = (useSSL ? "https://sb.scorecardresearch.com" : "http://b.scorecardresearch.com") + "/p?c1=2&c2=8671776&cv=2.0&cj=1&c7=" + encodeURIComponent(document.location.href) + "&c8=" + encodeURIComponent(cadena_titulo) +  "&c9=" + encodeURIComponent(document.referrer) + "&rn=" + String(Math.random()).substr(2,9);
+}
 ////////////////////////////////////FUNCTIONS FOR AMP///////////////////////////////////////////////////////////
 function getParamsUrl(){
     // capturamos la url

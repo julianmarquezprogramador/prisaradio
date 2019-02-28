@@ -2,7 +2,6 @@
 Copyright 1996-2014 Adobe, Inc. All Rights Reserved
 More info available at http://www.omniture.com */
 
-var numVersion="1.0.0";
 var useSSL = document.location.protocol == 'https:';
 
 //Videometrix
@@ -93,9 +92,8 @@ if (typeof(marcado_logtrust) == "undefined")
 
 //Filtrado widgets
 if (document.location.href.indexOf("/Comentarios/") > -1 || document.location.href.indexOf("/comentario/") > -1 || document.location.href.indexOf("/widgets/") > -1 ||
-    document.location.href.indexOf("/Widgets/") > -1 || document.location.href.indexOf("widget.html") > -1 || document.location.href.indexOf("/widget/") > -1 || imIframe()==true){
+    document.location.href.indexOf("/Widgets/") > -1 || document.location.href.indexOf("widget.html") > -1 )
     marcado_automatico = false;
-}
 
 var s = new AppMeasurement();
 s.account = s_account;
@@ -608,6 +606,8 @@ s.doPlugins=function(s) {
     s.prop65 = "sin scroll";
     if(scroll_i==true){
         s.prop65 = "scroll";
+        omn_launchPixelComScore();
+        scroll_i= false;
     }
 
 
@@ -1376,19 +1376,6 @@ else
 
 var s_code;
 
-if(imIframe()==true){//if this is iframe then change url
-    if(document.referrer.indexOf("wradio.com.mx") > -1){
-        var arrayURL= document.referrer.split("wradio.com.mx");
-        s.pageName= s.siteID + arrayURL[1];
-        s.pageURL= document.referrer;
-    }
-    else{//if is foreing url
-        s.pageName= document.referrer;
-        s.pageURL= document.referrer;
-    }
-    omn_propToEvarsAssignment();
-}
-
 if (marcado_automatico)
 {
     if (typeof(retrasa_marcado) == "boolean" && retrasa_marcado)
@@ -1444,6 +1431,7 @@ if (marcado_automatico)
                 s.eVar57 = 'D="sin_ADBLOCK-"+User-Agent';
             }
             var s_code = s.t();
+            omn_launchPixelComScore();
             //if (s_code)
             //	document.write(s_code);
         },tmTrack);
@@ -1555,72 +1543,18 @@ function arrayAuthors(){
 
     return salida;
 }
-
-function imIframe(){
-    try {
-        return window.self !== window.top;
-    } catch (e) {
-        return true;
-    }
-}
-
-function omn_propToEvarsAssignment(){
-    s.eVar3="D=pageName";			// PageName
-    s.eVar4="D=ch";					// Channel
-    s.eVar5="D=pageURL";
-    //if(s.prop1)s.eVar5="D=c1";
-    if(typeof (s.prop2)!='undefined'){s.eVar6="D=c2";}
-    if(typeof (s.prop3)!='undefined'){s.eVar7="D=c3";}
-//if(s.prop5)s.eVar10=s.prop5;
-    if(typeof (s.prop4)!='undefined'){s.eVar10=s.prop4;}		//    Cambia en cadenaser
-    if(typeof (s.prop6)!='undefined'){s.eVar63=s.prop6;}		// referrer
-    if(typeof (s.prop8)!='undefined'){s.eVar48="D=c8";}		// Set day  (Jueves)
-    if(typeof (s.prop9)!='undefined'){s.eVar66="D=c9";}		// Set weekday (laborable/festivo)
-    if(typeof (s.prop11)!='undefined'){s.eVar11="D=c11";}
-    if(typeof (s.prop12)!='undefined'){s.eVar12="D=c12";}
-    if(typeof (s.prop13)!='undefined'){s.eVar13="D=c13";}
-    if(typeof (s.prop14)!='undefined'){s.eVar14="D=c14";}	// Pais del Medio
-    if(typeof (s.prop15)!='undefined'){s.eVar15="D=c15";}
-    if(typeof (s.prop16)!='undefined'){s.eVar16="D=c16";}
-    if(typeof (s.prop17)!='undefined'){s.eVar17="D=c17";}	// Canal
-    if(typeof (s.prop18)!='undefined'){s.eVar18="D=c18";}	// Organizacion
-    if(typeof (s.prop19)!='undefined'){s.eVar19="D=c19";}	// Producto
-    if(typeof (s.prop20)!='undefined'){s.eVar20="D=c20";}	// Dominio
-    if(typeof (s.prop21)!='undefined'){s.eVar21="D=c21";}	// Usuario Nuevo o recurrente
-    if(typeof (s.prop22)!='undefined'){s.eVar24="D=c22";}
-    if(typeof (s.prop24)!='undefined'){s.eVar59="D=c24";}	// Set hour:minutes:seconds (12:32:48)
-    if(typeof (s.prop30)!='undefined'){s.eVar30="D=c30";}	// Unidad de Negocio
-    if(typeof (s.prop31)!='undefined'){s.eVar62="D=c31";}	// Tematica
-    if(typeof (s.prop33)!='undefined'){s.eVar32="D=c33";}   // Visit Number By Month
-    if(typeof (s.prop34)!='undefined'){s.eVar43="D=c34";}
-    if(typeof (s.prop35)!='undefined'){s.eVar35="D=c35";}	// Set hour (12:00PM)
-    if(typeof (s.prop36)!='undefined'){s.eVar33="D=c36";}	// Join Date (Jueves-15/9/2012-12:32:48)
-    if(typeof (s.prop39)!='undefined'){s.eVar39="D=c45";} 	// Titulo página
-    if(typeof (s.prop44)!='undefined'){s.eVar44="D=c44";}
-    if(typeof (s.prop45)!='undefined'){s.eVar45="D=c45";}
-    if(typeof (s.prop47)!='undefined'){s.eVar47="D=c47";}
-    if(typeof (s.prop49)!='undefined'){s.eVar49="D=c49";}
-    if(typeof (s.prop50)!='undefined'){s.eVar50="D=c50";}
-
-    if(typeof (s.prop60)!='undefined'){s.eVar60="D=c60";}	// Días desde última visita
-    if(typeof (s.prop62)!='undefined'){s.eVar22="D=c62";}
-    if(typeof (s.prop65)!='undefined'){s.eVar65="D=c65";}   // Scroll / Sin scroll
-    if(typeof(s.prop19)!='undefined'){s.eVar19= s.prop19;}
-    if(typeof(s.prop73)!='undefined'){s.eVar73= s.prop73;}
-}
-
-var dtm_version= "s_code version" + numVersion;
-if(typeof tucu !== 'undefined'){
-    if(typeof tucu.dev !== 'undefined'){
-        if(tucu.dev == true){
-            console.log("/////////////////////DTM////////////////////////////");
-            console.log(dtm_version);
-            console.log("feature: added instancePlayer in PlaySer");
-            console.log("feature: collect foreing url in iframe");
-            console.log("////////////////////////////////////////////////////");
-        }
-        else{
-            console.log(dtm_version);
-        }
-    }
+function omn_launchPixelComScore(){
+    var _comscore = _comscore || [];
+    _comscore.push({ c1: "2", c2: "8671776" });
+    (function() {
+        var s = document.createElement("script");
+        var el = document.getElementsByTagName("script")[0]; s.async = true;
+        s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
+        el.parentNode.insertBefore(s, el);
+    })();
+    var comscoreImg = document.createElement("img");
+    comscoreImg.width = '1';
+    comscoreImg.height = '1';
+    comscoreImg.style.display = 'none';
+    comscoreImg.src = (useSSL ? "https://sb.scorecardresearch.com" : "http://b.scorecardresearch.com") + "/p?c1=2&c2=8671776&cv=2.0&cj=1&c7=" + encodeURIComponent(document.location.href) + "&c8=" + encodeURIComponent(cadena_titulo) +  "&c9=" + encodeURIComponent(document.referrer) + "&rn=" + String(Math.random()).substr(2,9);
 }
