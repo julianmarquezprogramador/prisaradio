@@ -74,8 +74,8 @@ function getInternetExplorerVersion()
 //Permitimos modificar la suit definiendo antes la variable s_account
 if (typeof(s_account) == "undefined" ) {
     if(/wradio.com.mx/.test(location.hostname)){                       // Producción
-        var s_account = 'prisacomurmxwradio,prisacomglobal';
-        var s_accountF = 'prisacomurmxwradio';
+        var s_account = 'prisacomglobal';
+        var s_accountF = 'prisacomglobal';
     } else {
         var s_account = 'prisacomurpreprod';
         var s_accountF = 'prisacomurpreprod';

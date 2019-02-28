@@ -80,15 +80,15 @@ function getInternetExplorerVersion()
 
 //Permitimos modificar la suit definiendo antes la variable s_account
 /*if (typeof(s_account) == "undefined" )
-	var s_account = "prisacomurcolos40,prisacomglobal";
-	var s_accountF = "prisacomurcolos40";
+	var s_account = "prisacomglobal";
+	var s_accountF = "prisacomglobal";
 */
 
 //Permitimos modificar la suit definiendo antes la variable s_account
 if (typeof(s_account) == "undefined" ) {
     if(/los40.com.co/.test(location.hostname)){                       // Producción
-        var s_account = 'prisacomurcolos40,prisacomglobal';
-        var s_accountF = 'prisacomurcolos40';
+        var s_account = 'prisacomglobal';
+        var s_accountF = 'prisacomglobal';
     } else {
         var s_account = 'prisacomurpreprod';
         var s_accountF = 'prisacomurpreprod';
@@ -271,7 +271,7 @@ function launchAjaxOMN(eVars,eVars_value,evento,listado_tags, autores){
     switch(evento) {
         case "event11": case "event12": case "event13": case "event14":
             //Eventos que se registran en la global
-            s.account = 'prisacomurcolos40,prisacomglobal';
+            s.account = 'prisacomglobal';
 
             AeVars.push('30');
             AeVars_value.push(s.prop30);
@@ -1483,7 +1483,7 @@ function externalPlayerOMN(player,accion,reproduccion,canalVideo,cancion,artista
 
     s.usePlugins = false;
 
-    s.account = 'prisacomurcolos40,prisacomglobal';
+    s.account = 'prisacomglobal';
 
     s.linkTrackVars="events,eVar2,eVar3,eVar4,eVar8,eVar9,eVar17,eVar18,eVar19,eVar20,eVar30,eVar35,eVar39,eVar42,eVar45,eVar47,eVar48,eVar68,eVar70,eVar74";
 

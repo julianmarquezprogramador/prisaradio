@@ -34,6 +34,7 @@ s.accountF = getAnalyticsAccountF();
 
 var isPlayer= false;
 var cadena_titulo_limpio= "";
+var useSSL = document.location.protocol == 'https:';
 
 var country="panama";
 var zone="america";
@@ -134,7 +135,7 @@ try {
 catch(err) {
     console.log( "Error: " + err + ".");
 }
-
+omn_launchPixelComScore();
 
 /************** doPlugins Script **************/
 
@@ -517,6 +518,24 @@ function omn_isPlayer(){
         isPlayer= true;
     }
     return isPlayer;
+}
+function omn_launchPixelComScore(){
+    var _comscore = _comscore || [];
+    _comscore.push({ c1: "2", c2: "8671776" });
+    (function() {
+        var s = document.createElement("script");
+        var el = document.getElementsByTagName("script")[0]; s.async = true;
+        s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
+        el.parentNode.insertBefore(s, el);
+    })();
+    var comscoreImg = document.createElement("img");
+    comscoreImg.width = '1';
+    comscoreImg.height = '1';
+    comscoreImg.style.display = 'none';
+    if(typeof ((cadena_titulo)=='undefined')||(cadena_titulo=="")){
+        var cadena_titulo= omn_catchFirsElement(document.title);
+    }
+    comscoreImg.src = (useSSL ? "https://sb.scorecardresearch.com" : "http://b.scorecardresearch.com") + "/p?c1=2&c2=8671776&cv=2.0&cj=1&c7=" + encodeURIComponent(document.location.href) + "&c8=" + encodeURIComponent(cadena_titulo) +  "&c9=" + encodeURIComponent(document.referrer) + "&rn=" + String(Math.random()).substr(2,9);
 }
 
 ////////////////////////////////////FUNCTIONS FOR AMP///////////////////////////////////////////////////////////

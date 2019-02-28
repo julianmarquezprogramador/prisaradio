@@ -2,9 +2,10 @@
 Copyright 1996-2012 Adobe, Inc. All Rights Reserved
 More info available at http://www.omniture.com */
 
-var s_account="prisacomurcladn,prisacomglobal";
-var s_accountF="prisacomurcladn"; //Defined suite functions
-var OMN_es_noticia = false;
+var useSSL = document.location.protocol == 'https:';
+var s_account="prisacomglobal";
+var s_accountF="prisacomglobal"; //Defined suite functions
+
 var s=s_gi(s_account)
 /************************** CONFIG SECTION **************************/
 /* You may add or alter any code config here. */
@@ -17,7 +18,7 @@ s.trackDownloadLinks=true
 s.trackExternalLinks=true
 s.trackInlineStats=true
 s.linkDownloadFileTypes="exe,zip,wav,mp3,mov,mpg,avi,wmv,doc,pdf,xls"
-s.linkInternalFilters="javascript:,adnradio.cl"
+s.linkInternalFilters="javascript:,concierto.cl"
 s.linkLeaveQueryString=false
 s.linkTrackVars="None"
 s.linkTrackEvents="None"
@@ -29,16 +30,6 @@ s.trackPageName=true
 s.useCommerce=true
 s.varUsed="eVar34"
 s.eventList="event26,event27,event28" //Abandon,Success,Error
-
-// var for send to Krux
-s.adblockKrux= "0";
-if(adblock_enabled.indexOf("con_ADBLOCK") > -1){
-    s.adblockKrux= "1";
-}
-
-//var for scroll
-scroll_i= false;
-
 
 /* TimeParting Config */
 var date = new Date();
@@ -55,7 +46,7 @@ s.currentYear=anoActual; 				// update to the current year
 /* Page Name Config */
 var site = window.location.host;
 var arraySite = site.split(".");
-if (arraySite[0] == "www"){	s.siteID="adnradio.cl";}
+if (arraySite[0] == "www"){	s.siteID="concierto.cl";}
 else{s.siteID=site;}
 s.defaultPage="";
 s.queryVarsList="";
@@ -66,8 +57,9 @@ s.pathConcatDelim=":";
 /* WARNING: Changing any of the below variables will cause drastic
 changes to how your visitor data is collected.  Changes should only be
 made when instructed to do so by your account manager.*/
-s.visitorNamespace="prisacom"
-s.trackingServer="prisacom.d3.sc.omtrdc.net"
+s.visitorNamespace="prisacom";
+s.trackingServer="prisacom.d3.sc.omtrdc.net";
+omn_launchPixelComScore();
 
 /*Social Network measurement*/
 
@@ -144,23 +136,15 @@ function s_doPlugins(s) {
         s.prop15="america";if(s.prop15)s.eVar15="D=c15";	       								//Zona (Region)
         s.prop17="web";if(s.prop17)s.eVar17="D=c17";        									//Soporte
         s.prop18="prisa";if(s.prop18)s.eVar18="D=c18";           								//Organizacion
-        s.prop19="adn";if(s.prop19)s.eVar19="D=c19";											//Producto
-        s.prop20="adnradio.cl";if(s.prop20)s.eVar20="D=c20";  			 						//Server [Dominio/subdominio]
-        s.prop22="convencional";if(s.prop22)s.eVar24="D=c22";		    						//Formato
+        s.prop19="concierto";if(s.prop19)s.eVar19="D=c19";										//Producto
+        s.prop20="concierto.cl";if(s.prop20)s.eVar20="D=c20";   								//Server [Dominio/subdominio]
+        s.prop22="musical";if(s.prop22)s.eVar24="D=c22";		    							//Formato
         s.prop29='D=c15+":"+c14+":"+c19+":"+c22+":"+c17+":"+c20';if(s.prop29)s.eVar31=s.prop29;	//Combination segmentation
         s.prop30="radio";if(s.prop30)s.eVar30="D=c30"; 											//Business unit
-        if (typeof(tematica)=='undefined'){
-            tematica='informacion';
-        }
-        else {
-            s.prop31=tematica;if(s.prop31)s.eVar62="D=c31";
-        }                    				//Tematica - se recoge en cada una de las paginas del site
-        if (typeof (PEPuid) == 'undefined') {
-            PEPuid = '';
-        }
-        else {
-            s.prop34 = PEPuid; if (s.prop34) s.eVar43 = "D=c34";
-        }                              		//ID Usuario Registrado - se recoge en cada una de las paginas del site
+        s.prop31="musica";if(s.prop31)s.eVar62="D=c31";											//Tematica
+        if (typeof(userId)=='undefined'){
+            userId='';
+        }else {s.prop34=userId;if(s.prop34)s.eVar43="D=c34";}                              		//ID Usuario Registrado - se recoge en cada una de las paginas del site
         /****************************************************************/
 
         if((typeof(seccion)!='undefined')&&(typeof(subseccion)!='undefined')&&(typeof(subsubseccion)!='undefined')){
@@ -271,14 +255,6 @@ function s_doPlugins(s) {
             s.eVar39="D=c39";
         }
 
-        //Value wich mark scroll
-        if(scroll_i==true){
-            s.prop65 = "scroll";
-        }
-        else{
-            s.prop65= "sin scroll";
-        }
-
         //Internal Campaigns
         if(!s.eVar25){
             s.eVar25=s.getQueryParam("pid1")
@@ -290,19 +266,7 @@ function s_doPlugins(s) {
             s.prop26="D=v26";}
 
         /* Set Page View Event */
-        //s.events=s.events?s.events+',event2':'event2';
-        if(typeof s.events!== "undefined"){
-            //Add event2 only if it does not exist
-            if(s.events.indexOf("event2") == -1){
-                if(s.events=="")
-
-                {           s.events= "event2";       }
-                else
-
-                {          s.events= s.events +",event2" ;      }
-            }
-        }
-
+        s.events=s.events?s.events+',event2':'event2';
 
         //Visitor profile
         s.prop33=s.getVisitNum();s.eVar32="D=c33";
@@ -370,7 +334,6 @@ function s_doPlugins(s) {
         }
 
         /* Copy prop's to eVar's */
-
         if(s.prop9)
             s.eVar66="D=c9";
 
@@ -394,12 +357,9 @@ function s_doPlugins(s) {
 
         if(s.prop41)
             s.eVar41="D=c41";
+
         if(s.prop60)
             s.eVar60="D=c60";
-
-        if(s.prop65){
-            s.eVar65="D=c65";
-        }
 
         /* Pagina vista */
         s.events=s.apl(s.events,"event2",",",1);
@@ -409,88 +369,30 @@ function s_doPlugins(s) {
             s.eVar3="D=pageName";
         if(s.channel)
             s.eVar4="D=ch";
-        /* KRX */
-        var listado_keywords = document.querySelector('meta[name="news_keywords"]');
-        listado_norm_tags = (listado_keywords) ? document.querySelector("meta[name='news_keywords']").getAttribute('content') : "";
-        if (typeof(listado_id_tags) != "undefined" )
-        {
-            tagsNoticia = listado_id_tags.replace(/,/g, ";");
-            s.list1 = tagsNoticia;
-        }
-
-        if (typeof(listado_id_autores) != "undefined")
-        {
-            tagsAutores = listado_id_autores.replace(/,/g, ";");
-            s.list2 = tagsAutores;
-        }
-        s.prop45 = document.title;s.prop45=s.prop45.toLowerCase();s.eVar45="D=c45";
-        if (OMN_es_noticia)
-        {
-            DataLayerKrx = {
-                pageTitle: s.prop45,
-                destinationURL: document.location.href,
-                referringURL: document.referrer,
-                tags: arrayTags(),
-                language: document.documentElement.lang ? document.documentElement.lang : "es",
-                publisher: s.prop19,
-                geoRegion: s.prop14,
-                domain: s.prop20,
-                businessUnit: s.prop30,
-                thematic: tematica,
-                primaryCategory: s.channel,
-                subCategory1: typeof(subseccion_omniture) != "undefined" ? subseccion_omniture : "" ,
-                pageType: s.prop3,
-                edition: "es",
-                profileID: (typeof(s.prop34) != "undefined" ? s.prop34 : ""),
-                registeredUser: (s.prop62 == "logueado" ? "1": "0"),
-                creationDate: (typeof(creationDate) != "undefined" ? creationDate.replace(/\//g,"") : ""),
-                adblocker: s.adblockKrux,
-                source: "web"
-            }
-        }
 
     }
     /* force all Adobe SiteCatalyst variables to Lower Case */
     s.manageVars("lowercaseVars");
-    s.prop57=adblock_enabled;                     // AdBlock
-    s.eVar57=adblock_enabled;                     // AdBlock
 }
-s.doPlugins=s_doPlugins
+s.doPlugins=s_doPlugins;
 
-function arrayTags(){
-    if (typeof(listado_norm_tags) == "undefined")
-        return [];
-
-    var salida = [];
-    //var itags = listado_id_tags.split(",");
-    var ntags = listado_norm_tags.split(",")
-    /*if (itags.length != ntags.length)
-        return [];*/
-
-    for (var j=0; j< ntags.length; j++)
-    {
-        salida.push({"id":j, "name":ntags[j]});
+function omn_launchPixelComScore(){
+    var _comscore = _comscore || [];
+    _comscore.push({ c1: "2", c2: "8671776" });
+    (function() {
+        var s = document.createElement("script");
+        var el = document.getElementsByTagName("script")[0]; s.async = true;
+        s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
+        el.parentNode.insertBefore(s, el);
+    })();
+    var comscoreImg = document.createElement("img");
+    comscoreImg.width = '1';
+    comscoreImg.height = '1';
+    comscoreImg.style.display = 'none';
+    if(typeof ((cadena_titulo)=='undefined')||(cadena_titulo=="")){
+        var cadena_titulo= document.title;
     }
-
-    return salida;
-}
-
-function arrayAuthors(){
-    if (typeof(listado_norm_autores) == "undefined" || typeof(listado_id_autores) == "undefined")
-        return [];
-
-    var salida = [];
-    var iauthor = listado_id_autores.split(",");
-    var nauthor = listado_norm_autores.split(",")
-    if (iauthor.length != nauthor.length)
-        return [];
-
-    for (var j=0; j< iauthor.length; j++)
-    {
-        salida.push({"id":iauthor[j], "name":nauthor[j]});
-    }
-
-    return salida;
+    comscoreImg.src = (useSSL ? "https://sb.scorecardresearch.com" : "http://b.scorecardresearch.com") + "/p?c1=2&c2=8671776&cv=2.0&cj=1&c7=" + encodeURIComponent(document.location.href) + "&c8=" + encodeURIComponent(cadena_titulo) +  "&c9=" + encodeURIComponent(document.referrer) + "&rn=" + String(Math.random()).substr(2,9);
 }
 /************** Required Plug-ins *************/
 
@@ -899,18 +801,3 @@ var s_code='',s_objectID;function s_gi(un,pg,ss){var c="s.version='H.25';s.an=s_
 function s_giqf(){var w=window,q=w.s_giq,i,t,s;if(q)for(i=0;i<q.length;i++){t=q[i];s=s_gi(t.oun);s.sa(t.un);s.setTagContainer(t.tagContainerName)}w.s_giq=0}s_giqf()
 
 
-function marcarPagina(titulo, titulo_og, tags_ids, sscroll, loc, ref) {
-    var location = document.createElement('a');
-    location.href = loc;
-    // Omniture
-    scroll_i = sscroll;
-    s.list1 = tags_ids;
-    s.pageName = s.siteID + location.pathname;
-    s.pageURL = loc;
-    s.channel = (tipo_contenido == 'radio') ? seccion : tipo_contenido;
-    s.prop2 = (tipo_contenido == 'radio') ? 'portal' : tipo_contenido;
-    s.prop13 = (tipo_contenido == 'radio') ? 'adn' : seccion;
-    s.prop39 = (titulo_og.toLowerCase());
-    s.prop45 = titulo.toLowerCase();
-    s.t();
-}

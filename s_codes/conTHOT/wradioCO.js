@@ -2,9 +2,10 @@
 Copyright 1996-2013 Adobe, Inc. All Rights Reserved
 More info available at http://www.omniture.com */
 
-var s_account="prisacomurcowradio,prisacomglobal";
-var s_accountF="prisacomurcowradio";
-var s=s_gi(s_account)
+var useSSL = document.location.protocol == 'https:';
+var s_account="prisacomglobal";
+var s_accountF="prisacomglobal";
+var s=s_gi(s_account);
 
 /************************** CONFIG SECTION **************************/
 /* You may add or alter any code config here. */

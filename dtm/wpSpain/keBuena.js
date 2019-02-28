@@ -51,6 +51,7 @@ s.accountF = getAnalyticsAccountF();
 
 var isPlayer= false;
 var cadena_titulo_limpio= "";
+var useSSL = document.location.protocol == 'https:';
 
 var country="mexico";
 var zone="america";
@@ -227,7 +228,7 @@ function omn_asyncPV(){
     }
 
     s.t();
-
+    omn_launchPixelComScore();
     _satellite.previousURL = location.href;
 }
 function omn_adblocker(){
@@ -700,7 +701,7 @@ if(s.ab_enabled){
     s.prop57 = 'D="sin_ADBLOCK-"+User-Agent';
     s.eVar57 = 'D="sin_ADBLOCK-"+User-Agent';
 }
-
+omn_launchPixelComScore();
 ////////////////////////////////////FUNCTIONS FOR AMP///////////////////////////////////////////////////////////
 
 function getParamsUrl(){
@@ -776,7 +777,24 @@ function omn_isPlayer(){
     }
     return isPlayer;
 }
-
+function omn_launchPixelComScore(){
+    var _comscore = _comscore || [];
+    _comscore.push({ c1: "2", c2: "8671776" });
+    (function() {
+        var s = document.createElement("script");
+        var el = document.getElementsByTagName("script")[0]; s.async = true;
+        s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
+        el.parentNode.insertBefore(s, el);
+    })();
+    var comscoreImg = document.createElement("img");
+    comscoreImg.width = '1';
+    comscoreImg.height = '1';
+    comscoreImg.style.display = 'none';
+    if(typeof ((cadena_titulo)=='undefined')||(cadena_titulo=="")){
+        var cadena_titulo= omn_catchFirsElement(document.title);
+    }
+    comscoreImg.src = (useSSL ? "https://sb.scorecardresearch.com" : "http://b.scorecardresearch.com") + "/p?c1=2&c2=8671776&cv=2.0&cj=1&c7=" + encodeURIComponent(document.location.href) + "&c8=" + encodeURIComponent(cadena_titulo) +  "&c9=" + encodeURIComponent(document.referrer) + "&rn=" + String(Math.random()).substr(2,9);
+}
 var dtm_version= "dtm version 2.0.5";
 if(typeof tucu !== 'undefined'){
     if(typeof tucu.dev !== 'undefined'){
