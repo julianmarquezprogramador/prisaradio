@@ -627,6 +627,7 @@ s.doPlugins=function(s) {
     s.prop65 = "sin scroll";
     if(scroll_i==true){
         s.prop65 = "scroll";
+        omn_launchPixelComScore();
     }
 
 
@@ -1461,6 +1462,7 @@ if (marcado_automatico)
                 s.eVar57 = 'D="sin_ADBLOCK-"+User-Agent';
             }
             var s_code = s.t();
+            omn_launchPixelComScore();
             //if (s_code)
             //	document.write(s_code);
         },tmTrack);
@@ -1647,4 +1649,36 @@ function omn_trackEventRadio(eventName, data) {
     s.tl(this,'o',eventName);
     s.clearVars();
     s.usePlugins=true;
+}
+function omn_launchPixelComScore(){
+    var _comscore = _comscore || [];
+    _comscore.push({ c1: "2", c2: "8671776" });
+    (function() {
+        var s = document.createElement("script");
+        var el = document.getElementsByTagName("script")[0]; s.async = true;
+        s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
+        el.parentNode.insertBefore(s, el);
+    })();
+    var comscoreImg = document.createElement("img");
+    comscoreImg.width = '1';
+    comscoreImg.height = '1';
+    comscoreImg.style.display = 'none';
+    comscoreImg.src = (useSSL ? "https://sb.scorecardresearch.com" : "http://b.scorecardresearch.com") + "/p?c1=2&c2=8671776&cv=2.0&cj=1&c7=" + encodeURIComponent(document.location.href) + "&c8=" + encodeURIComponent(cadena_titulo) +  "&c9=" + encodeURIComponent(document.referrer) + "&rn=" + String(Math.random()).substr(2,9);
+}
+
+if(typeof tucu !== 'undefined'){
+    if(typeof tucu.dev !== 'undefined'){
+        if(tucu.dev == true){
+            console.log("/////////////////////DTM////////////////////////////");
+            console.log(dtmVersion);
+            console.log("feature: added instancePlayer in PlaySer");
+            console.log("feature: collect foreing url in iframe");
+            console.log("feature: obtein topPlayer data and send pixel to omniture");
+            console.log("feature: send pixel comscore");
+            console.log("////////////////////////////////////////////////////");
+        }
+        else{
+            console.log(dtmVersion);
+        }
+    }
 }
