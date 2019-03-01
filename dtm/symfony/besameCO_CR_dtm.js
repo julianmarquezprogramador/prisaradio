@@ -15,18 +15,18 @@ function getAnalyticsAccount(){
         if (_satellite.tools[toolid].settings.engine == "sc"){
             var accountP = _satellite.tools[toolid].settings.account;
             arrAccount = accountP.split(",");
-
+            return arrAccount[0];
             //var hostn=location.hostname;
 
-            if(/.besame.fm/.test(hostn)){												// Colombia
-                return arrAccount[1] + "," + arrAccount[0];
-            }
-            else if(/.pa/.test(hostn)){													// Panamá
-                return arrAccount[2] + "," + arrAccount[0];
-            }
-            else if(/.cr/.test(hostn)){													// Costa Rica
-                return arrAccount[3] + "," + arrAccount[0];
-            }
+            // if(/.besame.fm/.test(hostn)){												// Colombia
+            //     return arrAccount[1] + "," + arrAccount[0];
+            // }
+            // else if(/.pa/.test(hostn)){													// Panamá
+            //     return arrAccount[2] + "," + arrAccount[0];
+            // }
+            // else if(/.cr/.test(hostn)){													// Costa Rica
+            //     return arrAccount[3] + "," + arrAccount[0];
+            // }
         }
     }
 }
@@ -36,18 +36,18 @@ function getAnalyticsAccountF(){
         if (_satellite.tools[toolid].settings.engine == "sc"){
             var accountF = _satellite.tools[toolid].settings.account;
             arrAccount = accountF.split(",");
-
+            return arrAccount[0];
             //var hostn=location.hostname;
 
-            if(/besame.fm/.test(hostn)){									// Colombia
-                return arrAccount[1];
-            }
-            else if(/.pa/.test(hostn)){ 									// Panamá
-                return arrAccount[2];
-            }
-            else if(/.cr/.test(hostn)){										// Costa Rica
-                return arrAccount[3];
-            }
+            // if(/besame.fm/.test(hostn)){									// Colombia
+            //     return arrAccount[1];
+            // }
+            // else if(/.pa/.test(hostn)){ 									// Panamá
+            //     return arrAccount[2];
+            // }
+            // else if(/.cr/.test(hostn)){										// Costa Rica
+            //     return arrAccount[3];
+            // }
         }
     }
 }

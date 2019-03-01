@@ -17,13 +17,13 @@ function getAnalyticsAccount(){
         if (_satellite.tools[toolid].settings.engine == "sc"){
             var accountP = _satellite.tools[toolid].settings.account;
             arrAccount = accountP.split(",");
-
-            if(/mx/.test(hostn) || /wdeportes.com/.test(hostn)){	// Mexico
-                return arrAccount[1] + "," + arrAccount[0];
-            }
-            else if(/.com.co/.test(hostn)){												// Colombia
-                return arrAccount[2] + "," + arrAccount[0];
-            }
+            return arrAccount[0];
+            // if(/mx/.test(hostn) || /wdeportes.com/.test(hostn)){	// Mexico
+            //     return arrAccount[1] + "," + arrAccount[0];
+            // }
+            // else if(/.com.co/.test(hostn)){												// Colombia
+            //     return arrAccount[2] + "," + arrAccount[0];
+            // }
         }
     }
 }
@@ -33,13 +33,13 @@ function getAnalyticsAccountF(){
         if (_satellite.tools[toolid].settings.engine == "sc"){
             var accountF = _satellite.tools[toolid].settings.account;
             arrAccount = accountF.split(",");
-
-            if(/mx/.test(hostn) || /wdeportes.com/.test(hostn) ){	// Mexico
-                return arrAccount[1];
-            }
-            else if(/.com.co/.test(hostn)){												// Colombia
-                return arrAccount[2];
-            }
+            return arrAccount[0];
+            // if(/mx/.test(hostn) || /wdeportes.com/.test(hostn) ){	// Mexico
+            //     return arrAccount[1];
+            // }
+            // else if(/.com.co/.test(hostn)){												// Colombia
+            //     return arrAccount[2];
+            // }
         }
     }
 }

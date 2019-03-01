@@ -14,7 +14,10 @@ var dtm_version= "dtm version " + numVersion;
 function getAnalyticsAccount(){
     for (var toolid in _satellite.tools){
         if (_satellite.tools[toolid].settings.engine == "sc"){
-            return _satellite.tools[toolid].settings.account;
+            //return _satellite.tools[toolid].settings.account;
+            var accountP = _satellite.tools[toolid].settings.account;
+            arrAccount = accountP.split(",");
+            return arrAccount[0];
         }
     }
 }
