@@ -1,6 +1,7 @@
 /* Function to get RSIDs from UI */
 
-var numVersion= "1.1.6";
+var numVersion= "1.1.7";
+var dtmVersion= "dtm version" + numVersion;
 var useSSL = document.location.protocol == 'https:';
 var arrayAmp= new Array();
 getValuesAmp();
@@ -860,7 +861,8 @@ function omn_trackEventRadio(eventName, data) {
     s.eVar8= data["data.name"];
     s.eVar13= data["data.programa"] + data["data.emisora"];
     if(data["data.mediaType"]=="aod"){
-        s.eVar13= s.evar13= data["data.tags"];
+        s.eVar13= data["data.tags"];
+        s.eVar80= data["data.programa"];
     }
     s.eVar18="prisa"; // Organization
     s.eVar19="cadenaser"; // Product
@@ -887,7 +889,7 @@ function omn_trackEventRadio(eventName, data) {
     s.eVar66=s.getTimeParting('w', gmt); // Set weekday (laborable/festivo)
     s.eVar67= data["data.Enabled"];
     s.eVar70= data["data.mediaTypeMode"];
-    s.eVar73= numVersion;
+    s.eVar73= dtmVersion;
     s.eVar74= data["data.progressTime"];
     s.eVar81= data["data.emisora"];
     s.eVar84= data["data.extraccion"];
@@ -916,12 +918,11 @@ function omn_launchPixelComScore(){
 }
 ////////////////////////////////////////END FUNCTIONS AMPS//////////////////////////////////////////////////////
 
-var dtm_version= "dtm version " + numVersion;
 if(typeof tucu !== 'undefined'){
     if(typeof tucu.dev !== 'undefined'){
         if(tucu.dev == true){
             console.log("/////////////////////DTM////////////////////////////");
-            console.log(dtm_version);
+            console.log(dtmVersion);
             console.log("feature: Added code for AMP");
             console.log("feature: writes same in the page name in Web like in AMP");
             console.log("feature: cleaning title without pipes '|'");
@@ -931,11 +932,11 @@ if(typeof tucu !== 'undefined'){
             console.log("////////////////////////////////////////////////////");
         }
         else{
-            console.log(dtm_version);
+            console.log(dtmVersion);
         }
     }
 }
 
 else{
-    console.log(dtm_version);
+    console.log(dtmVersion);
 }
