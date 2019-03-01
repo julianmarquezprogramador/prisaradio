@@ -406,6 +406,9 @@ function omn_launchPixelComScore(){
     comscoreImg.width = '1';
     comscoreImg.height = '1';
     comscoreImg.style.display = 'none';
+    if(typeof ((cadena_titulo)=='undefined')||(cadena_titulo=="")){
+        var cadena_titulo= omn_catchFirsElement(document.title);
+    }
     comscoreImg.src = (useSSL ? "https://sb.scorecardresearch.com" : "http://b.scorecardresearch.com") + "/p?c1=2&c2=8671776&cv=2.0&cj=1&c7=" + encodeURIComponent(document.location.href) + "&c8=" + encodeURIComponent(cadena_titulo) +  "&c9=" + encodeURIComponent(document.referrer) + "&rn=" + String(Math.random()).substr(2,9);
 }
 
