@@ -14,15 +14,15 @@ function getAnalyticsAccount(){
         if (_satellite.tools[toolid].settings.engine == "sc"){
             var accountP = _satellite.tools[toolid].settings.account;
             arrAccount = accountP.split(",");
-
+            return arrAccount[0];
             //var hostn=location.hostname;
 
-            if(/kebuenamx/.test(hostn) || /com.mx/.test(hostn) || /listenlive.co/.test(hostn) ){		// Mexico
-                return arrAccount[1] + "," + arrAccount[0];
-            }
-            else if(/.es/.test(hostn)){ 												// España
-                return arrAccount[2] + "," + arrAccount[0];
-            }
+            // if(/kebuenamx/.test(hostn) || /com.mx/.test(hostn) || /listenlive.co/.test(hostn) ){		// Mexico
+            //     return arrAccount[1] + "," + arrAccount[0];
+            // }
+            // else if(/.es/.test(hostn)){ 												// España
+            //     return arrAccount[2] + "," + arrAccount[0];
+            // }
         }
     }
 }
@@ -32,15 +32,15 @@ function getAnalyticsAccountF(){
         if (_satellite.tools[toolid].settings.engine == "sc"){
             var accountF = _satellite.tools[toolid].settings.account;
             arrAccount = accountF.split(",");
-
+            return arrAccount[0];
             //var hostn=location.hostname;
 
-            if(/kebuenamx/.test(hostn) || /mx/.test(hostn)  ){		// Mexico
-                return arrAccount[1] + "," + arrAccount[0];
-            }
-            else if(/.es/.test(hostn)){ 													// España
-                return arrAccount[2] + "," + arrAccount[0];
-            }
+            // if(/kebuenamx/.test(hostn) || /mx/.test(hostn)  ){		// Mexico
+            //     return arrAccount[1] + "," + arrAccount[0];
+            // }
+            // else if(/.es/.test(hostn)){ 													// España
+            //     return arrAccount[2] + "," + arrAccount[0];
+            // }
         }
     }
 }

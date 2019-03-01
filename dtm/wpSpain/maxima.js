@@ -2,7 +2,10 @@
 function getAnalyticsAccount(){
     for (var toolid in _satellite.tools){
         if (_satellite.tools[toolid].settings.engine == "sc"){
-            return _satellite.tools[toolid].settings.account;
+            //return _satellite.tools[toolid].settings.account;
+            var accountP = _satellite.tools[toolid].settings.account;
+            arrAccount = accountP.split(",");
+            return arrAccount[0];
         }
     }
 }
@@ -11,6 +14,7 @@ function getAnalyticsAccountF(){
         if (_satellite.tools[toolid].settings.engine == "sc"){
             var accountF = _satellite.tools[toolid].settings.account;
             arrAccount = accountF.split(",");
+            //return arrAccount[0];
             return arrAccount[0];
         }
     }

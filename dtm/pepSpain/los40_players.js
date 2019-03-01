@@ -19,43 +19,44 @@ function getAnalyticsAccount(){
         if (_satellite.tools[toolid].settings.engine == "sc"){
             var accountP = _satellite.tools[toolid].settings.account;
             arrAccount = accountP.split(",");
-
-            if(/.pa/.test(hostn)){															// Panamá
-                return arrAccount[2] + "," + arrAccount[0];
-            }
-            else if(/.com.ar/.test(hostn)){ 										// Argentina
-                return arrAccount[3] + "," + arrAccount[0];
-            }
-            else if(/.mx/.test(hostn)){													// Mexico
-                return arrAccount[4] + "," + arrAccount[0];
-            }
-            else if(/los40.com.co/.test(hostn)){								// Colombia
-                return arrAccount[5] + "," + arrAccount[0];
-            }
-            else  if(/.cl/.test(hostn)){												// Chile
-                return arrAccount[6] + "," + arrAccount[0];
-            }
-            else if(/.cr/.test(hostn)){													// Costa Rica
-                return arrAccount[7] + "," + arrAccount[0];
-            }
-            else if(/.do/.test(hostn)){													// Republica Dominicana
-                return arrAccount[8] + "," + arrAccount[0];
-            }
-            else if(/.py/.test(hostn)){													// Paraguay
-                return arrAccount[9] + "," + arrAccount[0];
-            }
-            else if(/.ec/.test(hostn)){													// Ecuador
-                return arrAccount[10] + "," + arrAccount[0];
-            }
-            else if(/.ni/.test(hostn)){													// Nicaragua
-                return arrAccount[11] + "," + arrAccount[0];
-            }
-            else if(/.gt/.test(hostn)){													// Nicaragua
-                return arrAccount[12] + "," + arrAccount[0];
-            }
-            else if(/los40.com/.test(hostn)){										// España
-                return arrAccount[1] + "," + arrAccount[0];
-            }
+            return arrAccount[0];
+            // if(/.pa/.test(hostn)){															// Panamá
+            //     //return arrAccount[2] + "," + arrAccount[0];
+            // }
+            // else if(/.com.ar/.test(hostn)){ 										// Argentina
+            //     return arrAccount[3] + "," + arrAccount[0];
+            // }
+            // else if(/.mx/.test(hostn)){													// Mexico
+            //     return arrAccount[4] + "," + arrAccount[0];
+            // }
+            // else if(/los40.com.co/.test(hostn)){								// Colombia
+            //     return arrAccount[5] + "," + arrAccount[0];
+            // }
+            // else  if(/.cl/.test(hostn)){												// Chile
+            //     return arrAccount[6] + "," + arrAccount[0];
+            // }
+            // else if(/.cr/.test(hostn)){													// Costa Rica
+            //     return arrAccount[7] + "," + arrAccount[0];
+            // }
+            // else if(/.do/.test(hostn)){													// Republica Dominicana
+            //     return arrAccount[8] + "," + arrAccount[0];
+            // }
+            // else if(/.py/.test(hostn)){													// Paraguay
+            //     return arrAccount[9] + "," + arrAccount[0];
+            // }
+            // else if(/.ec/.test(hostn)){													// Ecuador
+            //     return arrAccount[10] + "," + arrAccount[0];
+            // }
+            // else if(/.ni/.test(hostn)){													// Nicaragua
+            //     return arrAccount[11] + "," + arrAccount[0];
+            // }
+            // else if(/.gt/.test(hostn)){													// Nicaragua
+            //     return arrAccount[12] + "," + arrAccount[0];
+            // }
+            // else if(/los40.com/.test(hostn)){										// España
+            //     //return arrAccount[1] + "," + arrAccount[0];
+            //     return arrAccount[0];
+            // }
         }
     }
 }
@@ -66,42 +67,44 @@ function getAnalyticsAccountF(){
             var accountF = _satellite.tools[toolid].settings.account;
             arrAccount = accountF.split(",");
 
-            if(/.pa/.test(hostn)){										// Panamá
-                return arrAccount[2];
-            }
-            else if(/.com.ar/.test(hostn)){ 					// Argentina
-                return arrAccount[3];
-            }
-            else if(/.mx/.test(hostn)){								// Mexico
-                return arrAccount[4];
-            }
-            else if(/los40.com.co/.test(hostn)){			// Colombia
-                return arrAccount[5];
-            }
-            else if(/.cl/.test(hostn)){								// Chile
-                return arrAccount[6];
-            }
-            else if(/.cr/.test(hostn)){								// Costa Rica
-                return arrAccount[7];
-            }
-            else if(/.do/.test(hostn)){								// Republica Dominicana
-                return arrAccount[8];
-            }
-            else if(/.py/.test(hostn)){								// Paraguay
-                return arrAccount[9];
-            }
-            else if(/.ec/.test(hostn)){								// Ecuador
-                return arrAccount[10];
-            }
-            else if(/.ni/.test(hostn)){								// Nicaragua
-                return arrAccount[11];
-            }
-            else if(/.gt/.test(hostn)){								// Guatemala
-                return arrAccount[12];
-            }
-            else if(/los40.com/.test(hostn)){
-                return arrAccount[1];										// España
-            }
+            return arrAccount[0];
+            // if(/.pa/.test(hostn)){										// Panamá
+            //     return arrAccount[2];
+            // }
+            // else if(/.com.ar/.test(hostn)){ 					// Argentina
+            //     return arrAccount[3];
+            // }
+            // else if(/.mx/.test(hostn)){								// Mexico
+            //     return arrAccount[4];
+            // }
+            // else if(/los40.com.co/.test(hostn)){			// Colombia
+            //     return arrAccount[5];
+            // }
+            // else if(/.cl/.test(hostn)){								// Chile
+            //     return arrAccount[6];
+            // }
+            // else if(/.cr/.test(hostn)){								// Costa Rica
+            //     return arrAccount[7];
+            // }
+            // else if(/.do/.test(hostn)){								// Republica Dominicana
+            //     return arrAccount[8];
+            // }
+            // else if(/.py/.test(hostn)){								// Paraguay
+            //     return arrAccount[9];
+            // }
+            // else if(/.ec/.test(hostn)){								// Ecuador
+            //     return arrAccount[10];
+            // }
+            // else if(/.ni/.test(hostn)){								// Nicaragua
+            //     return arrAccount[11];
+            // }
+            // else if(/.gt/.test(hostn)){								// Guatemala
+            //     return arrAccount[12];
+            // }
+            // else if(/los40.com/.test(hostn)){
+            //     //return arrAccount[1];										// España
+            //     return arrAccount[0];
+            // }
         }
     }
 }
