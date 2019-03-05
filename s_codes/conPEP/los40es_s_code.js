@@ -1405,7 +1405,6 @@ function omn_trackEventRadio(eventName, data) {
             "adStart": "event13",
             "adComplete": "event14",
             "adSkip": "event15",
-            "button": "event33",
             "rrss": "event69",
             "mediaHalf": "event79"
         }
