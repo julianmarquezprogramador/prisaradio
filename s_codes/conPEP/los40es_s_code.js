@@ -107,9 +107,13 @@ var id_noticia = "";
 
 var cadena_titulo =  (document.getElementsByTagName('title')[0] ) ? document.getElementsByTagName('title')[0].innerHTML : "";
 cadena_titulo = cadena_titulo.toLowerCase();
+var cadena_titulo_no_seo="";
 
-var cadena_titulo_no_seo = document.head.querySelector("[property='og:title']").content
-cadena_titulo_no_seo =  cadena_titulo_no_seo.toLowerCase();
+if(document.head.querySelector("[property='og:title']")!== null){
+    cadena_titulo_no_seo = document.head.querySelector("[property='og:title']").content;
+    cadena_titulo_no_seo =  cadena_titulo_no_seo.toLowerCase();
+}
+
 
 var marcar_otros_elementos = false;
 
