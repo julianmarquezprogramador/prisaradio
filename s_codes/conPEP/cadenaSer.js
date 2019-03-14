@@ -967,6 +967,7 @@ if (typeof(marcado_omniture_particular) == "undefined")
     var regexpMovil = /(http.?:\/\/[^\/]*)\/m\/(.*)/i;
     var regexpEspeciales = /http.?:\/\/[^\/]*\/especiales\/([^\/]*)\/([^\/]*)\/(\d{4})\/([^\/]*)\//i;
     var regexpEspecialesGenericos = /http.?:\/\/[^\/]*\/especiales\/ser\/(\d{4})\/([^\/]*)\//i;
+    var regexpResultados= /http.?:\/\/([^\/]*)\/(resultados)\/([^\/]*)\/([^\/]*)/i;
 
 
     var result_re;
@@ -1081,12 +1082,17 @@ if (typeof(marcado_omniture_particular) == "undefined")
     }
     else
     {
-        if (direccion.indexOf("//cadenaser.com/seccion") >-1 || direccion.indexOf("//cadenaser.com/programa") > -1 || direccion.indexOf("//cadenaser.com/emisora") > -1) //portadilla de seccion virtual
-        {
+        if (direccion.indexOf("//cadenaser.com/seccion") >-1 || direccion.indexOf("//cadenaser.com/programa") > -1 || direccion.indexOf("//cadenaser.com/emisora") > -1 || direccion.indexOf("//cadenaser.com/resultados") > -1){ //portadilla de seccion virtual y agregamos resultados para que compute como sección deportes
+
             //si no es noticia y tiene este aspecto
-            result_re5 = regexpficha_parrilla.exec(direccion) || regexpSeccionVirtual.exec(direccion); //en este orden la comparacion
-            if (result_re5)
-            {
+            result_re5 = regexpficha_parrilla.exec(direccion) || regexpSeccionVirtual.exec(direccion) || regexpResultados.exec(direccion); //en este orden la comparacion
+            if (result_re5){
+                //desarrollo específico para el marcado de la sección de resultados, tiene que figurar como sección deportes
+                if(result_re5[2]=="resultados"){
+                    result_re5[2]= "seccion";
+                    result_re5[3]= "deportes";
+                }
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 channel_omniture = result_re5[2];
                 subseccion_omniture = result_re5[3];
 
@@ -1107,116 +1113,92 @@ if (typeof(marcado_omniture_particular) == "undefined")
                     subseccion_omniture = "cadenaser";
 
             }
-            else
-            {
+            else{
                 prop13_omniture = "desconocido";
                 prop3_omniture = "portada"
             }
         }
-        else
-        {
-            if (direccion.indexOf("//cadenaser.com/especiales/") > -1 ) //especiales
-            {
+        else{
+            if (direccion.indexOf("//cadenaser.com/especiales/") > -1 ){ //especiales
                 prop3_omniture = "especiales";
                 result_re5 = regexpEspeciales.exec(direccion);
-                if (result_re5)
-                {
-                    if (result_re5[1] == 'seccion')
+                if (result_re5){
+                    if (result_re5[1] == 'seccion'){
                         channel_omniture = result_re5[2];
-                    else
-                    {
+                    }
+                    else{
                         channel_omniture = result_re5[1];
                         subseccion_omniture = result_re5[2];
                     }
-
                     prop11_especial = result_re5[4] + "_" + result_re5[3];
-
                 }
-                else
-                {
+                else{
                     channel_omniture = "especiales";
                     result_re6 = regexpEspecialesGenericos.exec(direccion);
-                    if (result_re6)
-                    {
+                    if (result_re6){
                         prop11_especial = result_re6[2] + "_" + result_re6[1];
                     }
                 }
             }
-            else
-            {
+            else{
                 result_re2 = regexpPortadilla.exec(direccion);
                 //No tiene forma de noticia ni especial puede ser una portadilla u otra cosa. ej tags
-                if (result_re2)
-                {
+                if (result_re2){
                     channel_omniture = result_re2[2];
                     //Es portada o portadilla
-                    if (result_re2[3].indexOf("index.html") == 0 || result_re2[3] == "") //Portada de seccion
-                    {
-                        if(result_re2[2] == "buscador")
-                        {
+                    if (result_re2[3].indexOf("index.html") == 0 || result_re2[3] == ""){ //Portada de seccion
+                        if(result_re2[2] == "buscador"){
                             //retrasamos el marcado a tener datos
                             var retrasa_marcado = true;
                         }
                         prop4_tipo_pagina = "portadilla";
                         prop3_omniture = "portada"
                     }
-                    else
-                    {
+                    else{
                         //Si no tiene / es portadilla y sino  cualquier cosa
                         //Portadilla subseccion
 
-                        if (result_re2[3].indexOf("/") == -1)
-                        {
+                        if (result_re2[3].indexOf("/") == -1){
                             subseccion_omniture = result_re2[3].replace(/\.html.*/, "");
-                            if (channel_omniture == "ser")
-                            {
+                            if (channel_omniture == "ser"){
                                 channel_omniture = subseccion_omniture;
                             }
                             prop4_tipo_pagina = "portadilla";
                             prop3_omniture = "portada"
                         }
-                        else
-                        {
-                            if (result_re2[2] == "tag" || result_re2[2] == "autor" || result_re2[2] == "agr")
-                            {
-
+                        else{
+                            if (result_re2[2] == "tag" || result_re2[2] == "autor" || result_re2[2] == "agr"){
                                 //Varias posibilidades
                                 var tagRegex = /([^\/]+)\/([^\/]+)\/?.*/i;
                                 result_re6 = tagRegex.exec(result_re2[3]);
-                                if (result_re6)
-                                {
+                                if (result_re6){
                                     //Portadas de los circuitos regionales
-                                    if (ids_circuitos[result_re6[2]])
-                                    {
+                                    if (ids_circuitos[result_re6[2]]){
                                         channel_omniture = "emisora";
                                         prop1_omniture = ids_circuitos[result_re6[2]] + ":" + "home";
                                         subseccion_omniture = ids_circuitos[result_re6[2]];
                                         //prop13_omniture  //Se rellena al final
                                     }
-                                    else
-                                    {
+                                    else{
                                         subseccion_omniture = result_re6[1] + "_" + result_re6[2];
                                     }
 
                                 }
-                                else
+                                else{
                                     subseccion_omniture = result_re2[3];
+                                }
 
                                 prop3_omniture = "portada"
                                 prop4_tipo_pagina = "portadilla";
                                 prop75_omniture = "brand";
                             }
-                            else
-                            {
-                                if ( channel_omniture == "estaticos")
-                                {
+                            else{
+                                if ( channel_omniture == "estaticos"){
                                     prop3_omniture = "";
                                 }
-                                else
-                                {
+                                else{
                                     //paginas varias
-                                    switch (direccion)
-                                    {
+                                    switch (direccion){
                                         case "http://cadenaser.com/ser/programas/home_programas.html":
                                         case "https://cadenaser.com/ser/programas/home_programas.html":
                                         case "http://cadenaser.com/ser/programas/":
@@ -1256,11 +1238,8 @@ if (typeof(marcado_omniture_particular) == "undefined")
                         }
                     }
                 }
-                else
-                {
-
+                else{
                     //Puede ser portada
-
                     result_re3 = regexpPortada.exec(direccion);
                     if (result_re3)
                         result_re3[2] = result_re3[2].replace(/\?.*/,""); //quitamos lo parametros
