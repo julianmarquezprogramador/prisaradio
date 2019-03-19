@@ -8,7 +8,7 @@ if(imAMP()){ //if amp then
 }
 //end AMP code//
 
-var numVersion= "1.0.2";
+var numVersion= "1.0.3";
 var dtm_version= "dtm version " + numVersion;
 
 function getAnalyticsAccount(){
@@ -37,7 +37,7 @@ s.accountF = getAnalyticsAccountF();
 
 var isPlayer= false;
 var cadena_titulo_limpio= "";
-var useSSL = document.location.protocol == 'https:';
+var useSSL = document.location.protocol == 'https:' ? true : false;
 
 var country="chile";
 var zone="america";
@@ -113,6 +113,133 @@ if(gmt>=0){
 s.dstStart="1/1/"+anoActual; 			// update to the correct Daylight Savings Time start
 s.dstEnd="12/31/"+anoActual; 			// update to the correct Daylight Savings Time end date
 s.currentYear=anoActual; 				// update to the current year
+
+function omn_asyncPV(){
+
+    s.account = getAnalyticsAccount();
+    s.accountF = getAnalyticsAccountF();
+
+    s.channel = section;
+    s.pageName= s.siteID + location.pathname;														// Get Path Name (On)
+    //if(s.pageURL != location.href){
+    s.pageURL= location.href;
+    s.referrer = _satellite.previousURL;
+
+    // EW
+    if(section=="widget"){
+        try {
+            parentDomain = (window.location != window.parent.location) ? document.referrer: document.location;
+        }
+        catch(err) {
+            console.log( "Error: " + err + ".");
+        }
+        s.account = "prisacommultidistribucionunionradio";
+        s.accountF = "prisacommultidistribucionunionradio";
+        s.pageName=parentDomain;
+        pageName=parentDomain;
+
+        if(/.adnradio.cl/.test(parentDomain)){
+            s.abort = true;
+        }
+    }
+
+    s.prop3=type;																												// Type Content
+    s.prop5="D=g";							  																			// URL
+    s.prop6="D=r";									   																	// Referrer
+    s.prop8=s.getTimeParting('d',gmt); 																	// Set day  (Jueves)
+    s.prop9=s.getTimeParting('w', gmt);																	// Set weekday (laborable/festivo)
+    s.prop14=country;											    													// Country
+    s.prop15=zone;  																							 			// Zone (Region) : RADIO
+    s.prop17=channel;																										// Canal
+    s.prop18="prisa";																										// Organization
+    s.prop19=product;																											// Product
+    s.prop20=location.hostname.replace(/www./gi,"");										// Domain	| Subdomain
+    s.prop21=s.getNewRepeat();   																				// User New / Repeat
+    s.prop22="convencional";																						// Format : RADIO
+    s.prop24=hours+":"+minutes+":"+seconds;															// Set hh:mm:ss (12:32:48)
+    s.prop29='D=c15+":"+c14+":"+c19+":"+c22+":"+c17+":"+c20';						// Combine Segmentation : RADIO
+    s.prop30="radio";																										// Business Unit
+    s.prop31="musica"; 																									// Temathic
+    s.prop33=s.getVisitNum();																						// Visit Number By Month
+    s.prop35=hours;																											// Set hour (12)
+    s.prop36=s.getTimeParting('d', gmt)+"-"+day+"/"+month+"/"+fecha.getFullYear()+"-"+s.prop24;		// Join Date (Jueves-15/9/2012-12:32:48)
+    s.prop39=pageTitle; 																								// Title / Page Name
+    s.prop44=s.getTimeParting('h', gmt);				 												// Set hour (12:00PM)
+    s.prop45=pageTitle; 																								// Title / Page Name
+    s.prop60=s.getDaysSinceLastVisit('s_lv');         									// Days Since Last Visit
+    s.prop62=status;																										// Log in / Anonymous
+    s.prop73= dtm_version;
+
+    if(subsection != '' ){
+        s.prop1 = section + '>' + subsection;
+    }else{
+        s.prop1 = '';
+    }
+    if(subsubsection != ''){
+        s.prop2= s.prop1 + '>' +subsubsection;
+    }else{
+        s.prop2 = '';
+    }
+
+    /* Hierarchy GROUP  */
+    s.hier1='D=c18+">"+c19+">"+c20+">"';
+
+    if(s.prop2!=''){
+        s.hier1 +='c2+">"';
+    }else if(s.prop1!=''){
+        s.hier1 +='c1+">"';
+    }else{
+        s.hier1 +='ch+">"';
+    }
+    s.hier1 +='pageName';
+
+    if(s.ab_enabled){
+        s.prop57 = 'D="con_ADBLOCK-"+User-Agent';
+        s.eVar57 = 'D="con_ADBLOCK-"+User-Agent';
+    }else{
+        s.prop57 = 'D="sin_ADBLOCK-"+User-Agent';
+        s.eVar57 = 'D="sin_ADBLOCK-"+User-Agent';
+    }
+
+    s.t();
+
+    //Poder.io-- let's delete the code for PoderIO
+    // if(typeof analytics != "undefined" && typeof analytics.page != "undefined")
+    //     analytics.page({title: document.title, url: location.href,path: location.pathname, referrer: _satellite.previousURL});
+
+    _satellite.previousURL = location.href;
+    //}
+}
+function omn_adblocker(){
+    window.s.ab_enabled = false;
+    //Se supone la existencia de body, si no es asi salimos
+    if (!window.document.body)
+        return;
+
+    var baitClass = 'pub_300x250 pub_300x250m pub_728x90 text-ad textAd text_ad text_ads text-ads text-ad-links',
+        baitStyle = 'width: 1px !important; height: 1px !important; position: absolute !important; left: -1000px !important; top: -1000px !important;',
+        bait = document.createElement('div');
+
+    bait.setAttribute('class', baitClass);
+    bait.setAttribute('style', baitStyle);
+
+    window.document.body.insertBefore(bait, window.document.body.childNodes[0]);
+
+    window.setTimeout(function() {
+        s.ab_enabled = (window.document.body.getAttribute('abp') !== null
+            || bait.offsetParent === null
+            || bait.offsetHeight == 0
+            || bait.offsetLeft == 0
+            || bait.offsetTop == 0
+            || bait.offsetWidth == 0
+            || bait.clientHeight == 0
+            || bait.clientWidth == 0);
+
+        window.document.body.removeChild(bait);
+
+    }, 500);
+
+}
 
 /* variables undefined asign empty value */
 if (typeof(pageTitle) == 'undefined') pageTitle=document.title;
@@ -857,6 +984,7 @@ if(typeof tucu !== 'undefined'){
             console.log("/////////////////////DTM////////////////////////////");
             console.log(dtm_version);
             console.log("feature: Added code for AMP");
+            console.log("feature: Include omn_asyncPV function");
             console.log("////////////////////////////////////////////////////");
         }
         else{
