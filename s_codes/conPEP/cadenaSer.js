@@ -2,8 +2,9 @@
 Copyright 1996-2014 Adobe, Inc. All Rights Reserved
 More info available at http://www.omniture.com */
 
-var numVersion="1.0.3";
-var dtmVersion= "s_code " + numVersion;
+var numVersion="1.0.4";
+var date="20-03-2019";
+var dtmVersion= "s_code " + numVersion + "_" + date;
 var product= "cadenaser";
 var useSSL = document.location.protocol == 'https:';
 
