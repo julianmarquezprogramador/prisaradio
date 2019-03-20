@@ -2,7 +2,7 @@
 Copyright 1996-2014 Adobe, Inc. All Rights Reserved
 More info available at http://www.omniture.com */
 
-var numVersion="1.0.2";
+var numVersion="1.0.3";
 var dtmVersion= "s_code " + numVersion;
 var product= "cadenaser";
 var useSSL = document.location.protocol == 'https:';
@@ -2162,6 +2162,7 @@ if(typeof tucu !== 'undefined'){
             console.log("feature: collect foreing url in iframe");
             console.log("feature: obtein topPlayer data and send pixel to omniture");
             console.log("feature: send pixel comscore");
+            console.log("feature: repair quote in eVar39");
             console.log("////////////////////////////////////////////////////");
         }
         else{
