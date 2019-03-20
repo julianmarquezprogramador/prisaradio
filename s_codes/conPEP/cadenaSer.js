@@ -76,7 +76,7 @@ function getInternetExplorerVersion()
 
 //Permitimos modificar la suit definiendo antes la variable s_account
 if (typeof(s_account) == "undefined" ) {
-    if(!/cadenaser.com/.test(location.hostname) || /instanceplayer.prisasd.com/.test(location.hostname)){                       // Producción
+    if(/cadenaser.com/.test(location.hostname) || /instanceplayer.prisasd.com/.test(location.hostname)){                       // Producción
         var s_account = 'prisacomglobal';
         var s_accountF = 'prisacomglobal';
     } else {
