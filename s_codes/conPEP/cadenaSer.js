@@ -694,7 +694,7 @@ s.doPlugins=function(s) {
     if(scroll_i==true){
         s.prop65 = "scroll";
     }
-    s.prop73= numVersion;
+    s.prop73= dtmVersion;
 
 
 //if(s.prop1)s.eVar5="D=c1";
@@ -1365,7 +1365,7 @@ if (typeof(marcado_omniture_particular) == "undefined")
     else
         s.prop62 = "anonimo";
 
-    s.prop73= numVersion;
+    s.prop73= dtmVersion;
     s.prop75 = prop75_omniture;
     /*
     Jerarquias
@@ -1713,7 +1713,7 @@ function omn_launchScroll(){
     s.prop33 = s.getVisitNum();
     s.prop36 = s.getTimeParting('d', gmt) + "-" + day + "/" + month + "/" + fecha.getFullYear() + "-" + s.prop24;
     s.prop60 = s.getDaysSinceLastVisit('s_lv');
-    s.prop73= numVersion;
+    s.prop73= dtmVersion;
 
     s.prop65 = "sin scroll";
     if(scroll_i==true){
@@ -2153,7 +2153,7 @@ function omn_launchPixelComScore(){
     comscoreImg.width = '1';
     comscoreImg.height = '1';
     comscoreImg.style.display = 'none';
-    comscoreImg.src = (useSSL ? "https://sb.scorecardresearch.com" : "http://b.scorecardresearch.com") + "/p?c1=2&c2=8671776&cv=2.0&cj=1&c7=" + encodeURIComponent(document.location.href) + "&c8=" + encodeURIComponent(cadena_titulo) +  "&c9=" + encodeURIComponent(document.referrer) + "&rn=" + String(Math.random()).substr(2,9);
+    comscoreImg.src = (useSSL ? "https://sb.scorecardresearch.com" : "http://b.scorecardresearch.com") + "/p?c1="+_comscore[0].c1+"&c2="+_comscore[0].c2+"&cv=2.0&cj=1&c7=" + encodeURIComponent(document.location.href) + "&c8=" + encodeURIComponent(cadena_titulo) +  "&c9=" + encodeURIComponent(document.referrer) + "&rn=" + String(Math.random()).substr(2,9);
 }
 
 function omn_cleanTitle_withoutSeo(stringWithPipes) {
