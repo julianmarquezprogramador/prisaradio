@@ -2,8 +2,9 @@
 Copyright 1996-2014 Adobe, Inc. All Rights Reserved
 More info available at http://www.omniture.com */
 
-var numVersion="1.0.2";
-var dtmVersion= "s_code " + numVersion;
+var numVersion="1.0.4";
+var date="20-03-2019";
+var dtmVersion= "s_code " + numVersion + "_" + date;
 var product= "cadenaser";
 var useSSL = document.location.protocol == 'https:';
 
@@ -111,13 +112,15 @@ cadena_titulo = cadena_titulo.toLowerCase();
 
 // Título "limpio" (solo titular de la noticia)
 var meta_og_title = document.querySelector('meta[property="og:title"]');
-var cadena_titulo_limpio = (meta_og_title) ? meta_og_title.getAttribute('content').replace(/'|"|\|/g, "") : "";
-cadena_titulo_limpio = cadena_titulo_limpio.toLowerCase();
+//var cadena_titulo_limpio = (meta_og_title) ? meta_og_title.getAttribute('content').replace(/'|"|\|/g, "") : "";
+//cadena_titulo_limpio = cadena_titulo_limpio.toLowerCase();
+var cadena_titulo_limpio = omn_cleanTitle_withoutSeo(cadena_titulo).trim().toLowerCase();
 
 var marcar_otros_elementos = false;
 
-if (typeof(ids_tracking) == "undefined" )
+if (typeof(ids_tracking) == "undefined" ){
     var ids_tracking = [];
+}
 
 var circuitos_regionales = {
     "radio_barcelona":"ser_catalunya",
@@ -691,7 +694,7 @@ s.doPlugins=function(s) {
     if(scroll_i==true){
         s.prop65 = "scroll";
     }
-    s.prop73= numVersion;
+    s.prop73= dtmVersion;
 
 
 //if(s.prop1)s.eVar5="D=c1";
@@ -1362,7 +1365,7 @@ if (typeof(marcado_omniture_particular) == "undefined")
     else
         s.prop62 = "anonimo";
 
-    s.prop73= numVersion;
+    s.prop73= dtmVersion;
     s.prop75 = prop75_omniture;
     /*
     Jerarquias
@@ -1710,7 +1713,7 @@ function omn_launchScroll(){
     s.prop33 = s.getVisitNum();
     s.prop36 = s.getTimeParting('d', gmt) + "-" + day + "/" + month + "/" + fecha.getFullYear() + "-" + s.prop24;
     s.prop60 = s.getDaysSinceLastVisit('s_lv');
-    s.prop73= numVersion;
+    s.prop73= dtmVersion;
 
     s.prop65 = "sin scroll";
     if(scroll_i==true){
@@ -1718,8 +1721,10 @@ function omn_launchScroll(){
     }
 
     s.events = "event2"; //por defecto el evento de pagina vista
-    //s.prop45 = cadena_titulo;
-    s.prop45 = document.title;
+    cadena_titulo =  (document.getElementsByTagName('title')[0] ) ? document.getElementsByTagName('title')[0].innerHTML : "";
+    cadena_titulo = cadena_titulo.toLowerCase();
+    cadena_titulo_limpio = omn_cleanTitle_withoutSeo(cadena_titulo).trim().toLowerCase();
+    s.prop45 = cadena_titulo;
 
     var regexpNoticia = /http.?:\/\/([^\/]*)\/([^\/]*)\/(\d+)\/(\d+)\/(\d+)\/([^\/]*)\/(.*)\.html/i;
     var regexpSeccionVirtual = /http.?:\/\/([^\/]*)\/(seccion|programa|emisora)\/([^\/]*)/i;
@@ -1816,9 +1821,7 @@ function omn_launchScroll(){
         s.prop44 = result_re[3] + "/" + result_re[4] + "/" + result_re[5];
 
         s.events += ',event77';
-        omn_cleanTitle();
         s.prop39 = cadena_titulo_limpio;
-
 
         //desencadena el evento onload
         marcar_otros_elementos = true;
@@ -2001,14 +2004,14 @@ function omn_launchScroll(){
         omn_launchPixelComScore();
     }
 }
-
+/*
 function omn_cleanTitle(){
     cadena_titulo_limpio= "";
     var meta_og_title = document.querySelector('meta[property="og:title"]');
     cadena_titulo_limpio = (meta_og_title) ? meta_og_title.getAttribute('content').replace(/'|"|\|/g, "") : "";
     cadena_titulo_limpio = cadena_titulo_limpio.toLowerCase();
 }
-
+*/
 function imIframe(){
     try {
         return window.self !== window.top;
@@ -2150,8 +2153,15 @@ function omn_launchPixelComScore(){
     comscoreImg.width = '1';
     comscoreImg.height = '1';
     comscoreImg.style.display = 'none';
-    comscoreImg.src = (useSSL ? "https://sb.scorecardresearch.com" : "http://b.scorecardresearch.com") + "/p?c1=2&c2=8671776&cv=2.0&cj=1&c7=" + encodeURIComponent(document.location.href) + "&c8=" + encodeURIComponent(cadena_titulo) +  "&c9=" + encodeURIComponent(document.referrer) + "&rn=" + String(Math.random()).substr(2,9);
+    comscoreImg.src = (useSSL ? "https://sb.scorecardresearch.com" : "http://b.scorecardresearch.com") + "/p?c1="+_comscore[0].c1+"&c2="+_comscore[0].c2+"&cv=2.0&cj=1&c7=" + encodeURIComponent(document.location.href) + "&c8=" + encodeURIComponent(cadena_titulo) +  "&c9=" + encodeURIComponent(document.referrer) + "&rn=" + String(Math.random()).substr(2,9);
 }
+
+function omn_cleanTitle_withoutSeo(stringWithPipes) {
+    var array_stringWithPipes = stringWithPipes.split("|");
+    var stringWithoutPipes= array_stringWithPipes[0];
+    return stringWithoutPipes;
+}
+
 
 if(typeof tucu !== 'undefined'){
     if(typeof tucu.dev !== 'undefined'){
@@ -2162,6 +2172,7 @@ if(typeof tucu !== 'undefined'){
             console.log("feature: collect foreing url in iframe");
             console.log("feature: obtein topPlayer data and send pixel to omniture");
             console.log("feature: send pixel comscore");
+            console.log("feature: repair quote in eVar39");
             console.log("////////////////////////////////////////////////////");
         }
         else{
