@@ -2007,6 +2007,13 @@ function omn_launchScroll(){
 
     if(scroll_i==true){//if is new page then scroll_i = true and send comScore
         s.t();
+        loadScript("https://www.googletagmanager.com/gtag/js?id=UA-136496200-1", function () {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-136496200-1');
+        });
         omn_launchPixelComScore();
     }
 }
