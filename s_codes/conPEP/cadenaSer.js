@@ -2,8 +2,8 @@
 Copyright 1996-2014 Adobe, Inc. All Rights Reserved
 More info available at http://www.omniture.com */
 
-var numVersion="1.0.4";
-var date="20-03-2019";
+var numVersion="1.0.5";
+var date="25-03-2019";
 var dtmVersion= "s_code " + numVersion + "_" + date;
 var product= "cadenaser";
 var useSSL = document.location.protocol == 'https:';
@@ -20,7 +20,6 @@ var myStreamingTag = null;
 loadScript('//ep00.epimg.net/js/comun/streamsense.js', function(){
     //veremos si hacemos algo
 });
-
 
 var MPEP_adblock_enabled;
 
@@ -1061,6 +1060,13 @@ if (typeof(marcado_omniture_particular) == "undefined")
 
         //desencadena el evento onload
         marcar_otros_elementos = true;
+        loadScript("https://www.googletagmanager.com/gtag/js?id=UA-136496200-1", function () {
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-136496200-1');
+        });
 
         //Indicamos los ids de los botones de compartir
         ids_tracking.push({"id":"fb","tipo":"compartir","marca":"facebook"});
