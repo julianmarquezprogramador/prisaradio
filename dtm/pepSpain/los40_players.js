@@ -11,8 +11,155 @@ if(typeof arrayAmp !== 'undefined') {
 }
 //end AMP code//
 
-var numVersion= "2.1.2";
-var dtm_version= "dtm version " + numVersion;
+
+var DTMR;
+
+DTMR = function (url) {
+    this._hostn = url.match(/^[a-z][a-z0-9+.-]*:\/\/([a-z0-9._~%!$&'()*+,;=-]+@)?([a-z0-9._~%-]+|\[[a-z0-9._~%!$&'()*+,;=:-]+\])/ig)[0];
+    Object.defineProperties(this, {
+        _hostn: {
+            writable:false,
+            enumerable:false
+        },
+        _v: {
+            value: function() {
+                return {
+                    _sep: ":::",
+                    prefix: "s_code",
+                    version: "2.1.1",
+                    date: "27-03-2019",
+                    author: "jcarneros"
+                }
+            }(),
+            writable:false,
+            enumerable:false
+        },
+        _objProductos: {
+            value: [
+                {
+                    re:/^(https?)?.*?los40\.com\/?$/,  // España
+                    c:"españa",  // country
+                    z:"españa",  // zone
+                    p: "los40"   // product
+                },
+                {
+                    re:/^(https?)?.*?los40\.com\.pa\/?$/,  // Panamá
+                    c:"panama",
+                    z:"america",
+                    p: "los40pa"
+                },
+                {
+                    re:/^(https?)?.*?los40\.com\.ar\/?$/,  // Argentina
+                    c:"argentina",
+                    z:"america",
+                    p: "los40ar"
+                },
+                {
+                    re:/^(https?)?.*?los40\.com\.mx\/?$/,  // Mexico
+                    c:"mexico",
+                    z:"america",
+                    p: "los40mx"
+                },
+                {
+                    re:/^(https?)?.*?los40\.com\.co\/?$/,  // Colombia
+                    c:"colombia",
+                    z:"america",
+                    p: "los40co"
+                },
+                {
+                    re:/^(https?)?.*?los40\.cl\/?$/,  // Chile
+                    c:"chile",
+                    z:"america",
+                    p: "los40cl"
+                },
+                {
+                    re:/^(https?)?.*?los40\.co\.cr\/?$/,  //Costa Rica
+                    c:"costa rica",
+                    z:"america",
+                    p: "los40cr"
+                },
+                {
+                    re:/^(https?)?.*?los40\.do\/?$/,  // Republica Dominicana
+                    c:"republica dominicana",
+                    z:"america",
+                    p: "los40do"
+                },
+                {
+                    re:/^(https?)?.*?los40\.com\.py\/?$/,  // Paraguay
+                    c:"paraguay",
+                    z:"america",
+                    p: "los40py"
+                },
+                {
+                    re:/^(https?)?.*?los40\.com\.ec\/?$/,  // Ecuador
+                    c:"ecuador",
+                    z:"america",
+                    p: "los40ec"
+                },
+                {
+                    re:/^(https?)?.*?los40\.com\.gt\/?$/,  // Guatemala
+                    c:"guatemala",
+                    z:"america",
+                    p: "los40gt"
+                }
+            ],
+            writable:false,
+            enumerable:false
+        },
+        _objProducto: {
+            get: function() {
+                var self = this;
+                var output = this._objProductos.filter(function(x) {
+                    var output = x.re.test(self._hostn);
+                    return output;
+                });
+                return output[0];
+            },
+            enumerable:false
+        },
+        country: {
+            get: function() {return this._objProducto.c},
+            enuerable: true
+        },
+        zone: {
+            get: function() {return this._objProducto.z},
+            enuerable: true
+        },
+        product: {
+            get: function() {return this._objProducto.p},
+            enuerable: true
+        },
+        version: {
+            get: function () {
+                return Array("dtmRadio version",this._v.prefix, this._v.version, this._v.date, this._v.author).join(this._v._sep);
+            },
+            enumerable: true
+        },
+        log: {
+            value: function () {
+                var cambios = [
+                    "/////////////////////DTM////////////////////////////",
+                    this.version,
+                    "feature: Added s.channel into Player",
+                    "feature: Added code for AMP",
+                    "feature: changed value s.prop19 added product switch country",
+                    "feature: writes same in the page name in Web like in AMP",
+                    "feature: obtein topPlayer data and send pixel to omniture",
+                    "feature: send pixel comscore",
+                    "feature: cleaning title without pipes '|'",
+                    "feature: Delete dot in domain for pageName",
+                    "////////////////////////////////////////////////////",
+                ];
+                cambios.forEach(function (x) {
+                    console.log(x);
+                });
+            }
+        }
+
+    });
+};
+
+var dtmRadio = new DTMR(location.href);
 
 function getAnalyticsAccount(){
     for (var toolid in _satellite.tools){
@@ -20,6 +167,43 @@ function getAnalyticsAccount(){
             var accountP = _satellite.tools[toolid].settings.account;
             arrAccount = accountP.split(",");
             return arrAccount[0];
+            // if(/.pa/.test(hostn)){															// Panamá
+            //     //return arrAccount[2] + "," + arrAccount[0];
+            // }
+            // else if(/.com.ar/.test(hostn)){ 										// Argentina
+            //     return arrAccount[3] + "," + arrAccount[0];
+            // }
+            // else if(/.mx/.test(hostn)){													// Mexico
+            //     return arrAccount[4] + "," + arrAccount[0];
+            // }
+            // else if(/los40.com.co/.test(hostn)){								// Colombia
+            //     return arrAccount[5] + "," + arrAccount[0];
+            // }
+            // else  if(/.cl/.test(hostn)){												// Chile
+            //     return arrAccount[6] + "," + arrAccount[0];
+            // }
+            // else if(/.cr/.test(hostn)){													// Costa Rica
+            //     return arrAccount[7] + "," + arrAccount[0];
+            // }
+            // else if(/.do/.test(hostn)){													// Republica Dominicana
+            //     return arrAccount[8] + "," + arrAccount[0];
+            // }
+            // else if(/.py/.test(hostn)){													// Paraguay
+            //     return arrAccount[9] + "," + arrAccount[0];
+            // }
+            // else if(/.ec/.test(hostn)){													// Ecuador
+            //     return arrAccount[10] + "," + arrAccount[0];
+            // }
+            // else if(/.ni/.test(hostn)){													// Nicaragua
+            //     return arrAccount[11] + "," + arrAccount[0];
+            // }
+            // else if(/.gt/.test(hostn)){													// Nicaragua
+            //     return arrAccount[12] + "," + arrAccount[0];
+            // }
+            // else if(/los40.com/.test(hostn)){										// España
+            //     //return arrAccount[1] + "," + arrAccount[0];
+            //     return arrAccount[0];
+            // }
         }
     }
 }
@@ -31,6 +215,43 @@ function getAnalyticsAccountF(){
             arrAccount = accountF.split(",");
 
             return arrAccount[0];
+            // if(/.pa/.test(hostn)){										// Panamá
+            //     return arrAccount[2];
+            // }
+            // else if(/.com.ar/.test(hostn)){ 					// Argentina
+            //     return arrAccount[3];
+            // }
+            // else if(/.mx/.test(hostn)){								// Mexico
+            //     return arrAccount[4];
+            // }
+            // else if(/los40.com.co/.test(hostn)){			// Colombia
+            //     return arrAccount[5];
+            // }
+            // else if(/.cl/.test(hostn)){								// Chile
+            //     return arrAccount[6];
+            // }
+            // else if(/.cr/.test(hostn)){								// Costa Rica
+            //     return arrAccount[7];
+            // }
+            // else if(/.do/.test(hostn)){								// Republica Dominicana
+            //     return arrAccount[8];
+            // }
+            // else if(/.py/.test(hostn)){								// Paraguay
+            //     return arrAccount[9];
+            // }
+            // else if(/.ec/.test(hostn)){								// Ecuador
+            //     return arrAccount[10];
+            // }
+            // else if(/.ni/.test(hostn)){								// Nicaragua
+            //     return arrAccount[11];
+            // }
+            // else if(/.gt/.test(hostn)){								// Guatemala
+            //     return arrAccount[12];
+            // }
+            // else if(/los40.com/.test(hostn)){
+            //     //return arrAccount[1];										// España
+            //     return arrAccount[0];
+            // }
         }
     }
 }
@@ -42,69 +263,15 @@ s.accountF = getAnalyticsAccountF();
 var isPlayer= false;
 var cadena_titulo_limpio= "";
 
-var country="españa";
-var zone="españa";
-var product= "los40";
-
-if(/.pa/.test(hostn)){														//Panamá
-    country="panama";
-    zone="america";
-    product= "los40pa";
-}
-if(/.com.ar/.test(hostn)){ 												//Argentina
-    country="argentina";
-    zone="america";
-    product= "los40ar";
-}
-if(/.mx/.test(hostn)){														//Mexico
-    country="mexico";
-    zone="america";
-    product= "los40mx";
-}
-if(/los40.com.co/.test(hostn)){									  //Colombia
-    country="colombia";
-    zone="america";
-    product= "los40co";
-}
-if(/.cl/.test(hostn)){														//Chile
-    country="chile";
-    zone="america";
-    product= "los40cl";
-}
-if(/.cr/.test(hostn)){														//Costa Rica
-    country="costa rica";
-    zone="america";
-    product= "los40cr";
-}
-if(/.do/.test(hostn)){														//Republica Dominicana
-    country="republica dominicana";
-    zone="america";
-    product= "los40do";
-}
-if(/.py/.test(hostn)){														//Paraguay
-    country="paraguay";
-    zone="america";
-    product= "los40py";
-}
-if(/.ec/.test(hostn)){														//Ecuador
-    country="ecuador";
-    zone="america";
-    product= "los40ec";
-}
-if(/.gt/.test(hostn)){														//Guatemala
-    country="guatemala";
-    zone="america";
-    product= "los40gt";
-}
 
 /******** VISITOR ID SERVICE CONFIG - REQUIRES VisitorAPI.js ********/
 //s.visitor=Visitor.getInstance("INSERT-MCORG-ID-HERE")
 
 /************************** CONFIG SECTION **************************/
-s.debugTracking=false
+s.debugTracking=false;
 
 /* You may add or alter any code config here. */
-s.charSet="UTF-8"
+s.charSet="UTF-8";
 
 s.server = location.host;
 var arraySite = s.server.split(".");
@@ -124,14 +291,14 @@ if (arraySite[0]=="www"){
 }
 
 /* Link Tracking Config */
-s.trackDownloadLinks=true
-s.trackExternalLinks=true
-s.trackInlineStats=true
-s.linkDownloadFileTypes="exe,zip,wav,mp3,mov,mpg,avi,wmv,pdf,doc,docx,xls,xlsx,ppt,pptx"
-s.linkInternalFilters="javascript:,"+ s.siteID +""
-s.linkLeaveQueryString=false
-s.linkTrackVars="None"
-s.linkTrackEvents="None"
+s.trackDownloadLinks=true;
+s.trackExternalLinks=true;
+s.trackInlineStats=true;
+s.linkDownloadFileTypes="exe,zip,wav,mp3,mov,mpg,avi,wmv,pdf,doc,docx,xls,xlsx,ppt,pptx";
+s.linkInternalFilters="javascript:,"+ s.siteID +"";
+s.linkLeaveQueryString=false;
+s.linkTrackVars="None";
+s.linkTrackEvents="None";
 
 /* Form Analysis Plugin */
 //Abandon,Success,Error "event26,event27,event28"
@@ -157,16 +324,6 @@ var minutes=fecha.getMinutes();if(minutes<10)minutes='0'+minutes;
 var hours=fecha.getHours();if(hours<10)hours='0'+hours;
 var day=fecha.getDate();if(day<10)day='0'+day;
 
-/* TimeParting Config */
-var date = new Date();
-var anoActual=date.getFullYear(); 	//Recogemos el año en el que estamos
-var gmt = -(date.getTimezoneOffset()/60) - 1;
-if(gmt>=0){
-    gmt = "+" + gmt.toString();
-}
-s.dstStart="1/1/"+anoActual; 			// update to the correct Daylight Savings Time start
-s.dstEnd="12/31/"+anoActual; 			// update to the correct Daylight Savings Time end date
-s.currentYear=anoActual; 				// update to the current year
 
 /* variables undefined asign empty value */
 if (typeof(pageName) == 'undefined') pageName='';
@@ -185,11 +342,10 @@ if (typeof(radio_station) == 'undefined') radio_station='';
 
 if (typeof(adblock_enabled) == 'undefined') adblock_enabled='D="con_ADBLOCK-"+User-Agent';
 omn_launchPixelComScore();
-// loadScript("//static.chartbeat.com/js/chartbeat.js", chartbeatSetUp());
 
 /************** doPlugins Script **************/
 
-s.usePlugins=true
+s.usePlugins = true;
 s.doPlugins=function(s) {
 
 // External Campaign Tracking
@@ -245,11 +401,11 @@ s.doPlugins=function(s) {
     s.prop9=s.getTimeParting('w', gmt);																	// Set weekday (laborable/festivo)
     s.prop12=program;											    													// Program
     s.prop13=radio_station;											    										// Radio Station
-    s.prop14=country;											    													// Country
-    s.prop15=zone;  																							 			// Zone (Region) : RADIO
+    s.prop14 = dtmRadio.country;                                                                                                   // Country
+    s.prop15 = dtmRadio.zone;                                                                                                          // Zone (Region) : RADIO
     s.prop17="web";																											// Canal
     s.prop18="prisa";																										// Organization
-    s.prop19= product;
+    s.prop19 = dtmRadio.product;
     s.prop20=location.hostname.replace(/www./gi,"");										// Domain	| Subdomain
     s.prop21=s.getNewRepeat();   																				// User New / Repeat
     s.prop22="musical";																									// Format : RADIO
@@ -377,39 +533,39 @@ s.doPlugins=function(s) {
 
     /* Conversion variables*/
 
-    s.eVar3="D=pageName"  															// pageName
-    s.eVar4="D=ch"																			// channel
-    if(s.prop1)s.eVar5="D=c1"														// Subseccion (prop1)
-    if(s.prop2)s.eVar6="D=c2"														// Subsubseccion (prop2)
-    if(s.prop3)s.eVar7="D=c3";													// Type
-    if(s.prop5)s.eVar10="D=g"														// URL
-    if(s.prop6)s.eVar63="D=r"														// Referrer
-    if(s.prop8)s.eVar48="D=c8"													// Set day  (Jueves)
-    if(s.prop9)s.eVar66="D=c9"													// Set weekday (laborable/festivo)
-    if(s.prop12)s.eVar12="D=c12"												// Program
-    if(s.prop13)s.eVar13="D=c13"												// Radio Station
-    if(s.prop14)s.eVar14="D=c14"												// Country
-    if(s.prop15)s.eVar15="D=c15"												// Zone (Region) : RADIO
-    if(s.prop16)s.eVar16="D=c16"  											// searched word
-    if(s.prop17)s.eVar17="D=c17"  											// Canal
-    if(s.prop18)s.eVar18="D=c18"												// Organization
-    if(s.prop19)s.eVar19="D=c19"												// Product
-    if(s.prop20)s.eVar20="D=c20"												// Domain
-    if(s.prop21)s.eVar21="D=c21"												// User New / Repeat
-    if(s.prop22)s.eVar24="D=c22"												// Format	: RADIO
-    if(s.prop24)s.eVar59="D=c24"												// Set hour:minutes:seconds (12:32:48)
-    if(s.prop30)s.eVar30="D=c30"												// Bussines Unit
-    if(s.prop33)s.eVar32="D=c33"												// Visit Number By Month
-    if(s.prop29)s.eVar31="D=c29"												// Combine segmentation : RADIO
-    if(s.prop31)s.eVar62="D=c31"												// Temathic
-    if(s.prop35)s.eVar35="D=c35"												// Set hour (12)
-    if(s.prop36)s.eVar33="D=c36"												// Join Date (Jueves-15/9/2012-12:32:48)
-    if(s.prop39)s.eVar39="D=c39"												// Title
-    if(s.prop40)s.eVar40="D=c40"												// Type Design Web
-    if(s.prop44)s.eVar44="D=c44"												// Set hour (12:00PM)
-    if(s.prop45)s.eVar45="D=c45"												// Title
-    if(s.prop60)s.eVar60="D=c60"												// Days Since Last Visit
-    if(s.prop62)s.eVar22="D=c62"												// Log In/ Anonymous
+    s.eVar3 = "D=pageName";                                                     // pageName
+    s.eVar4 = "D=ch";                                                           // channel
+    if (s.prop1) s.eVar5 = "D=c1";                                              // Subseccion (prop1)
+    if (s.prop2) s.eVar6 = "D=c2";                                              // Subsubseccion (prop2)
+    if (s.prop3) s.eVar7 = "D=c3";                                              // Type
+    if (s.prop5) s.eVar10 = "D=g";                                              // URL
+    if (s.prop6) s.eVar63 = "D=r";                                              // Referrer
+    if (s.prop8) s.eVar48 = "D=c8";                                             // Set day  (Jueves)
+    if (s.prop9) s.eVar66 = "D=c9";                                             // Set weekday (laborable/festivo)
+    if (s.prop12) s.eVar12 = "D=c12";                                           // Program
+    if (s.prop13) s.eVar13 = "D=c13";                                           // Radio Station
+    if (s.prop14) s.eVar14 = "D=c14";                                           // Country
+    if (s.prop15) s.eVar15 = "D=c15";                                           // Zone (Region) : RADIO
+    if (s.prop16) s.eVar16 = "D=c16";                                           // searched word
+    if (s.prop17) s.eVar17 = "D=c17";                                           // Canal
+    if (s.prop18) s.eVar18 = "D=c18";                                           // Organization
+    if (s.prop19) s.eVar19 = "D=c19";                                           // Product
+    if (s.prop20) s.eVar20 = "D=c20";                                           // Domain
+    if (s.prop21) s.eVar21 = "D=c21";                                           // User New / Repeat
+    if (s.prop22) s.eVar24 = "D=c22";                                           // Format   : RADIO
+    if (s.prop24) s.eVar59 = "D=c24";                                           // Set hour:minutes:seconds (12:32:48)
+    if (s.prop30) s.eVar30 = "D=c30";                                           // Bussines Unit
+    if (s.prop33) s.eVar32 = "D=c33";                                           // Visit Number By Month
+    if (s.prop29) s.eVar31 = "D=c29";                                           // Combine segmentation : RADIO
+    if (s.prop31) s.eVar62 = "D=c31";                                           // Temathic
+    if (s.prop35) s.eVar35 = "D=c35";                                           // Set hour (12)
+    if (s.prop36) s.eVar33 = "D=c36";                                           // Join Date (Jueves-15/9/2012-12:32:48)
+    if (s.prop39) s.eVar39 = "D=c39";                                           // Title
+    if (s.prop40) s.eVar40 = "D=c40";                                           // Type Design Web
+    if (s.prop44) s.eVar44 = "D=c44";                                           // Set hour (12:00PM)
+    if (s.prop45) s.eVar45 = "D=c45";                                           // Title
+    if (s.prop60) s.eVar60 = "D=c60";                                           // Days Since Last Visit
+    if (s.prop62) s.eVar22 = "D=c62";                                           // Log In/ Anonymous
 
 // Set Page View Event
     s.events="event2";
@@ -443,25 +599,25 @@ s.doPlugins=function(s) {
 // s.events=s.apl(s.events,"event1",",",1);
 
 // Check server error page 404 and internal
-    if (error == 404){
-        s.pageType="errorPage"
-        s.pageName='';
+    if (error == 404) {
+        s.pageType = "errorPage";
+        s.pageName = '';
     }
-    if (error == 500){
-        s.pageType="errorPage"
-        s.pageName="error interno"
+    if (error == 500) {
+        s.pageType = "errorPage";
+        s.pageName = "error interno"
     }
 
 // force all Adobe SiteCatalyst variables to Lower Case
     for(var a=1;a<=100;a++)s["prop"+a]&&(s["prop"+a]=s["prop"+a].toString().toLowerCase().replace(/^d=/,"D="));for(var b=["products","pageName","channel","campaign"],a=0;a<b.length;a++)s[b[a]]&&(s[b[a]]=s[b[a]].toLowerCase().replace(/^d=/,"D="));
 
     s.prop34=userId;   																	// User Id
-    if(s.prop34)s.eVar43="D=c34"												// User Id
+    if(s.prop34)s.eVar43="D=c34";												// User Id
 
     s.prop57=adblock_enabled;														// AdBlock
     s.eVar57=adblock_enabled;														// AdBlock
 
-}
+};
 
 //COMIENZO COLOMBIA Y CHILE
 //if(/los40.com.co/.test(hostn) || /.cl/.test(hostn)){
@@ -501,11 +657,11 @@ function omn_asyncPV() {
     s.prop9=s.getTimeParting('w', gmt);																	// Set weekday (laborable/festivo)
     s.prop12=program;											    													// Program
     s.prop13=radio_station;											    										// Radio Station
-    s.prop14=country;											    													// Country
-    s.prop15=zone;  																							 			// Zone (Region) : RADIO
+    s.prop14 = dtmRadio.country;                                        // Country
+    s.prop15 = dtmRadio.zone;                                           // Zone (Region) : RADIO
     s.prop17="web";																											// Canal
     s.prop18="prisa";																										// Organization
-    s.prop19= product;
+    s.prop19 = dtmRadio.product;
     s.prop20=location.hostname.replace(/www./gi,"");										// Domain	| Subdomain
     s.prop21=s.getNewRepeat();   																				// User New / Repeat
     s.prop22="musical";																									// Format : RADIO
@@ -557,12 +713,6 @@ function omn_asyncPV() {
     s.t();
     //comScore only spain
     omn_launchPixelComScore();
-    // pSUPERFLY.virtualPage({
-    //     sections: "player",
-    //     authors: product,
-    //     path: window.location.pathname,
-    //     title: omn_catchFirsElement(document.title)
-    // });
 
     //GA solo chile
     if(document.domain=="envivo.los40.cl"){
@@ -640,7 +790,7 @@ function launch(eVars,eVars_value,evento){
     s.eVar4=s.channel; // channel
     s.prop17="web";
     s.prop18="prisa";
-    s.prop19= product;
+    s.prop19 = dtmRadio.product;
     s.prop20=location.hostname.replace(/www./gi,"");
     s.prop21=s.getNewRepeat();
     s.prop22="musical";
@@ -927,12 +1077,12 @@ function omn_trackEventRadio(eventName, data) {
     s.eVar8= data["data.name"];
     s.eVar13= data["data.programa"] + data["data.emisora"];
     if(data["data.mediaType"]=="aod"){
-        s.eVar13= s.evar13= data["data.tags"];
+        s.eVar13= data["data.tags"];
         s.eVar80= data["data.programa"];
     }
-    s.eVar17= "web"
+    s.eVar17= "web";
     s.eVar18="prisa"; // Organization
-    s.eVar19= product // Product
+    s.eVar19 = dtmRadio.product;                                            // Product
     s.eVar20=document.domain.replace(/www./gi,""); // Domain|Subdomain
     s.eVar21=s.getNewRepeat(); // User New / Repeat
     if (typeof(PEPuname) != "undefined") {
@@ -958,7 +1108,7 @@ function omn_trackEventRadio(eventName, data) {
     s.eVar66=s.getTimeParting('w', gmt); // Set weekday (laborable/festivo)
     s.eVar67= data["data.adEnabled"];
     s.eVar70= data["data.mediaTypeMode"];
-    s.eVar73= numVersion;
+    s.eVar73 = dtmRadio.version;
     s.eVar74= data["data.progressTime"];
     s.eVar81= data["data.emisora"];
     s.eVar84= data["data.extraccion"];
@@ -985,49 +1135,6 @@ function omn_launchPixelComScore(){
     }
     comscoreImg.src = (useSSL ? "https://sb.scorecardresearch.com" : "http://b.scorecardresearch.com") + "/p?c1=2&c2=8671776&cv=2.0&cj=1&c7=" + encodeURIComponent(document.location.href) + "&c8=" + encodeURIComponent(cadena_titulo) +  "&c9=" + encodeURIComponent(document.referrer) + "&rn=" + String(Math.random()).substr(2,9);
 }
-
-function loadScript(src, callback) {
-    var ss = document.createElement('script');
-    ss.type = 'text/javascript';
-    ss.async = true;
-    var head = document.getElementsByTagName('head')[0];
-    if (ss.addEventListener){
-        ss.addEventListener('load', callback, false);
-    }
-    else{
-        if (ss.onload){
-            ss.onload = callback;
-        }
-        else{
-            if (document.all){
-                s.onreadystatechange = function() {
-                    var state = s.readyState;
-                    if (state === 'loaded' || state === 'complete') {
-                        callback();
-                        s.onreadystatechange = null;
-                    }
-                }
-            }
-        }
-    }
-    ss.src = src;
-    head.appendChild(ss);
-}
-// function chartbeatSetUp() {
-//     /** CONFIGURATION START **/
-//     var _sf_async_config = window._sf_async_config = (window._sf_async_config || {});
-//
-//     _sf_async_config.uid = 65629;
-//     _sf_async_config.domain = 'play.los40.com';
-//     _sf_async_config.flickerControl = false;
-//     _sf_async_config.useCanonical = true;
-//     _sf_async_config.useCanonicalDomain = true;
-//     _sf_async_config.sections = 'player'; //CHANGE THIS TO YOUR SECTION NAME(s)
-//     _sf_async_config.authors = product; //CHANGE THIS TO YOUR AUTHOR NAME(s)
-//     _sf_async_config.path = window.location.pathname;
-//     _sf_async_config.title = omn_catchFirsElement(document.title);
-//     /** CONFIGURATION END **/
-// }
 
 ////////////////////////////////////FUNCTIONS FOR AMP///////////////////////////////////////////////////////////
 function getParamsUrl(){
@@ -1132,31 +1239,7 @@ function omn_renameDomain(domain){
 }
 ////////////////////////////////////////END FUNCTIONS AMPS//////////////////////////////////////////////////////
 
-if(typeof tucu !== 'undefined'){
-    if(typeof tucu.dev !== 'undefined'){
-        if(tucu.dev == true){
-            console.log("/////////////////////DTM////////////////////////////");
-            console.log(dtm_version);
-            console.log("feature: Added s.channel into Player");
-            console.log("feature: Added code for AMP");
-            console.log("feature: changed value s.prop19 added product switch country");
-            console.log("feature: writes same in the page name in Web like in AMP");
-            console.log("feature: cleaning title without pipes '|'");
-            console.log("feature: Delete dot in domain for pageName");
-            console.log("feature: obtein topPlayer data and send pixel to omniture");
-            console.log("feature: send pixel comscore");
-            console.log("////////////////////////////////////////////////////");
-        }
-        else{
-            console.log(dtm_version);
-        }
-    }
-}
-
-else{
-    console.log(dtm_version);
-}
-
+dtmRadio.log();
 
 //poner en una funcion
 /*
