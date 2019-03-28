@@ -995,6 +995,7 @@ function omn_trackEventRadio(eventName, data) {
     s.eVar13= data["data.programa"] + data["data.emisora"];
     if(data["data.mediaType"]=="aod"){
         s.eVar13= s.evar13= data["data.tags"];
+        s.eVar80= data["data.programa"];
     }
     s.eVar17= "web"
     s.eVar18="prisa"; // Organization
