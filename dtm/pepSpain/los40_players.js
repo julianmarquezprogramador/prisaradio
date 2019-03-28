@@ -11,7 +11,7 @@ if(typeof arrayAmp !== 'undefined') {
 }
 //end AMP code//
 
-var numVersion= "2.1.1";
+var numVersion= "2.1.2";
 var dtm_version= "dtm version " + numVersion;
 
 function getAnalyticsAccount(){
@@ -20,43 +20,6 @@ function getAnalyticsAccount(){
             var accountP = _satellite.tools[toolid].settings.account;
             arrAccount = accountP.split(",");
             return arrAccount[0];
-            // if(/.pa/.test(hostn)){															// Panamá
-            //     //return arrAccount[2] + "," + arrAccount[0];
-            // }
-            // else if(/.com.ar/.test(hostn)){ 										// Argentina
-            //     return arrAccount[3] + "," + arrAccount[0];
-            // }
-            // else if(/.mx/.test(hostn)){													// Mexico
-            //     return arrAccount[4] + "," + arrAccount[0];
-            // }
-            // else if(/los40.com.co/.test(hostn)){								// Colombia
-            //     return arrAccount[5] + "," + arrAccount[0];
-            // }
-            // else  if(/.cl/.test(hostn)){												// Chile
-            //     return arrAccount[6] + "," + arrAccount[0];
-            // }
-            // else if(/.cr/.test(hostn)){													// Costa Rica
-            //     return arrAccount[7] + "," + arrAccount[0];
-            // }
-            // else if(/.do/.test(hostn)){													// Republica Dominicana
-            //     return arrAccount[8] + "," + arrAccount[0];
-            // }
-            // else if(/.py/.test(hostn)){													// Paraguay
-            //     return arrAccount[9] + "," + arrAccount[0];
-            // }
-            // else if(/.ec/.test(hostn)){													// Ecuador
-            //     return arrAccount[10] + "," + arrAccount[0];
-            // }
-            // else if(/.ni/.test(hostn)){													// Nicaragua
-            //     return arrAccount[11] + "," + arrAccount[0];
-            // }
-            // else if(/.gt/.test(hostn)){													// Nicaragua
-            //     return arrAccount[12] + "," + arrAccount[0];
-            // }
-            // else if(/los40.com/.test(hostn)){										// España
-            //     //return arrAccount[1] + "," + arrAccount[0];
-            //     return arrAccount[0];
-            // }
         }
     }
 }
@@ -68,43 +31,6 @@ function getAnalyticsAccountF(){
             arrAccount = accountF.split(",");
 
             return arrAccount[0];
-            // if(/.pa/.test(hostn)){										// Panamá
-            //     return arrAccount[2];
-            // }
-            // else if(/.com.ar/.test(hostn)){ 					// Argentina
-            //     return arrAccount[3];
-            // }
-            // else if(/.mx/.test(hostn)){								// Mexico
-            //     return arrAccount[4];
-            // }
-            // else if(/los40.com.co/.test(hostn)){			// Colombia
-            //     return arrAccount[5];
-            // }
-            // else if(/.cl/.test(hostn)){								// Chile
-            //     return arrAccount[6];
-            // }
-            // else if(/.cr/.test(hostn)){								// Costa Rica
-            //     return arrAccount[7];
-            // }
-            // else if(/.do/.test(hostn)){								// Republica Dominicana
-            //     return arrAccount[8];
-            // }
-            // else if(/.py/.test(hostn)){								// Paraguay
-            //     return arrAccount[9];
-            // }
-            // else if(/.ec/.test(hostn)){								// Ecuador
-            //     return arrAccount[10];
-            // }
-            // else if(/.ni/.test(hostn)){								// Nicaragua
-            //     return arrAccount[11];
-            // }
-            // else if(/.gt/.test(hostn)){								// Guatemala
-            //     return arrAccount[12];
-            // }
-            // else if(/los40.com/.test(hostn)){
-            //     //return arrAccount[1];										// España
-            //     return arrAccount[0];
-            // }
         }
     }
 }
@@ -259,6 +185,7 @@ if (typeof(radio_station) == 'undefined') radio_station='';
 
 if (typeof(adblock_enabled) == 'undefined') adblock_enabled='D="con_ADBLOCK-"+User-Agent';
 omn_launchPixelComScore();
+// loadScript("//static.chartbeat.com/js/chartbeat.js", chartbeatSetUp());
 
 /************** doPlugins Script **************/
 
@@ -630,6 +557,12 @@ function omn_asyncPV() {
     s.t();
     //comScore only spain
     omn_launchPixelComScore();
+    // pSUPERFLY.virtualPage({
+    //     sections: "player",
+    //     authors: product,
+    //     path: window.location.pathname,
+    //     title: omn_catchFirsElement(document.title)
+    // });
 
     //GA solo chile
     if(document.domain=="envivo.los40.cl"){
@@ -1053,22 +986,49 @@ function omn_launchPixelComScore(){
     comscoreImg.src = (useSSL ? "https://sb.scorecardresearch.com" : "http://b.scorecardresearch.com") + "/p?c1=2&c2=8671776&cv=2.0&cj=1&c7=" + encodeURIComponent(document.location.href) + "&c8=" + encodeURIComponent(cadena_titulo) +  "&c9=" + encodeURIComponent(document.referrer) + "&rn=" + String(Math.random()).substr(2,9);
 }
 
-if(typeof tucu !== 'undefined'){
-    if(typeof tucu.dev !== 'undefined'){
-        if(tucu.dev == true){
-            console.log("/////////////////////DTM////////////////////////////");
-            console.log(dtmVersion);
-            console.log("feature: added instancePlayer in PlaySer");
-            console.log("feature: collect foreing url in iframe");
-            console.log("feature: obtein topPlayer data and send pixel to omniture");
-            console.log("feature: send pixel comscore");
-            console.log("////////////////////////////////////////////////////");
+function loadScript(src, callback) {
+    var ss = document.createElement('script');
+    ss.type = 'text/javascript';
+    ss.async = true;
+    var head = document.getElementsByTagName('head')[0];
+    if (ss.addEventListener){
+        ss.addEventListener('load', callback, false);
+    }
+    else{
+        if (ss.onload){
+            ss.onload = callback;
         }
         else{
-            console.log(dtmVersion);
+            if (document.all){
+                s.onreadystatechange = function() {
+                    var state = s.readyState;
+                    if (state === 'loaded' || state === 'complete') {
+                        callback();
+                        s.onreadystatechange = null;
+                    }
+                }
+            }
         }
     }
+    ss.src = src;
+    head.appendChild(ss);
 }
+// function chartbeatSetUp() {
+//     /** CONFIGURATION START **/
+//     var _sf_async_config = window._sf_async_config = (window._sf_async_config || {});
+//
+//     _sf_async_config.uid = 65629;
+//     _sf_async_config.domain = 'play.los40.com';
+//     _sf_async_config.flickerControl = false;
+//     _sf_async_config.useCanonical = true;
+//     _sf_async_config.useCanonicalDomain = true;
+//     _sf_async_config.sections = 'player'; //CHANGE THIS TO YOUR SECTION NAME(s)
+//     _sf_async_config.authors = product; //CHANGE THIS TO YOUR AUTHOR NAME(s)
+//     _sf_async_config.path = window.location.pathname;
+//     _sf_async_config.title = omn_catchFirsElement(document.title);
+//     /** CONFIGURATION END **/
+// }
+
 ////////////////////////////////////FUNCTIONS FOR AMP///////////////////////////////////////////////////////////
 function getParamsUrl(){
     // capturamos la url
@@ -1183,6 +1143,8 @@ if(typeof tucu !== 'undefined'){
             console.log("feature: writes same in the page name in Web like in AMP");
             console.log("feature: cleaning title without pipes '|'");
             console.log("feature: Delete dot in domain for pageName");
+            console.log("feature: obtein topPlayer data and send pixel to omniture");
+            console.log("feature: send pixel comscore");
             console.log("////////////////////////////////////////////////////");
         }
         else{
