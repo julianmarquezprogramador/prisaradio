@@ -268,7 +268,7 @@ if (typeof(radio_station) == 'undefined') radio_station='';
 
 if (typeof(adblock_enabled) == 'undefined') adblock_enabled='D="con_ADBLOCK-"+User-Agent';
 omn_launchPixelComScore();
-loadScript("//static.chartbeat.com/js/chartbeat.js", chartbeatSetUp());
+//loadScript("//static.chartbeat.com/js/chartbeat.js", chartbeatSetUp());
 /************** doPlugins Script **************/
 
 s.usePlugins = true;
@@ -1212,7 +1212,7 @@ function omn_renameDomain(domain){
 }
 ////////////////////////////////////////END FUNCTIONS AMPS//////////////////////////////////////////////////////
 
-dtmRadio.log();
+//dtmRadio.log();
 
 //poner en una funcion
 /*
