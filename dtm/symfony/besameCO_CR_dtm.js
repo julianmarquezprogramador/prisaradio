@@ -195,7 +195,7 @@ function omn_asyncPV(){
     s.prop33=s.getVisitNum();																						// Visit Number By Month
     s.prop35=hours;																											// Set hour (12)
     s.prop36=s.getTimeParting('d', gmt)+"-"+day+"/"+month+"/"+fecha.getFullYear()+"-"+s.prop24;		// Join Date (Jueves-15/9/2012-12:32:48)
-    s.prop39=pageName; 																									// Title / Page Name
+    s.prop39=document.title; 																									// Title / Page Name
     s.prop40=design; 																										// Type Design
     s.prop44=s.getTimeParting('h', gmt);				 												// Set hour (12:00PM)
     s.prop60=s.getDaysSinceLastVisit('s_lv');         									// Days Since Last Visit
@@ -651,7 +651,7 @@ s.prop31="musica"; 																									// Temathic
 s.prop33=s.getVisitNum();																						// Visit Number By Month
 s.prop35=hours;																											// Set hour (12)
 s.prop36=s.getTimeParting('d', gmt)+"-"+day+"/"+month+"/"+fecha.getFullYear()+"-"+s.prop24;		// Join Date (Jueves-15/9/2012-12:32:48)
-s.prop39=pageName; 																									// Title / Page Name
+s.prop39=document.title; 																									// Title / Page Name
 s.prop40=design; 																										// Type Design
 s.prop44=s.getTimeParting('h', gmt);				 												// Set hour (12:00PM)
 s.prop60=s.getDaysSinceLastVisit('s_lv');         									// Days Since Last Visit
